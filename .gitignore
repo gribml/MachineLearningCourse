@@ -3,4 +3,7 @@
 *.gz
 *.log
 *.aux
-
+*.xls
+*.rar
+*.ppt
+.DS_Store
