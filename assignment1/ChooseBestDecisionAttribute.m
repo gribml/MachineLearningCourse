@@ -23,15 +23,16 @@ function [best_attribute] = ChooseBestDecisionAttribute(examples, attributes, bi
     
     max = -1; % as gain is > 0, will be overwritten at first iteration
     for i=attributes
-        p0 = length(binary_target(binary_target(examples(:, i)==0)==vp));
-        n0 = length(binary_target(binary_target(examples(:, i)==0)==vn));
-        p1 = length(binary_target(binary_target(examples(:, i)==1)==vp));
-        n1 = length(binary_target(binary_target(examples(:, i)==1)==vn));
+        p0 = length(binary_targets(binary_targets(examples(:, i)==0)==vp));
+        n0 = length(binary_targets(binary_targets(examples(:, i)==0)==vn));
+        p1 = length(binary_targets(binary_targets(examples(:, i)==1)==vp));
+        n1 = length(binary_targets(binary_targets(examples(:, i)==1)==vn));
         s = p + n;
         remainder = (p0 + n0)/s*I(p0, n0) + (p1 + n1)/s*I(p1, n1);
         gain = global_entropy - remainder;
         if gain > max
             best_attribute = i;
+            max = gain;
         end
     end
 end
