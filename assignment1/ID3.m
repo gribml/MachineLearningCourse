@@ -14,15 +14,16 @@ function [tree] = ID3(examples, attr, binary_targets)
 %       else subtree <-- DECISION-TREE-LEARNING(examplesi ,attributes-{best_attribute}, binary_targetsi)
 % return tree
 
+root = tnode();
 nYes = sum(binary_targets) / length(binary_targets)
 if ( nYes == 0 && nYes == 1)
-    return tnode(nYes)
+    root.data = nYes;
 elseif ( length(attr) == 0 )
-    return tnode(nYes > 0.5)
-else
+    root.data = (nYes > 0.5;
+felse
     best_attr = chooseBestDecisionAttribute(examples, attr, binary_targets);
     t = tree(best_attr);
-    for i=0:1
+    for i=1:2
         t.addBranch(i);
     end
 % not finished        

@@ -2,7 +2,7 @@ classdef tree < tnode
 
     properties ( SetAccess = private, GetAccess = public )
         root;
-        dad;
+        parent;
     end
 
     methods        
@@ -10,7 +10,7 @@ classdef tree < tnode
             obj = obj@tnode( data );
             if ( nargin > 0 )
                 obj.root = obj;
-                obj.dad = obj;
+                obj.parent = obj;
             end
         end
     end

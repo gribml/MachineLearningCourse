@@ -1,7 +1,7 @@
 classdef tnode < handle
     
     properties ( SetAccess = private, GetAccess = public )
-        sons;
+        children;
         data;
     end
     
@@ -17,8 +17,8 @@ classdef tnode < handle
             data = self.data;
         end
 
-        function n = numbersons( self )
-            n = length( self.sons );
+        function n = nChildren( self )
+            n = length( self.children );
         end
     end
     
