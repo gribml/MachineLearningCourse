@@ -1,10 +1,6 @@
 classdef tnode < handle
     
     properties ( SetAccess = private, GetAccess = public )
-<<<<<<< HEAD
-        children;
-        data;
-=======
         op;
         class;
         lengthkids;
@@ -15,7 +11,6 @@ classdef tnode < handle
         index;
         X;
         Y;
->>>>>>> 5c097f662a2f1e0d30336a3f7892cb25a4f451ee
     end
     
     methods
@@ -127,11 +122,10 @@ classdef tnode < handle
         function o = getclass( self )
             o = self.op;
         end
-<<<<<<< HEAD
-
-        function n = nChildren( self )
-            n = length( self.children );
-=======
+        
+        function n = nKids( self )
+            n = length( self.kids );
+        end
         
         function movetokid( self, i )
             if ( i <= self.lengthkids )
@@ -143,7 +137,7 @@ classdef tnode < handle
             else
                 error('index out of bound');
             end
->>>>>>> 5c097f662a2f1e0d30336a3f7892cb25a4f451ee
+
         end
         
         function switchkid( self, i, j )
@@ -153,7 +147,5 @@ classdef tnode < handle
                 self.kids{ j } = temp;
             end
         end
-        
     end
-    
 end
