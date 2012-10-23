@@ -75,15 +75,14 @@ classdef tnode < handle
                     end
                     self.lengthkids = varargin{ 1 };
                 end
-            elseif ( nargin == 3 )
-                if ( varargin{2} <= self.lengthkids )
-                    self.lengthkids = self.lengthkids + 1;
-                    self.kids{varargin{2}} = varargin{3};
-                else
-                    error('index out of bound');
-                end
             else
                 error('wrong number of arguments');
+            end
+        end
+        
+        function setkid( self, i, kid )
+            if ( i <= self.lengthkids )
+                self.kids{i} = kid;
             end
         end
         

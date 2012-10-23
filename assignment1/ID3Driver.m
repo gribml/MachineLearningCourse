@@ -3,7 +3,8 @@ function ID3Driver(attribute_data, target_data)
     for i=unique(target_data)
         binary_targets = binaryFromMultiple(targetValue, i);
         % create a tree for each thing we're classifying
-        t{i} = ID3(attribute_data, binary_targets);
+        troot{i} = tnode;
+        troot{i} = ID3(attribute_data, binary_targets);
     end
 
     % combine results from each binary tree to give output
