@@ -1,12 +1,12 @@
 function [best_attribute, maxGain] = ChooseBestDecisionAttribute(examples, attributes, binary_targets)
     % definition of the entropy
     function [entropy] = I(p, n)
-%         if or( p == 0, n == 0 )
-%             entropy = 0;
-%         else
+        if or( p == 0, n == 0 )
+            entropy = 0;
+        else
             frac = p/(n+p);
             entropy = -frac*log2(frac) - (1-frac)*log2(1-frac);
-%         end
+        end
     end
 
     values = unique(binary_targets);

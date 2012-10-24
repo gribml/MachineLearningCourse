@@ -21,14 +21,14 @@ function [t] = ID3(examples, attr, binary_targets)
         t.setclass(nYes > 0.5);
     else
         [best_attr, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
-        t.setop('AU' : int2str(best_attr));
+        t.setop(strcat('AU', int2str(best_attr)));
         t.setindop(best_attr);
         t.infoGain = ig;
         for i=1:2
             newExamples = examples(examples(:,best_attr)==(i-1),attr~=best_attr);
             newBinaryTargets = binary_targets(examples(:,best_attr)==(i-1));
             newAttributes = attr(attr~=best_attr);
-            if length(newExamples)==0
+            if isempty(newExamples)
                 t.addkid(i, tnode);
                 t.getkid(i).setclass(nYes>0);
             else
