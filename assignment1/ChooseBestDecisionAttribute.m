@@ -24,6 +24,7 @@ function [best_attribute, maxGain] = ChooseBestDecisionAttribute(examples, attri
     p = sum(binary_targets==vNo); % count of zeros in binary targets
     n = sum(binary_targets==vYes); % count of ones in binary targets
     global_entropy = I(p, n);
+    best_attribute = attributes(1);
     maxGain = -1; % as gain is > 0, will be overwritten at first iteration
     
     
@@ -38,7 +39,7 @@ function [best_attribute, maxGain] = ChooseBestDecisionAttribute(examples, attri
         gain = global_entropy - remainder;
         
         if gain > maxGain
-            best_attribute = i;
+            best_attribute = attributes(i);
             maxGain = gain;
         end
     end

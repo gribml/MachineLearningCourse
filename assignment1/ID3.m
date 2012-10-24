@@ -17,17 +17,18 @@ function [t] = ID3(examples, attr, binary_targets)
     t = tnode;
     if ( or(nYes == 0, nYes == 1) )
         t.setclass(nYes);
-    elseif ( length(attr) == 0 )
+    elseif ( isempty(attr) )
         t.setclass(nYes > 0.5);
     else
-        [best_attr, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
-        t.setop(strcat('AU', int2str(best_attr)));
+        [ba, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
+        best_attr = find(attr==ba);
+        t.setop(strcat('AU', ba));
         t.setindop(best_attr);
         t.infoGain = ig;
         for i=1:2
-            newExamples = examples(examples(:,best_attr)==(i-1),attr~=best_attr);
+            newExamples = examples(examples(:,best_attr)==(i-1),attr~=ba);
             newBinaryTargets = binary_targets(examples(:,best_attr)==(i-1));
-            newAttributes = attr(attr~=best_attr);
+            newAttributes = attr(attr~=ba);
             if isempty(newExamples)
                 t.addkid(i, tnode);
                 t.getkid(i).setclass(nYes>0);
