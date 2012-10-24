@@ -12,6 +12,7 @@ classdef tnode < handle
         index;
         X;
         Y;
+        infoGain;
     end
     
     methods
@@ -58,27 +59,28 @@ classdef tnode < handle
             if ( ~isempty( self.class ) )
                 error('a leaf with a class cannot have kids');
             end
+            
             if ( nargin == 1 ) 
                 self.lengthkids = self.lengthkids + 1;
                 self.kids{ self.lengthkids } = tnode;
-            elseif ( nargin == 2 )
-                if ( varargin{ 1 } <= self.lengthkids )
-                    self.lengthkids = self.lengthkids + 1;
-                    self.kids{ self.lengthkids } = tnode;
-                    temp = self.kids{ varargin{ 1 } }.copy;
-                    self.kids{ varargin{ 1 } } = self.kids{ self.lengthkids };
-                    self.kids{ self.lengthkids } = temp;
-                else
-                    self.lengthkids = self.lengthkids + 1;
-                    for i=self.lengthkids:varargin{ 1 }
-                        self.kids{ i } = tnode;
-                    end
-                    self.lengthkids = varargin{ 1 };
-                end
+%             elseif ( nargin == 2 )
+%                 if ( varargin{ 1 } <= self.lengthkids )
+%                     self.lengthkids = self.lengthkids + 1;
+%                     self.kids{ self.lengthkids } = tnode;
+%                     temp = self.kids{ varargin{ 1 } }.copy;
+%                     self.kids{ varargin{ 1 } } = self.kids{ self.lengthkids };
+%                     self.kids{ self.lengthkids } = temp;
+%                 else
+%                     self.lengthkids = self.lengthkids + 1;
+%                     for i=self.lengthkids:varargin{ 1 }
+%                         self.kids{ i } = tnode;
+%                     end
+%                     self.lengthkids = varargin{ 1 };
+%                 end
             elseif ( nargin == 3 )
-                if ( varargin{2} <= self.lengthkids )
+                if ( varargin{1} <= (self.lengthkids+1) )
                     self.lengthkids = self.lengthkids + 1;
-                    self.kids{varargin{2}} = varargin{3};
+                    self.kids{varargin{1}} = varargin{2};
                 else
                     error('index out of bound');
                 end
