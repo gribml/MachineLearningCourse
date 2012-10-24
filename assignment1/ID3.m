@@ -23,7 +23,7 @@ function [t] = ID3(examples, attr, binary_targets)
         [ba, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
         best_attr = find(attr==ba);
         t.setop(strcat('AU', num2str(ba)));
-        t.setindop(best_attr);
+        t.setindop(ba);
         t.infoGain = ig;
         for i=1:2
             newExamples = examples(examples(:,best_attr)==(i-1),attr~=ba);
