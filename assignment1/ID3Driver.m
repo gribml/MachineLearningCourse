@@ -4,14 +4,14 @@ function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target
     % train to get 6 trees
     trees = trainer(example_data, attribute_data, target_data);
     % classify any test data on these trees using decision function
-    classified = classify(target_data, trees, decisionFunction);
+    classified = classify(example_data, trees, decisionFunction);
     
     % N-fold validation to measure error rate
     mask = NFoldValidationMask(length(example_data), N);
     confMtrx = zeros(numTrees);
     for i=1:N
-        validationTrees = trainer(example_data(mask.train(i),:), attribute_data, target_data(mask(i).train,:));
-        validClassify = classify(example_data(mask(i).test,:), validationTrees, attribute_data, decisionFunction);
+        validationTrees = trainer(example_data(mask(i).train,:), attribute_data, target_data(mask(i).train,:));
+        validClassify = classify(example_data(mask(i).test,:), validationTrees, decisionFunction);
         confMtrx = confMtrx + confusionMatrix(validClassify, target_data(mask(i).test));
     end
     

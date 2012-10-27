@@ -13,7 +13,7 @@
 
 
 
-function [Items] = nFoldValidationMask(count, N)
+function [Items] = NFoldValidationMask(count, N)
 
 r = 1:count;
 shuffledArray = r(randperm(count));
