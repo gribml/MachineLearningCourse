@@ -35,8 +35,6 @@ function [t] = ID3(examples, attr, binary_targets)
             else
                 t.addkid(i, ID3(newExamples, newAttributes, newBinaryTargets));
             end
-%            t.getkid(i).setop('AU' : int2str(best_attr));
-%            t.setindop(best_attr);            
         end
     end
     

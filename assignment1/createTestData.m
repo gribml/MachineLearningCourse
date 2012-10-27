@@ -1,29 +1,29 @@
-function [a] = createTestData(initMatrix)
+function [Items] = createTestData(examples, N)
 
-shuffledArray = initMatrix(randperm(size(initMatrix,1)),:);
+shuffledArray = examples(randperm(size(examples,1)),:);
 
 %get size
 
 noRows = size(shuffledArray,1);
-noRowsEachUnit = floor(noRows / 10);
-noColumns = size(shuffledArray,2);
+noRowsEachUnit = floor(noRows / N);
+noColumns = size(shuffledArray, 2);
 
 % a representative element of the final matrix
 element = struct('testData',zeros(noRows,noColumns),'trainData',zeros((noRows- noRowsEachUnit), noColumns));
 
 % initialize final matrix 
-Items = repmat(element,1,10); 
+Items = repmat(element, 1, N); 
 
-for i=1:10
+for i=1:N
     %get test data
-    mask = logical([zeros((i-1)*noRowsEachUnit,1);ones(noRowsEachUnit,1)]);
-    Items(i).testData = shuffledArray(mask,:);
+    testMask = logical( [zeros( (i-1)*noRowsEachUnit, 1); ones(noRowsEachUnit, 1)] );
+    Items(i).testData = shuffledArray(testMask,:);
     
     %get training data
-    remainingRows = noRows - (i*noRowsEachUnit);
-    maskZeroes = logical([ones((i-1)*noRowsEachUnit,1);zeros(noRowsEachUnit,1);ones(remainingRows,1)]);
-    Items(i).trainData = shuffledArray(maskZeroes,:);
+    remainingRows = noRows - (i * noRowsEachUnit);
+    trainingMask = logical( [ones((i-1)*noRowsEachUnit, 1); zeros(noRowsEachUnit, 1); ones(remainingRows, 1)] );
+    Items(i).trainData = shuffledArray(trainingMask, :);
 end
-a= Items;
+
 
      

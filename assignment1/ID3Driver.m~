@@ -1,4 +1,4 @@
-function [classified] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
+function [classified] = ID3Driver(example_data, attribute_data, target_data, decisionFunction)
     
     troot = tnode.empty(length(unique(target_data)), 0);
     for i=1:length(unique(target_data))
@@ -12,6 +12,4 @@ function [classified] = ID3Driver(example_data, attribute_data, target_data, dec
     classified = classify(test_data, troot, decisionFunction);
     
     % N-fold validation to measure error rate
-    for i=1:N
-        
-    end
+    
