@@ -1,15 +1,24 @@
-function [classified] = ID3Driver(example_data, attribute_data, target_data, decisionFunction)
-    
-    troot = tnode.empty(length(unique(target_data)), 0);
-    for i=1:length(unique(target_data))
-        binary_targets = binaryFromMultiple(target_data, i);
-        % create a tree for each thing we're classifying
-        troot{i} = ID3(example_data, attribute_data, binary_targets);
-    end
-    
-    % combine results from each binary tree to give output
-    % algorithm 1: sum information gain down the tree
-    classified = classify(test_data, troot, decisionFunction);
+function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
+    alpha = 1;
+    % train to get 6 trees
+    trees = trainer(example_data, attribute_data, target_data);
+    % classify any test data on these trees using decision function
+    classified = classify(target_data, trees, decisionFunction);
     
     % N-fold validation to measure error rate
+    mask = NFoldValidationMask(length(example_data), N);
+    confMtrx = zeros(length(unique(target_data)));
+    for i=1:N
+        validationTrees = trainer(example_data(mask.train(i),:), attribute_data, target_data(mask(i).train,:));
+        validClassify(i) = classify(example_data(mask(i).test), validTrees{i}, attribute_data, decisionFunction);
+        confMtrx = confMtrx + confusionMatrix(validClassify(i), target_data(mask(i).test));
+    end
     
+    confMtrx = confMtrx / N;
+    errorRate = zeros(size(confMtrx, 1);
+    for i=1:size(confMtrx,1)
+        recall = 
+        precision = 
+    end
+    
+    F = recall
