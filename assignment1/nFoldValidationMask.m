@@ -31,12 +31,12 @@ Items = repmat(element, 1, N);
 for i=1:N
     %get test data
     testMask = logical( [zeros( (i-1)*noRowsEachUnit, 1); ones(noRowsEachUnit, 1)] );
-    Items(i).test = shuffledArray(testMask);
+    Items(i).test = shuffledArray(testMask)';
     
     %get training data
     remainingRows = count - (i * noRowsEachUnit);
     trainingMask = logical( [ones((i-1)*noRowsEachUnit, 1); zeros(noRowsEachUnit, 1); ones(remainingRows, 1)] );
-    Items(i).train = shuffledArray(trainingMask);
+    Items(i).train = shuffledArray(trainingMask)';
 end
 
 

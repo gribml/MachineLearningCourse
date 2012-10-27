@@ -25,3 +25,4 @@ function classes = classify(examples, binary_trees, decisionFunction)
         % decision about which tree to use comes here
         classes(i) = decisionFunction(answer, depth, ig);
     end
+end
