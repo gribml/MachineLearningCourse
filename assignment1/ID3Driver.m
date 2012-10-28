@@ -26,5 +26,5 @@ function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target
     
     recall = recall / size(confMtrx, 1);
     precision = precision / size(confMtrx, 1);
-    errorRate = (1 + alpha) * precision * recall / (precision + recall);
+    errorRate = (1 + alpha) * precision * recall / (alpha * precision + recall);
 end
