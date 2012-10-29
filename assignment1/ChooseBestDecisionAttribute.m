@@ -29,7 +29,6 @@ function [best_attribute, maxGain] = ChooseBestDecisionAttribute(examples, attri
     
     
     for i=1:length(attributes)
-        
         n0 = sum(binary_targets(examples(:, i)==0)==vNo);
         p0 = sum(binary_targets(examples(:, i)==0)==vYes);
         n1 = sum(binary_targets(examples(:, i)==1)==vNo);

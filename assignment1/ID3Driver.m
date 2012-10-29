@@ -1,13 +1,13 @@
 function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
     alpha = 1;
     numTrees = length(unique(target_data));
-    % train to get 6 trees
+    %% train to get 6 trees
     trees = trainer(example_data, attribute_data, target_data);
-    % classify any test data on these trees using decision function
-    classified = classify(example_data, trees, decisionFunction);
+    %% classify any test data on these trees using decision function
+    % classified = classify(example_data, trees, decisionFunction);
     
-    % N-fold validation to measure error rate
-    mask = NFoldValidationMask(length(example_data), N);
+    %% N-fold validation to measure error rate
+    mask = nFoldValidationMask(length(example_data), N);
     confMtrx = zeros(numTrees);
     for i=1:N
         validationTrees = trainer(example_data(mask(i).train,:), attribute_data, target_data(mask(i).train,:));
@@ -16,7 +16,7 @@ function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target
     end
     
     confMtrx = confMtrx / N;
-%     errorRate = zeros(size(confMtrx, 1));
+    %errorRate = zeros(size(confMtrx, 1));
     recall = 0;
     precision = 0;
     for i=1:numTrees
