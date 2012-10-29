@@ -1,6 +1,5 @@
 \documentclass[11pt]{amsart}
-\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
@@ -10,6 +9,11 @@
 % -------------------- this stuff for code --------------------
 \usepackage{color}
 \usepackage{listings}
+
+\usepackage{afterpage,lastpage,fancyhdr}
+\usepackage[includeheadfoot,margin=2.5cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
 %\lstset{ %
 %language=MATLAB                % choose the language of the code
 %basicstyle=\footnotesize,       % the size of the fonts that are used for the code
@@ -46,7 +50,7 @@ The workhorse class responsible for representing the tree is defined recursively
 \begin{itemize}
 \item[-] \emph{ID3Driver.m}: This function takes (i) examples, (ii) targets, (iii) attributes (as column indices), (iv) a decision function, (v) and the number of folds to use for validation as inputs, and return the confusion matrix, $F_{\alpha}$, a classification rate, and the six binary trees (as an array of nodes).
 \item[-] \emph{ID3.m}: This is the algorithm which learns the binary tree by processing the examples until leaf nodes are reached.
-\item[-] \emph{tnode.m}: This is the object representation of a node in a tree.  It can have an arbitrary number of child nodes, as well as properties such as ig (information gain), depth, op (node label), and indop (index into the attribute array that this node has split the data on).
+\item[-] \emph{tnode.m}: This is the object representation of a node in a tree.  It can have an arbitrary number of child nodes, as well as properties such as ig (information gain), op (node label), and indop (index into the attribute array that this node has split the data on).
 \item[-] \emph{ChooseBestDecisionAttribute.m}: This function returns the attribute that splits the data along the lines of the maximal information gain.
 \item[-] \emph{trainer.m}: This method is responsible for producing the 6 trees given a set of examples, attributes, and targets.
 \item[-] \emph{binaryFromMultiple.m}: Simple method which takes in target data with multiple classifications and converts it to a binary classification.
@@ -58,14 +62,62 @@ The workhorse class responsible for representing the tree is defined recursively
 \end{itemize}
 
 \section{Tree Diagrams}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{anger.jpg}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.7]{disgust.jpg}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.6]{fear.jpg}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=\linewidth]{happiness.jpg}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=\linewidth]{sadness.jpg}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=\linewidth]{surprise.jpg}
+\end{figure}
 
 
 \section{Results}
+To obtain the results, we run the following code:
+\begin{lstlisting}
+[cm, err, cr, tr] = ID3Driver(x, 1:45, y, @igClassify, 10);
+\end{lstlisting}
+The confusion matrix is:
+$$
+cm = \left[\begin{array}{cccccc}
+9.7000   & 9.7000 &   0.5000 &   0.1000 &   1.7000    &0.2000 \\
+    1.9000   &15.1000&    0.1000&    0.6000&    1.4000 &   0.6000 \\
+    1.2000    &0.7000    &8.4000    &0.2000    &0.5000   & 0.9000 \\
+    0.5000    &1.4000    &0.4000   &17.7000   & 0.7000   & 0.8000 \\
+    2.6000    &1.4000    &0.6000    &0.6000    &7.6000    &0.3000 \\
+    0.2000    &0.5000    &1.8000    &0.6000    &1.0000   &16.5000 \\
+\end{array}
+\right]
+$$
+Furthermore, we obtained $F_{\alpha} = 73.4\%$, $classRate = 24.6\%$.
 
+    
 
 \section{Resolving Ambiguity of Tree Selection}
-
-
+The ambiguity about deciding which binary decision tree to use arises whenever more than one tree returns a positive result or when all trees return a negative result (otherwise, the unique tree which returns a positive classification can be used to make the overall classification).  We first decided to handle these cases based on the aggregate information gain accumulated (additively) when walking down the tree in search of the result.  Our reasoning was that the tree which most clearly divides the data (and thus has the highest cumulative information gain) is more likely to be classifying the emotion.  This turned out to have a better effect than randomly selecting a tree (we obtained $F_{\alpha} \approx 70\%$ and $classError \approx 27\%$ via this method ($F_{\alpha} \approx 75\%$ and $classError \approx 22\%$).  
+Our second approach was to resolve the ambiguity by selecting the shortest path which gave a positive result among all positive results.  If two paths are of the same length, then the selection resorts to a random one.  If no trees return a positive result, then we select the one which took the longest to traverse to our "no" answer.  Our rationale for this is that we can have the most confidence in the shortest path (which yielded a negative classification), those the longest one should result in the most error-prone answer, thus a "no" is more likely to be a "yes".  We believe that the longer path of a tree is likely the result of noise or overfitting, thus we ascribe less confidence to its prediction.
+One of the advantages of the depth-based classification decision is that we can avoid the extra overhead of storing data at each node in each tree while we are building it.  However, we believe that the information gain approach produces better results because the maximal information gain could help produce the correct result even when there is some noise further down the tree.  For example, if happiness is described by AU12, AU6, and AU25, then an addition of another action unit to the example could produce a false negative in the answer, but the information gain could be large because the first three action units are very common to the happiness class.  Overall, we believe these approaches work in a similar way, but the information gain has more predictive power.
 \section{Analysis of Tree Pruning}
 
 
