@@ -1,5 +1,5 @@
 function [ confusionMtx] = confusionMatrix( predictedResults, actualResults )
-%CONFUSÝONMATRÝX Summary of this function goes here
+%%  CONFUSIONMATRIX Summary of this function goes here
 %   Detailed explanation goes here
     confusionMtx = zeros(6);
     for i =1:size(predictedResults)
@@ -9,10 +9,5 @@ function [ confusionMtx] = confusionMatrix( predictedResults, actualResults )
                confusionMtx( actualResults(i), predictedResults(i)) =  confusionMtx( actualResults(i), predictedResults(i)) + 1;
         end
     end
-            
-            
-
-
-
 end
 

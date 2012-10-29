@@ -1,9 +1,10 @@
 function [t] = ID3(examples, attr, binary_targets)
-% function DECISION-TREE-LEARNING(examples,attributes,binary_targets) 
-% returns a decision tree for a given target label
-%   if all examples have the same value of binary_targets then return a leaf node with this value
-%   else if attributes is empty
-%   then return a leaf node with value = MAJORITY-VALUE(binary_targets) 
+%%  function DECISION-TREE-LEARNING(examples,attributes,binary_targets) 
+%   returns a decision tree for a given target label
+%   if all examples have the same value of binary_targets then
+%       return a leaf node with this value
+%   else if attributes is empty then
+%       return a leaf node with value = MAJORITY-VALUE(binary_targets) 
 %   else
 %       best_attribute <-- CHOOSE-BEST-DECISION-ATTRIBUTE(examples,attributes, binary_targets) 
 %       tree <-- a new decision tree with root as best_attribute
@@ -21,7 +22,7 @@ function [t] = ID3(examples, attr, binary_targets)
         t.setclass(nYes > 0.5);
     else
         [ba, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
-        best_attr = find(attr==ba);
+        best_attr = find( attr == ba );
         t.setop(strcat('AU', num2str(ba)));
         t.setindop(ba);
         t.infoGain = ig;
