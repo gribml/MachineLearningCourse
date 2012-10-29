@@ -1,4 +1,4 @@
-function [confMtrx, errorRate, classRate, trees ] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
+function [confMtrx, F, classRate, trees ] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
 %% Run exemple : [ C, F, CR, T ] = ID3Driver(x,1:45,y,@igClassify,10)
 
     alpha = 1;
@@ -9,7 +9,7 @@ function [confMtrx, errorRate, classRate, trees ] = ID3Driver(example_data, attr
     % classified = classify(example_data, trees, decisionFunction);
     
     %% N-fold validation to measure error rate
-    mask = nFoldValidationMask(length(example_data), N);
+    mask = NFoldValidationMask(length(example_data), N);
     confMtrx = zeros(numTrees);
     classRate = 0;
     for i=1:N
@@ -31,5 +31,5 @@ function [confMtrx, errorRate, classRate, trees ] = ID3Driver(example_data, attr
     
     recall = recall / size(confMtrx, 1);
     precision = precision / size(confMtrx, 1);
-    errorRate = (1 + alpha) * precision * recall / (alpha * precision + recall);
+    F = (1 + alpha) * precision * recall / (alpha * precision + recall);
 end
