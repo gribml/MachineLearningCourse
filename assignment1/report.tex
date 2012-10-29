@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
-
+\pagestyle{plain}
 % -------------------- this stuff for code --------------------
 \usepackage{color}
 \usepackage{listings}
@@ -42,7 +42,21 @@
 \maketitle
 \section{Summary}
 We implemented the decision trees algorithm via modular, object-oriented approach to allow flexibility when testing and modifying the algorithm.  This also allowed us to split the work between the team members and used GitHub for version control.  
-The workhorse class responsible for representing the tree is defined recursively as a node, which has "kids", i.e. child nodes, which, in turn, represent subtrees of the tree.  We store the information gain and the depth of the node in the tree, which we later used in the decision-making algorithm when the tree classifier gave ambiguous results.
+The workhorse class responsible for representing the tree is defined recursively as a node, which has "kids", i.e. child nodes, which, in turn, represent subtrees of the tree.  We store the information gain and the depth of the node in the tree, which we later used in the decision-making algorithm when the tree classifier gave ambiguous results.  The project is split up into the following files:
+\begin{itemize}
+\item[-] \emph{ID3Driver.m}: This function takes (i) examples, (ii) targets, (iii) attributes (as column indices), (iv) a decision function, (v) and the number of folds to use for validation as inputs, and return the confusion matrix, $F_{\alpha}$, a classification rate, and the six binary trees (as an array of nodes).
+\item[-] \emph{ID3.m}: This is the algorithm which learns the binary tree by processing the examples until leaf nodes are reached.
+\item[-] \emph{tnode.m}: This is the object representation of a node in a tree.  It can have an arbitrary number of child nodes, as well as properties such as ig (information gain), depth, op (node label), and indop (index into the attribute array that this node has split the data on).
+\item[-] \emph{ChooseBestDecisionAttribute.m}: This function returns the attribute that splits the data along the lines of the maximal information gain.
+\item[-] \emph{trainer.m}: This method is responsible for producing the 6 trees given a set of examples, attributes, and targets.
+\item[-] \emph{binaryFromMultiple.m}: Simple method which takes in target data with multiple classifications and converts it to a binary classification.
+\item[-] \emph{classify.m}: Given some trees, example data, and a decision function, this method returns an array of predicted classifications.
+\item[-] \emph{igClassify.m}: Our decision function which classifies the example data based on the sum of the information gains down a tree when an ambiguous situation arises (i.e. when either more than one tree returns a positive answer, or when all trees return a negative answer).
+\item[-] \emph{depthClassify.m}: Another decision function we devised which resolves ambiguities based on shortest depth in the case of more than one positive answer, and longest depth in the case of all negative answers.
+\item[-] \emph{NFoldValidationMask.m}: This is a helper function which returns 2 masks of "count" data points, for training and testing "N" times.
+\item[-] \emph{ConfusionMatrix.m}: This method takes in predicted and actual target data and returns a confusion matrix.
+\end{itemize}
+
 \section{Tree Diagrams}
 
 
