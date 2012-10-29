@@ -1,5 +1,5 @@
 function cl = depthClassify(answer, depth, ~)
-%% this function determines the tree to use based on sum of information gain
+%% this function determines the tree to use based on tree depth
 % down the branches of each tree given the attributes of the example
 % answer - result array from walking down each tree
 % depth - depth traversed for each tree

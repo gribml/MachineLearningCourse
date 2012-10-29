@@ -1,4 +1,6 @@
-function [confMtrx , errorRate] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
+function [confMtrx , errorRate, trees ] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N)
+%% Run exemple : ID3Driver(x,1:45,y,@igClassify,10).
+
     alpha = 1;
     numTrees = length(unique(target_data));
     %% train to get 6 trees
