@@ -98,7 +98,7 @@ To obtain the results, we run the following code:
 \begin{lstlisting}
 [cm, err, cr, tr] = ID3Driver(x, 1:45, y, @igClassify, 10);
 \end{lstlisting}
-The confusion matrix is:
+The confusion matrix received for a random run of the 10-fold cross-validation is as follows(In our implementation of 10-fold cross-validation, we first shuffle the initial array, then divide to folds, hence there may be a difference in values for each run of cross-validation on the same data):
 $$
 cm = \left[\begin{array}{cccccc}
 9.7000   & 9.7000 &   0.5000 &   0.1000 &   1.7000    &0.2000 \\
@@ -110,9 +110,29 @@ cm = \left[\begin{array}{cccccc}
 \end{array}
 \right]
 $$
-Furthermore, we obtained $F_{\alpha} = 73.4\%$, $classRate = 24.6\%$.
-
-    
+The rows of the confusion matrix represent the actual classifications, and the columns represent the predicted classifications for each of the emotions .  They are the average results found by taking the average of all the confusion matrices for each fold of the 10-fold cross-validation process. It seems that our trees have classified most correctly for the 4th emotion, which is happiness. Our average classification rate is   $0.2360$. This rate is found by first summing the times our classifier guessed correctly over the total number of test data for  all 10-folds, and getting the average of it, which gives the correctness percentage. Subtracting this value from 1, gives the error rate. Our classifier can guess over the newly confronted test data with an error rate of approximately $24\%$.  \\
+Recall Rates:
+$$
+recall = \left[\begin{array}{cccccc}
+69.6970   &75.7576 &  70.3390  & 88.7850 &  57.2519&   84.0580 \\
+\end{array}
+\right]
+$$
+Precision Rates:
+$$
+precision = \left[\begin{array}{cccccc}
+71.3178 &   75.7576 &   76.1468 &   85.2018 &   60.0000 &   80.5556  \\
+\end{array}
+\right]
+$$
+The $F_{\alpha}$ values according to these recall and precision rates are: 
+$$
+F_{\alpha} = \left[\begin{array}{cccccc}
+70.4981 &   75.7576 &   73.1278 &   86.9565 &   58.5938 &    82.2695 \\
+\end{array}
+\right]
+$$
+As expected, emotion 4 was the best classified emotion, and we achieved the highest rates for both recall and precision.
 
 \section{Resolving Ambiguity of Tree Selection}
 The ambiguity about deciding which binary decision tree to use arises whenever more than one tree returns a positive result or when all trees return a negative result (otherwise, the unique tree which returns a positive classification can be used to make the overall classification).  We first decided to handle these cases based on the aggregate information gain accumulated (additively) when walking down the tree in search of the result.  Our reasoning was that the tree which most clearly divides the data (and thus has the highest cumulative information gain) is more likely to be classifying the emotion.  This turned out to have a better effect than randomly selecting a tree (we obtained $F_{\alpha} \approx 70\%$ and $classError \approx 27\%$ via this method ($F_{\alpha} \approx 75\%$ and $classError \approx 22\%$).  

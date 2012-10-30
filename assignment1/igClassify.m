@@ -6,7 +6,7 @@ function cl = igClassify(answer, ~, ig)
     if ( length(answer(answer==1))==1 ) 
         cl = find(answer==1);
     elseif ( length(answer(answer==1)) > 1 )
-        cl = find(ig == max(ig(answer==1)));
+        cl = find(ig == min(ig(answer==1)));
     else
         cl = find(ig==max(ig));
     end

@@ -20,7 +20,7 @@ function [confMtrx, F,recall,precision, classRate, trees ] = ID3Driver(example_d
     end
     
     confMtrx = confMtrx / N;
-    classRate = 1 - classRate / N;
+    classRate = classRate / N;
     %errorRate = zeros(size(confMtrx, 1));
     recall = zeros(1,6);
     precision = zeros(1,6);
