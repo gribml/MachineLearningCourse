@@ -11,7 +11,7 @@ function [confMtrx, F,recall,precision, classRate, trees ] = ID3Driver(example_d
     preClassified = classify(example_data, trees, @prelimClassify,0);
     model_examples = zeros(length(trees), size(example_data, 2));
     for i=1:length(trees)
-%        model_examples(i,:) = mean(example_data(find(preClassified==i), :));
+        model_examples(i,:) = mean(example_data(find(preClassified==i), :));
     end
     
     %% N-fold validation to measure error rate

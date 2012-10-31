@@ -4,10 +4,11 @@ function [cl] = modelClassify(answer, ~, ~,example, model)
     else
         cl1 = zeros(length(answer), 1);
         for i=1:length(answer)
-            s = sort(model(i,:));
+            s = sort(model(i,:),'descend');
             idx = zeros(5,1);
             for j=1:5
-                idx(j) = (find(s(j)==model(i,:)));
+                equals = find(s(j)==model(i,:));
+                idx(j) = equals(1);
             end
             cl1(i) = sum( abs(example(idx) - model(i,idx)) );
         end
