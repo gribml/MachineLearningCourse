@@ -1,4 +1,4 @@
-function classes = classify(examples, binary_trees, decisionFunction)
+function classes = classify(examples, binary_trees, decisionFunction, model)
 % goes down the trees and makes the following assertion:
 %   1) if tree j says yes, while all others say no, then return j
 %   2) if >1 trees say yes or no: highest information gain sum wins; if 2 
@@ -23,6 +23,6 @@ function classes = classify(examples, binary_trees, decisionFunction)
             answer(j) = t.class;
         end
         % decision about which tree to use comes here
-        classes(i) = decisionFunction(answer, depth, ig);
+        classes(i) = decisionFunction(answer, depth, ig, examples(i,:), model);
     end
 end
