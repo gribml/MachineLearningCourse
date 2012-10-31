@@ -1,4 +1,4 @@
-function [t] = ID3(examples, attr, binary_targets)
+function [t] = ID3(examples, attr, binary_targets, beta)
 %%  function DECISION-TREE-LEARNING(examples,attributes,binary_targets) 
 %   returns a decision tree for a given target label
 %   if all examples have the same value of binary_targets then
@@ -16,8 +16,8 @@ function [t] = ID3(examples, attr, binary_targets)
 % return tree
     nYes = sum(binary_targets) / length(binary_targets);
     t = tnode;
-    if ( or(nYes == 0, nYes == 1) )
-        t.setclass(nYes);
+    if ( or(nYes <= (1-beta), nYes >= beta) )
+        t.setclass(nYes > 0.5);
     elseif ( isempty(attr) )
         t.setclass(nYes > 0.5);
     else
@@ -34,7 +34,7 @@ function [t] = ID3(examples, attr, binary_targets)
                 t.addkid(i, tnode);
                 t.getkid(i).setclass(nYes>0);
             else
-                t.addkid(i, ID3(newExamples, newAttributes, newBinaryTargets));
+                t.addkid(i, ID3(newExamples, newAttributes, newBinaryTargets, beta));
             end
         end
     end
