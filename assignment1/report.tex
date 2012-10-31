@@ -270,7 +270,8 @@ F_{\alpha} = \left[\begin{array}{cccccc}
 70.4981 &   75.7576 &   73.1278 &   86.9565 &   58.5938 &    82.2695 \\
 \end{array}
 \right]
-\]\paragraph{}
+\]
+\paragraph{}
 As expected, emotion 4 was the best classified emotion, and we achieved the highest rates for both recall and precision.
 
 \chapter{Resolving Ambiguity of Tree Selection}
@@ -283,16 +284,16 @@ One of the advantages of the depth-based classification decision is that we can 
 
 \chapter{Analysis of Tree Pruning}
 \paragraph{}
-The \textit{pruning\_example} function start by training a classification tree with the function \textit{treefit} on the dataset thanks to a predictor vector X and a response vector Y. Then the tree is tested with \textit{treetest} by measuring error in two different ways :
+The \textit{pruning\_example} function starts by training a classification tree with the function \textit{treefit} on the dataset using a predictor vector X and a response vector Y. Then the tree is tested with \textit{treetest} by measuring error in two different ways :
 \begin{itemize}
-\item with a 10 folds cross-validation. Eventually \textit{treetest} return a vector of Cost corresponding to the cross-validation error along the optimal pruning sequence for the tree. It also returns a vector containing the number of terminal nodes of the tree for each cost, and the best level of pruning (eg: the first minimum of the cost vector).
-\item With a resubstitution error. Again, the algorithme compute the cost vector along the optimal pruning sequence. The cost for the subtree is the sum over all terminal nodes of the probability to reach the node times the node cost, the node cost being the sum of all misclassified data\footnote{We set the error to 1 for a misclassified element, 0 otherwise}.
+\item with a 10 folds cross-validation. Eventually \textit{treetest} returns a vector of Cost corresponding to the cross-validation error along the optimal pruning sequence for the tree. It also returns a vector containing the number of terminal nodes of the tree for each cost, and the best level of pruning (eg: the first minimum of the cost vector).
+\item With a resubstitution error. Again, the algorithm computes the cost vector along the optimal pruning sequence. The cost of the subtree is the sum over all leafs of the probability to reach the node times the node cost, the node cost being the sum of all misclassified data\footnote{We set the error to 1 for a misclassified element, 0 otherwise}.
 The function is also returning the vector cost, the vector of terminal nodes along the optimal pruning sequence and the best level of pruning.
 \end{itemize}
-Once the tree has been tested with the two error measures discribed above, two pruned tree are created thanks to the best level of pruning computed.
+Once the tree has been tested with the two error measures described above, two pruned trees are created thanks to the best level of pruning computed.
 \paragraph{}
-Finally the \textit{pruning\_example} function plot the two costs vectors computed with \textit{treetest} as a function of the number of terminal nodes. Figure \ref{fig:pruning} shows the graphic obtained with \textit{pruning\_example} on the clean emotions database. 
-The red curve, representing the resubstitution error, keep decreasing until it reach zero with about 200 terminal nodes. At this stage it means that the classification tree doesn't commit any error on the classification date. On the other hand, the blue curve, corresponding to the cross-validation error, stop decreasing after adding about 25 terminal nodes to the tree. This behaviour is caused by the cross-validation error measure since in a cross validation the tree is trained on a random subset of the whole data (9/10) and tested on the remaining part (1/10). As a result the tree cannot overfit the data and the error remains constant.
+Finally the \textit{pruning\_example} function plots the two costs vectors computed with \textit{treetest} as a function of the number of terminal nodes. Figure \ref{fig:pruning} shows the graphic obtained with \textit{pruning\_example} on the clean emotions database. 
+The red curve, representing the resubstitution error, keeps decreasing until it reaches zero with about 200 terminal nodes. At this stage it means that the classification tree runs perfectly on the training set. On the other hand, the blue curve, corresponding to the cross-validation error, stops decreasing after adding approximately 25 terminal nodes to the tree. This behaviour is caused by the cross-validation error measure since in a cross validation the tree is trained on a random subset of the whole data (9/10) and tested on the remaining part (1/10). As a result the tree cannot overfit the data and the error remains constant.
 
 \begin{figure}[!h]
 \center
@@ -301,7 +302,7 @@ The red curve, representing the resubstitution error, keep decreasing until it r
 \end{figure}
 \FloatBarrier
 \paragraph{}
-Thus the decreasing trend of the red curve while the blue curve slightly increase is a typical indicator of overfitting. The tree is predicting perfecly the training set but is no able to generalise on the test set. It is a good practice to prune the tree or stop learning when the cross-validation error stop decreasing (blue box on figure \ref{fig:pruning}). On the clean data, the cross validation remains constant after 25 terminal nodes. As a result one can belive that it is not dangerous to overfit. However the same study on the noisy dataset (figure \ref{fig:pruning_noisy}) shows that with "real life" data, overfitting can lead to an increase of the cross-validation error.
+Thus the decreasing trend of the red curve while the blue curve slightly increase is a typical indicator of overfitting. The tree is predicting perfecly the training set but is not able to generalise on the test set. It is a good practice to prune the tree or stop learning when the cross-validation error stops decreasing (blue box on figure \ref{fig:pruning}). On the clean data, the cross validation remains constant after 25 terminal nodes. As a result one can belive that it is not dangerous to overfit. However the same study on the noisy dataset (figure \ref{fig:pruning_noisy}) shows that with "real life" data, overfitting can lead to an increase of the cross-validation error.
 \begin{figure}[!h]
 \center
 \includegraphics{pruning_example_noisy.png}
