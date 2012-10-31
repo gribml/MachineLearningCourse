@@ -66,8 +66,8 @@
   basicstyle=\small\ttfamily,
   numberstyle=\tiny\ttfamily,
   framexleftmargin=0mm,
-  xleftmargin=8mm,
-  xrightmargin=8mm,
+  xleftmargin=7mm,
+  xrightmargin=7mm,
   frameround={tttt},
   captionpos=b
 }
@@ -166,7 +166,7 @@
 \paragraph{}
 We implemented the decision trees algorithm via modular, object-oriented approach to allow flexibility when testing and modifying the algorithm.  This also allowed us to split the work between the team members and used GitHub for version control.
 \paragraph{}
-The workhorse class responsible for representing the tree is defined recursively as a node, which has "kids", i.e. child nodes, which, in turn, represent subtrees of the tree.  We store the information gain and the depth of the node in the tree, which we later used in the decision-making algorithm when the tree classifier gave ambiguous results.  The project is split up into the following files:
+The workhorse class responsible for representing the tree is defined recursively as a \emph{tnode}, which has "kids", i.e. child nodes, which, in turn, represent subtrees of the tree.  We store the information gain and the depth of the node in the tree, which we later used in the decision-making algorithm when the tree classifier gave ambiguous results.  The project is split up into the following files:
 \begin{itemize}
 \item[-] \emph{ID3Driver.m}: This function takes (i) examples, (ii) targets, (iii) attributes (as column indices), (iv) a decision function, (v) and the number of folds to use for validation as inputs, (vi) a threshold value to avoid noisy data(when it is 1, it is not used) and return the confusion matrix, $F_{\alpha}$, a classification rate, and the six binary trees (as an array of nodes).
 \item[-] \emph{ID3.m}: This is the algorithm which learns the binary tree by processing the examples until leaf nodes are reached.
@@ -231,7 +231,7 @@ The six following figures have been obtained after training on the whole clean e
 To obtain the results, we run the following code:
 \newline
 \begin{lstlisting}[language=MATLAB, frame=single]
-[cm, err, cr, tr] = ID3Driver(x, 1:45, y, @igClassify, 10);
+[cm, err, cr, tr] = ID3Driver(x, 1:45, y, @depthClassify, 10, 1);
 \end{lstlisting}
 \paragraph{}
 The confusion matrix received for a random run of the 10-fold cross-validation is as follows(In our implementation of 10-fold cross-validation, we first shuffle the initial array, then divide to folds, hence there may be a difference in values for each run of cross-validation on the same data):
@@ -283,20 +283,22 @@ The ambiguity about deciding which binary decision tree to use arises whenever m
 \paragraph{}
 Our second approach was to resolve the ambiguity by selecting the shortest path which gave a positive result among all positive results. If two paths are of the same length, then the selection resorts to a random one.  If no trees return a positive result, then we select the one which took the longest to traverse to our "no" answer.  Our rationale for this is that we can have the most confidence in the shortest path, the longest one should result in the most error-prone answer, thus a "no" is more likely to be a "yes".  We believe that the longer path of a tree is likely the result of noise or overfitting, thus we ascribe less confidence to its prediction.
 \paragraph{}
-One of the advantages of the depth-based classification decision is that we can avoid the extra overhead of storing data at each node in each tree while we are building it.(We have to store the information gain while building the tree).  We believe that the shortest path approach produces better results because the longer the tree is, the more risk of overfitting. Getting the shortest path could help produce the correct result when there is some noise further down the tree. For example, if happiness is described by AU12, AU6, and AU25, then an addition of another action unit to the path could produce a false negative in the answer, therefore, the longer path is more prone to mistakes. The drawback of information gain method is since it sums the information gains along the path, we get to add the information gains defined by AU12, AU6 and AU25 which would produce a large information gain, leading to an erroneous result. Overall, we believe these approaches work in a similar way, but the shortest path has more predictive power.
+One of the advantages of the depth-based classification decision is that we can avoid the extra overhead of storing data (i.e, the information gain) at each node in each tree while we are building it.  We believe that the shortest path approach produces better results because the longer the tree is, the more risk of overfitting. Getting the shortest path could help produce the correct result when there is some noise further down the tree. For example, if happiness is described by AU12, AU6, and AU25, then an addition of another action unit to the path could produce a false negative in the answer, therefore, the longer path is more prone to mistakes. The drawback of information gain method is since it sums the information gains along the path, we get to add the information gains defined by AU12, AU6 and AU25 which would produce a large information gain, leading to an erroneous result. Overall, we believe these approaches work in a similar way, but the shortest path has more predictive power.
+\paragraph{}
+Lastly, we looked at creating what we called a \emph{model example} for each classification.  Specifically, once we have built the trees using ID3, we averaged the examples unambiguously classified for each emotion.  We found the top $M$ (a parameter to be tuned, but in our code, we used 4) attributes for each model example and calculated a distance between each incoming example to be classified and that model example.  The idea behind this approach was that there are only a few main activation units that could adequately help to classify an emotion, and the rest are more likely to cause noise and create a misclassification.  In the cases that an ambiguity arose, the algorithm chose the classification corresponding to the minimal distance of that example from that model example.  This yielded very good results $F_{\alpha}\approx 77\%$, and $classRate \approx 80\%$ but it deserves further study to verify its superiority to our other methods.
 
 \chapter{Analysis of Tree Pruning}
 \paragraph{}
-The \textit{pruning\_example} function starts by training a classification tree with the function \textit{treefit} on the dataset using a predictor vector X and a response vector Y. Then the tree is tested with \textit{treetest} by measuring error in two different ways :
+The \textit{pruning\_example} function starts by training a classification tree with the function \textit{treefit} on the dataset using a example data X and a target vector Y. The tree is then tested with \textit{treetest} by measuring error in two different ways :
 \begin{itemize}
 \item with a 10 folds cross-validation. Eventually \textit{treetest} returns a vector of Cost corresponding to the cross-validation error along the optimal pruning sequence for the tree. It also returns a vector containing the number of terminal nodes of the tree for each cost, and the best level of pruning (eg: the first minimum of the cost vector).
 \item With a resubstitution error. Again, the algorithm computes the cost vector along the optimal pruning sequence. The cost of the subtree is the sum over all leafs of the probability to reach the node times the node cost, the node cost being the sum of all misclassified data\footnote{We set the error to 1 for a misclassified element, 0 otherwise}.
-The function is also returning the vector cost, the vector of terminal nodes along the optimal pruning sequence and the best level of pruning.
+The function is also returning the vector of costs, the vector of terminal nodes along the optimal pruning sequence and the best level of pruning.
 \end{itemize}
 Once the tree has been tested with the two error measures described above, two pruned trees are created thanks to the best level of pruning computed.
 \paragraph{}
-Finally the \textit{pruning\_example} function plots the two costs vectors computed with \textit{treetest} as a function of the number of terminal nodes. Figure \ref{fig:pruning} shows the graphic obtained with \textit{pruning\_example} on the clean emotions database. 
-The red curve, representing the resubstitution error, keeps decreasing until it reaches zero with about 200 terminal nodes. At this stage it means that the classification tree runs perfectly on the training set. On the other hand, the blue curve, corresponding to the cross-validation error, stops decreasing after adding approximately 25 terminal nodes to the tree. This behaviour is caused by the cross-validation error measure since in a cross validation the tree is trained on a random subset of the whole data (9/10) and tested on the remaining part (1/10). As a result the tree cannot overfit the data and the error remains constant.
+Finally, the \textit{pruning\_example} function plots the two costs vectors computed with \textit{treetest} as a function of the number of terminal nodes. Figure \ref{fig:pruning} shows the graphic obtained with \textit{pruning\_example} on the clean emotions database. 
+The red curve, representing the resubstitution error, keeps decreasing until it reaches zero with about 200 terminal nodes. At this stage it means that the classification tree runs perfectly on the training set since greater nodes allows for greater over fitting of the model to the training data. On the other hand, the blue curve, corresponding to the cross-validation error, stops decreasing after adding approximately 25 terminal nodes to the tree. This behaviour is caused by the cross-validation error measure since in a cross validation the tree is trained on a random subset of the whole data (9/10) and tested on the remaining part (1/10). As a result the tree cannot overfit the data and the error remains constant, even rising gradually.
 
 \begin{figure}[!h]
 \center
@@ -305,15 +307,21 @@ The red curve, representing the resubstitution error, keeps decreasing until it 
 \end{figure}
 \FloatBarrier
 \paragraph{}
-Thus the decreasing trend of the red curve while the blue curve slightly increase is a typical indicator of overfitting. The tree is predicting perfecly the training set but is not able to generalise on the test set. It is a good practice to prune the tree or stop learning when the cross-validation error stops decreasing (blue box on figure \ref{fig:pruning}). On the clean data, the cross validation remains constant after 25 terminal nodes. As a result one can belive that it is not dangerous to overfit. However the same study on the noisy dataset (figure \ref{fig:pruning_noisy}) shows that with "real life" data, overfitting can lead to an increase of the cross-validation error.
+Thus the decreasing trend of the red curve while the blue curve slightly increase is a typical indicator of overfitting. The tree is predicting the training set perfectly, but is not able to generalize on the test set (out of sample). It is good practice to prune the tree or stop learning when the cross-validation error stops decreasing (blue box on figure \ref{fig:pruning}). On the clean data, the cross validation remains constant after 25 terminal nodes. As a result one can believe that it is not dangerous to overfit. However the same study on the noisy dataset (figure \ref{fig:pruning_noisy}) shows that with "real life" data, overfitting can lead to an increase of the cross-validation error.
 \begin{figure}[!h]
 \center
 \includegraphics{pruning_example_noisy.png}
 \caption[Pruning example on clean data.]{Cost computed by cross-validation (blue curve) and resubstitution (red curve) on the noisy emotion dataset depending on the number of terminal nodes. \label{fig:pruning_noisy}}
 \end{figure}
 \chapter{Code Flowchart}
-%\subsection{}
+\begin{figure}[!h]
+\center
+\includegraphics[scale=0.3]{FlowChart.jpg}
+\caption[Flowchart of Decision Tree implementation.]{}
+\end{figure}
 
+\chapter{Addendum}
+We briefly looked at modifying the ID3 algorithm to create a more sensible stopping point for the tree.  Specifically, we assigned a parameter $0.75 \leq \beta\leq 1$ to stand for the threshold of the percentage of the binary target data begin classified "yes" or "no".  If the threshold was breached (e.g. more than $\beta$ targets classify one way), we assign a leaf node rather than proceeding further.  This modified ID3 algorithm showed a significant improvement, bumping each of the other decision functions a few percentage points.  We tuned the $\beta$ parameter via cross-validation and found that $\beta = 0.98$ produces optimal results.
 
 
 \end{document}  

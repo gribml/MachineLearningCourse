@@ -5,8 +5,8 @@ function [cl] = modelClassify(answer, ~, ~,example, model)
         cl1 = zeros(length(answer), 1);
         for i=1:length(answer)
             s = sort(model(i,:),'descend');
-            idx = zeros(5,1);
-            for j=1:5
+            idx = zeros(4,1);
+            for j=1:4
                 equals = find(s(j)==model(i,:));
                 idx(j) = equals(1);
             end

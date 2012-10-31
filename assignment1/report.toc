@@ -2,16 +2,22 @@
 \contentsline {paragraph}{}{4}
 \contentsline {paragraph}{}{4}
 \contentsline {section}{\numberline {1.1}Tree Diagrams}{5}
-\contentsline {section}{\numberline {1.2}Results}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {paragraph}{}{10}
-\contentsline {chapter}{\numberline {2}Resolving Ambiguity of Tree Selection}{11}
+\contentsline {paragraph}{}{5}
+\contentsline {section}{\numberline {1.2}Results}{11}
 \contentsline {paragraph}{}{11}
 \contentsline {paragraph}{}{11}
 \contentsline {paragraph}{}{11}
-\contentsline {chapter}{\numberline {3}Analysis of Tree Pruning}{12}
-\contentsline {chapter}{\numberline {4}Code Flowchart}{13}
+\contentsline {paragraph}{}{11}
+\contentsline {paragraph}{}{11}
+\contentsline {paragraph}{}{11}
+\contentsline {chapter}{\numberline {2}Resolving Ambiguity of Tree Selection}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {chapter}{\numberline {3}Analysis of Tree Pruning}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{15}
+\contentsline {chapter}{\numberline {4}Code Flowchart}{17}
+\contentsline {chapter}{\numberline {5}Addendum}{18}
