@@ -469,59 +469,7 @@ F_{1} = \left[\begin{array}{cccccc}
 \]
 \paragraph{}
 Classification rate : 70.8\%.
-\subsection{Tree diagrams}
-\paragraph{}
-The six following figures have been obtained after training on the whole clean emotion dataset, with $\beta = 0.98$.
 
-\begin{figure}[!h]
-\center
-\includegraphics[scale=0.35]{happiness_improved.jpg}
-\caption{Improved happiness Tree.}
-\end{figure}
-
-\begin{figure}[h]
-\begin{changemargin}{-20mm}{-20mm}
-\begin{center}
-\includegraphics[scale=0.5]{anger_improved.jpg}
-\end{center}
-\caption{Improved anger Tree.}
-\end{changemargin}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{changemargin}{-20mm}{-20mm}
-\center
-\includegraphics[scale=0.5]{disgust_improved.jpg}
-\caption{Disgust Tree.}
-\end{changemargin}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{changemargin}{-25mm}{-25mm}
-\center
-\includegraphics[scale=0.5]{fear_improved.jpg}
-\caption{Improved fear Tree.}
-\end{changemargin}
-\end{figure}
-
-
-\begin{figure}[!h]
-\begin{changemargin}{-25mm}{-25mm}
-\center
-\includegraphics[scale=0.5]{sadness_improved.jpg}
-\caption{Improved sadness Tree.}
-\end{changemargin}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{changemargin}{-25mm}{-25mm}
-\center
-\includegraphics[scale=0.5]{surprise_improved.jpg}
-\caption{Improved surprise Tree.}
-\end{changemargin}
-\end{figure}
-\FloatBarrier
-As we can see, all trees are less complex than the tree generated with the basic algorithm ($\beta = 1$, see chapter \ref{ch:trees}). The only tree which is not really improved is the sadness emotion tree. We could have prune this tree by chosing a beta inferior to $0.98$, and thus maybe increase the classification, but as claimed section \ref{ch:improvedalgo}, finding a different beta for each tree is time consuming and more complex.
 \end{appendices}
 
 
