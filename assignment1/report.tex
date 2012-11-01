@@ -197,9 +197,11 @@ The workhorse class responsible for representing the tree is defined recursively
 The six following figures have been obtained after training on the whole clean emotion dataset.
 \label{ch:trees}
 \begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
 \center
-\includegraphics[scale=0.6]{happiness.jpg}
+\includegraphics[scale=1]{happiness.jpg}
 \caption{Happiness Tree.}
+\end{changemargin}
 \end{figure}
 
 \begin{figure}[h]
@@ -212,9 +214,11 @@ The six following figures have been obtained after training on the whole clean e
 \end{figure}
 
 \begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
 \center
 \includegraphics[scale=0.6]{disgust.jpg}
 \caption{Disgust Tree.}
+\end{changemargin}
 \end{figure}
 
 \begin{figure}[!h]
@@ -231,9 +235,11 @@ The six following figures have been obtained after training on the whole clean e
 \end{figure}
 
 \begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
 \center
-\includegraphics[scale=0.6]{surprise.jpg}
+\includegraphics[scale=1]{surprise.jpg}
 \caption{Surprise Tree.}
+\end{changemargin}
 \end{figure}
 \FloatBarrier
 
@@ -470,7 +476,7 @@ The six following figures have been obtained after training on the whole clean e
 \begin{figure}[!h]
 \center
 \includegraphics[scale=0.35]{happiness_improved.jpg}
-\caption{Happiness Tree.}
+\caption{Improved happiness Tree.}
 \end{figure}
 
 \begin{figure}[h]
@@ -478,14 +484,14 @@ The six following figures have been obtained after training on the whole clean e
 \begin{center}
 \includegraphics[scale=0.5]{anger_improved.jpg}
 \end{center}
-\caption{Anger Tree.}
+\caption{Improved anger Tree.}
 \end{changemargin}
 \end{figure}
 
 \begin{figure}[!h]
 \begin{changemargin}{-20mm}{-20mm}
 \center
-%\includegraphics[scale=0.4]{disgust_improved.jpg}
+\includegraphics[scale=0.5]{disgust_improved.jpg}
 \caption{Disgust Tree.}
 \end{changemargin}
 \end{figure}
@@ -494,7 +500,7 @@ The six following figures have been obtained after training on the whole clean e
 \begin{changemargin}{-25mm}{-25mm}
 \center
 \includegraphics[scale=0.5]{fear_improved.jpg}
-\caption{Fear Tree.}
+\caption{Improved fear Tree.}
 \end{changemargin}
 \end{figure}
 
@@ -503,7 +509,7 @@ The six following figures have been obtained after training on the whole clean e
 \begin{changemargin}{-25mm}{-25mm}
 \center
 \includegraphics[scale=0.5]{sadness_improved.jpg}
-\caption{Sadness Tree.}
+\caption{Improved sadness Tree.}
 \end{changemargin}
 \end{figure}
 
@@ -511,11 +517,11 @@ The six following figures have been obtained after training on the whole clean e
 \begin{changemargin}{-25mm}{-25mm}
 \center
 \includegraphics[scale=0.5]{surprise_improved.jpg}
-\caption{Surprise Tree.}
+\caption{Improved surprise Tree.}
 \end{changemargin}
 \end{figure}
 \FloatBarrier
-As we can see, all tree are less complex than the tree generated with the basic algorithm ($\beta = 1$, see chapter \ref{ch:trees}). The only tree which is not really improved is the sadness emotion tree. We could have prune this tree by chosing a beta inferior to $0.98$, and thus maybe increase the classification, but as claimed section \ref{ch:improvedalgo}, finding a different beta for each tree is time consuming and more complex.
+As we can see, all trees are less complex than the tree generated with the basic algorithm ($\beta = 1$, see chapter \ref{ch:trees}). The only tree which is not really improved is the sadness emotion tree. We could have prune this tree by chosing a beta inferior to $0.98$, and thus maybe increase the classification, but as claimed section \ref{ch:improvedalgo}, finding a different beta for each tree is time consuming and more complex.
 \end{appendices}
 
 
