@@ -496,6 +496,7 @@ The six following figures have been obtained after training on the whole clean e
 \end{changemargin}
 \end{figure}
 
+<<<<<<< HEAD
 \begin{figure}[!h]
 \begin{changemargin}{-25mm}{-25mm}
 \center
@@ -523,6 +524,10 @@ The six following figures have been obtained after training on the whole clean e
 \FloatBarrier
 As we can see, all trees are less complex than the tree generated with the basic algorithm ($\beta = 1$, see chapter \ref{ch:trees}). The only tree which is not really improved is the sadness emotion tree. We could have prune this tree by chosing a beta inferior to $0.98$, and thus maybe increase the classification, but as claimed section \ref{ch:improvedalgo}, finding a different beta for each tree is time consuming and more complex.
 \end{appendices}
+=======
+\chapter{Addendum}
+We briefly looked at modifying the ID3 algorithm to create a more sensible stopping point for the tree.  Specifically, we assigned a parameter $0.75 \leq \beta\leq 1$ to stand for the threshold of the percentage of the binary target data begin classified "yes" or "no".  If the threshold was breached (e.g. more than $\beta$ targets classify one way), we assign a leaf node rather than proceeding further.  This modified ID3 algorithm showed a significant improvement, bumping each of the other decision functions a few percentage points.  We tuned the $\beta$ parameter via cross-validation and found that $\beta = 0.98$ produces optimal results.  We wrote a script called \emph{tune.m} to search for the optimal $\beta$ using cross-validation.
+>>>>>>> something tiny
 
 
 \end{document}  
