@@ -1,23 +1,47 @@
 \contentsline {chapter}{\numberline {1}Building the decision trees}{4}
 \contentsline {paragraph}{}{4}
 \contentsline {paragraph}{}{4}
-\contentsline {section}{\numberline {1.1}Tree Diagrams}{5}
-\contentsline {paragraph}{}{5}
-\contentsline {section}{\numberline {1.2}Results}{11}
-\contentsline {paragraph}{}{11}
-\contentsline {paragraph}{}{11}
-\contentsline {paragraph}{}{11}
-\contentsline {paragraph}{}{11}
-\contentsline {paragraph}{}{11}
-\contentsline {paragraph}{}{11}
+\contentsline {section}{\numberline {1.1}Code flowchart}{5}
+\contentsline {section}{\numberline {1.2}Tree Diagrams}{7}
+\contentsline {paragraph}{}{7}
 \contentsline {chapter}{\numberline {2}Resolving Ambiguity of Tree Selection}{12}
 \contentsline {paragraph}{}{12}
 \contentsline {paragraph}{}{12}
 \contentsline {paragraph}{}{12}
 \contentsline {paragraph}{}{12}
-\contentsline {chapter}{\numberline {3}Analysis of Tree Pruning}{14}
+\contentsline {section}{\numberline {2.1}Results}{13}
+\contentsline {subsection}{\numberline {2.1.1}Depth classifier}{13}
+\contentsline {paragraph}{}{13}
+\contentsline {paragraph}{}{13}
+\contentsline {paragraph}{}{13}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {subsection}{\numberline {2.1.2}Information gain classifier}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {paragraph}{}{14}
 \contentsline {paragraph}{}{14}
 \contentsline {paragraph}{}{14}
 \contentsline {paragraph}{}{15}
-\contentsline {chapter}{\numberline {4}Code Flowchart}{17}
-\contentsline {chapter}{\numberline {5}Addendum}{18}
+\contentsline {paragraph}{}{15}
+\contentsline {chapter}{\numberline {3}Analysis of Tree Pruning}{16}
+\contentsline {paragraph}{}{16}
+\contentsline {paragraph}{}{16}
+\contentsline {paragraph}{}{17}
+\contentsline {chapter}{Appendix \numberline {A}Algorithm Improvement}{19}
+\contentsline {section}{\numberline {A.1}Presentation of the improvement}{19}
+\contentsline {paragraph}{}{19}
+\contentsline {section}{\numberline {A.2}Results}{20}
+\contentsline {subsection}{\numberline {A.2.1}Depth classifier}{20}
+\contentsline {paragraph}{}{20}
+\contentsline {paragraph}{}{20}
+\contentsline {paragraph}{}{20}
+\contentsline {paragraph}{}{20}
+\contentsline {subsection}{\numberline {A.2.2}Information gain classifier}{20}
+\contentsline {paragraph}{}{20}
+\contentsline {paragraph}{}{21}
+\contentsline {paragraph}{}{21}
+\contentsline {paragraph}{}{21}
+\contentsline {subsection}{\numberline {A.2.3}Tree diagrams}{21}
+\contentsline {paragraph}{}{21}
