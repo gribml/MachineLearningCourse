@@ -186,7 +186,7 @@ The workhorse class responsible for representing the tree is defined recursively
 \begin{figure}[p]
 \begin{changemargin}{-50mm}{-50mm}
 \center
-\includegraphics[height=0.97\textheight]{FlowChart.jpg}
+\includegraphics[width=0.6\linewidth,height=0.97\textheight]{Main_flowchart.jpg}
 \caption{Flowchart of Decision Tree implementation.}
 \end{changemargin}
 \end{figure}
@@ -471,6 +471,10 @@ F_{1} = \left[\begin{array}{cccccc}
 Classification rate : 70.8\%.
 
 \end{appendices}
+
+%\chapter{Addendum}
+%We briefly looked at modifying the ID3 algorithm to create a more sensible stopping point for the tree.  Specifically, we assigned a parameter $0.75 \leq \beta\leq 1$ to stand for the threshold of the percentage of the binary target data begin classified "yes" or "no".  If the threshold was breached (e.g. more than $\beta$ targets classify one way), we assign a leaf node rather than proceeding further.  This modified ID3 algorithm showed a significant improvement, bumping each of the other decision functions a few percentage points.  We tuned the $\beta$ parameter via cross-validation and found that $\beta = 0.98$ produces optimal results.  We wrote a script called \emph{tune.m} to search for the optimal $\beta$ using cross-validation.
+
 
 
 \end{document}  

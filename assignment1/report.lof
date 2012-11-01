@@ -1,14 +1,19 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Happiness Tree.}}{6}
-\contentsline {figure}{\numberline {1.2}{\ignorespaces Anger Tree.}}{7}
-\contentsline {figure}{\numberline {1.3}{\ignorespaces Disgust Tree.}}{8}
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Fear Tree.}}{8}
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Sadness Tree.}}{9}
-\contentsline {figure}{\numberline {1.6}{\ignorespaces Surprise Tree.}}{10}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Flowchart of Decision Tree implementation.}}{6}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Happiness Tree.}}{7}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Anger Tree.}}{8}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Disgust Tree.}}{9}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Fear Tree.}}{9}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Sadness Tree.}}{10}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Surprise Tree.}}{11}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Pruning example on clean data.}}{15}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Pruning example on clean data.}}{16}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Pruning example on clean data.}}{17}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Pruning example on noisy data.}}{18}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Flowchart of Decision Tree implementation.}}{17}
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Improved happiness Tree.}}{21}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Improved anger Tree.}}{22}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Disgust Tree.}}{23}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Improved fear Tree.}}{24}
+\contentsline {figure}{\numberline {A.5}{\ignorespaces Improved sadness Tree.}}{25}
+\contentsline {figure}{\numberline {A.6}{\ignorespaces Improved surprise Tree.}}{26}
