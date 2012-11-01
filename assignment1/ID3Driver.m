@@ -1,6 +1,6 @@
 function [confMtrx, F,recall,precision, classRate, trees ] = ID3Driver(example_data, attribute_data, target_data, decisionFunction, N, beta)
 %% Run exemple : [ C, F, CR, T ] = ID3Driver(x,1:45,y,@igClassify,10)
-%    rng(50000); %% seeding random number generate to reproduce results from report
+    rng(50000); %% seeding random number generate to reproduce results from report
     alpha = 1;
     numTrees = length(unique(target_data));
     %% train to get 6 trees

@@ -234,7 +234,7 @@ To obtain the results, we run the following code:
 [cm, err, cr, tr] = ID3Driver(x, 1:45, y, @depthClassify, 10, 1);
 \end{lstlisting}
 \paragraph{}
-The confusion matrix received for a random run of the 10-fold cross-validation is as follows(In our implementation of 10-fold cross-validation, we first shuffle the initial array, then divide to folds, hence there may be a difference in values for each run of cross-validation on the same data):
+The confusion matrix received for a random run of the 10-fold cross-validation is as follows (since we randomly shuffle our array for cross-validation, we seeded the random number generator at 50000 in line 3 of \emph{ID3Driver.m} to create reproducible results):
 \[
 cm = \left[\begin{array}{cccccc}
 9.2000  &  1.7000  &  0.4000  &  0.4000 &   1.2000    &0.2000 \\
@@ -248,7 +248,7 @@ cm = \left[\begin{array}{cccccc}
 \right]
 \]
 \paragraph{}
-The rows of the confusion matrix represent the actual classifications, and the columns represent the predicted classifications for each of the emotions .  They are the average results found by taking the average of all the confusion matrices for each fold of the 10-fold cross-validation process. It seems that our trees have classified most correctly for the 4th emotion, which is happiness. Our average classification rate is   $0.7420$. This rate is found by first summing the times our classifier guessed correctly over the total number of test data for  all 10-folds, and getting the average of it, which gives the correctness percentage. Subtracting this value from 1, gives the error rate. Our classifier can guess over the newly confronted test data with an error rate of approximately $26\%$.  \\
+The rows of the confusion matrix represent the actual classifications, and the columns represent the predicted classifications for each of the emotions .  They are the average results found by taking the average of all the confusion matrices for each fold of the 10-fold cross-validation process. It seems that our trees have classified most correctly for the 4th emotion, which is happiness. Our average classification rate is   $74.20\%$. This rate is found by first summing the times our classifier guessed correctly over the total number of test data for  all 10-folds, and getting the average of it, which gives the correctness percentage. Subtracting this value from 1, gives the error rate. Our classifier can guess over the newly confronted test data with an error rate of approximately $26\%$.  \\
 Recall Rates:
 \[
 recall = \left[\begin{array}{cccccc}
@@ -266,9 +266,9 @@ precision = \left[\begin{array}{cccccc}
 \right]
 \]
 \paragraph{}
-The $F_{\alpha}$ values according to these recall and precision rates are: 
+The $F_{1}$ values according to these recall and precision rates are: 
 \[
-F_{\alpha} = \left[\begin{array}{cccccc}
+F_{1} = \left[\begin{array}{cccccc}
 63.6678 &  73.5577 &  68.8797 &  86.3962 &  57.8512 &  82.9517 \\
 \end{array}
 \right]
@@ -278,14 +278,14 @@ As expected, emotion 4 was the best classified emotion, and we achieved the high
 
 \chapter{Resolving Ambiguity of Tree Selection}
 \paragraph{}
-The ambiguity about deciding which binary decision tree to use arises whenever more than one tree returns a positive result or when all trees return a negative result (otherwise, the unique tree which returns a positive classification can be used to make the overall classification).  We first decided to handle these cases based on the aggregate information gain accumulated (additively) when walking down the tree in search of the result.  Our reasoning was that the tree which most clearly divides the data (and thus has the highest cumulative information gain) is more likely to be classifying the emotion correctly.  This turned out to have a better effect than randomly selecting a tree (we obtained $F_{\alpha} \approx 69\%$ and $classError \approx 31\%$ via this method and $F_{\alpha} \approx 70\%$ and $classError \approx 30\%$ via the other). 
+The ambiguity about deciding which binary decision tree to use arises whenever more than one tree returns a positive result or when all trees return a negative result (otherwise, the unique tree which returns a positive classification can be used to make the overall classification).  We first decided to handle these cases based on the aggregate information gain accumulated (additively) when walking down the tree in search of the result.  Our reasoning was that the tree which most clearly divides the data (and thus has the highest cumulative information gain) is more likely to be classifying the emotion correctly. 
 
 \paragraph{}
-Our second approach was to resolve the ambiguity by selecting the shortest path which gave a positive result among all positive results. If two paths are of the same length, then the selection resorts to a random one.  If no trees return a positive result, then we select the one which took the longest to traverse to our "no" answer.  Our rationale for this is that we can have the most confidence in the shortest path, the longest one should result in the most error-prone answer, thus a "no" is more likely to be a "yes".  We believe that the longer path of a tree is likely the result of noise or overfitting, thus we ascribe less confidence to its prediction.
+Our second approach was to resolve the ambiguity by selecting the shortest path which gave a positive result among all positive results. If two paths are of the same length, then the selection resorts to a random one.  If no trees return a positive result, then we select the one which took the longest to traverse to our "no" answer.  Our rationale for this is that we can have the most confidence in the shortest path, the longest one should result in the most error-prone answer, thus a "no" is more likely to be a "yes".  We believe that the longer path of a tree is likely the result of noise or overfitting, thus we ascribe less confidence to its prediction.  This turned out to have a better effect than randomly selecting a tree (we obtained $classRate \approx 72\%$ randomly and $classRate \approx 74\%$ via this depth approach).
 \paragraph{}
 One of the advantages of the depth-based classification decision is that we can avoid the extra overhead of storing data (i.e, the information gain) at each node in each tree while we are building it.  We believe that the shortest path approach produces better results because the longer the tree is, the more risk of overfitting. Getting the shortest path could help produce the correct result when there is some noise further down the tree. For example, if happiness is described by AU12, AU6, and AU25, then an addition of another action unit to the path could produce a false negative in the answer, therefore, the longer path is more prone to mistakes. The drawback of information gain method is since it sums the information gains along the path, we get to add the information gains defined by AU12, AU6 and AU25 which would produce a large information gain, leading to an erroneous result. Overall, we believe these approaches work in a similar way, but the shortest path has more predictive power.
 \paragraph{}
-Lastly, we looked at creating what we called a \emph{model example} for each classification.  Specifically, once we have built the trees using ID3, we averaged the examples unambiguously classified for each emotion.  We found the top $M$ (a parameter to be tuned, but in our code, we used 4) attributes for each model example and calculated a distance between each incoming example to be classified and that model example.  The idea behind this approach was that there are only a few main activation units that could adequately help to classify an emotion, and the rest are more likely to cause noise and create a misclassification.  In the cases that an ambiguity arose, the algorithm chose the classification corresponding to the minimal distance of that example from that model example.  This yielded very good results $F_{\alpha}\approx 77\%$, and $classRate \approx 80\%$ but it deserves further study to verify its superiority to our other methods.
+Lastly, we looked at creating what we called a \emph{model example} for each classification.  Specifically, once we have built the trees using ID3, we averaged those examples which unambiguously classified for each emotion.  We found the top $M$ (a parameter to be tuned, but in our code, we used 4) attributes for each model example and calculated a distance between each incoming example to be classified and that model example.  The idea behind this approach was that there are only a few main activation units that could adequately help to classify an emotion, and the rest are more likely to cause noise and create a misclassification.  In the cases that an ambiguity arose, the algorithm chose the classification corresponding to the minimal distance of that example from that model example.  This yielded very good results $F_{\alpha}\approx 77\%$, and $classRate \approx 80\%$ but it deserves further study to verify its superiority to our other methods.
 
 \chapter{Analysis of Tree Pruning}
 \paragraph{}
