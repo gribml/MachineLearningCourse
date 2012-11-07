@@ -1,4 +1,4 @@
-function [x y] = ANNdata(a,b);
+function [ x, y ] = ANNdata( a, b );
 
 %ANNDATA - transforms features and labels as returned by loaddata into the matlab NN toolbox format
 %
@@ -11,7 +11,7 @@ function [x y] = ANNdata(a,b);
 %     y: labels [6 x n] sparse matrix (0 = neg, 1 = pos)
 
 x = a';
-y = zeros(6, size(a,1));
+y = zeros( 6, size( a, 1 ) );
 for i = 1:6
-	y(i,find(b == i)) = 1;
+	y( i, find( b == i) ) = 1;
 end
