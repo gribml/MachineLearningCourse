@@ -11,7 +11,7 @@ function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y )
     network.divideParam.testRatio = dataSplit(3);
     
 
-    [ network ] = train( network, x, y, 'useParallel','no','showResources','yes' );
+    [ network ] = train( network, x, y);
 
 end
 

@@ -4,12 +4,11 @@ function predictions = testANN( net, examples )
         predictions = sim( net, examples );
         predictions = NNout2labels( predictions );
     else
-        t_predictions = cell( l, 1 );
+        t_predictions = zeros( l, length( examples ) );
         for i=1:l
-            t_predictions{ i } = sim( net{ i }, examples );
+            t_predictions(i, :) = sim( net{ i }, examples );
         end
-        t_predictions = cell2mat( t_predictions );
-        predictions = t_predictions;
+        predictions = NNout2labels( t_predictions );
     end
 end
 
