@@ -14,12 +14,12 @@ function [t] = ID3(examples, attr, binary_targets, beta)
 %       if examples_i is empty
 %       else subtree <-- DECISION-TREE-LEARNING(examplesi ,attributes-{best_attribute}, binary_targetsi)
 % return tree
-    nYes = sum(binary_targets) / length(binary_targets);
+    ratioYes = sum(binary_targets) / length(binary_targets);
     t = tnode;
-    if ( or(nYes <= (1-beta), nYes >= beta) )
-        t.setclass(nYes > 0.5);
+    if ( or(ratioYes <= (1-beta), ratioYes >= beta) )
+        t.setclass(ratioYes > 0.5);
     elseif ( isempty(attr) )
-        t.setclass(nYes > 0.5);
+        t.setclass(ratioYes > 0.5);
     else
         [ba, ig] = ChooseBestDecisionAttribute(examples, attr, binary_targets);
         best_attr = find( attr == ba );
@@ -32,7 +32,7 @@ function [t] = ID3(examples, attr, binary_targets, beta)
             newAttributes = attr(attr~=ba);
             if isempty(newExamples)
                 t.addkid(i, tnode);
-                t.getkid(i).setclass(nYes>0);
+                t.getkid(i).setclass(ratioYes>0);
             else
                 t.addkid(i, ID3(newExamples, newAttributes, newBinaryTargets, beta));
             end
