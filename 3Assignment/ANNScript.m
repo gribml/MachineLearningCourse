@@ -1,6 +1,5 @@
 function ANNScript
 
-% mae, mse, sse
 perfFn = ['mae', 'mse', 'sse'];
 lr = 0:0.001:1;
 transFun = ['compet', 'hardlim', 'hardlims', 'logisg', 'netinv', 'poslin', ...
@@ -15,14 +14,15 @@ load cleandata_students;
 
 [x2, y2] = ANNdata(x, y);
 
-for p=perfFn
-    for rate = lr
-        for transfer = transFun
-            for train = trainFn
+for p = 1:length(perfFn)
+    for r = 1:length(lr)
+        for tf = 1:length(transFun)
+            for tn = 1:length(trainFn)
                 for i=1:20
                     net = buildNetwork(i, 50, [0.667, 0.33, 0], x2, y2, p, ...
-                    rate, transfer, train);
-                    
+                    r, tf, tn);
+                    pred = testANN(net, x2);
+                    [cm, rc, pr, f, cr] = confusion(pred, y2);
                 end
             end
         end

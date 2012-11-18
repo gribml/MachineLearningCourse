@@ -1,4 +1,4 @@
-function [ confMtrx recall precision F] = confusion( predictedResults, actualResults )
+function [ confMtrx, recall, precision, F, classRate] = confusion( predictedResults, actualResults )
 %%  CONFUSIONMATRIX Summary of this function goes here
 %   Detailed explanation goes here
 alpha = 1;
@@ -18,6 +18,8 @@ alpha = 1;
         precision(i) = ( confMtrx(i,i) / sum(confMtrx(:, i) ) ) * 100;
         F(i) = (1 + alpha) * precision(i) * recall(i) / (alpha * precision(i) + recall(i));
     end
+    
+    classRate = trace(confMtrx) / sum(sum(confMtrx));
 end
 
 
