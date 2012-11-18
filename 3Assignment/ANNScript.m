@@ -1,30 +1,50 @@
-function ANNScript
+%perfFun = {'mae', 'mse', 'sse'};
+perfFun = 'mse';
 
-perfFn = ['mae', 'mse', 'sse'];
-lr = 0:0.001:1;
-transFun = ['compet', 'hardlim', 'hardlims', 'logisg', 'netinv', 'poslin', ...
+lr = 0.01:0.05:0.2;
+
+transFun =  {'logsig', 'netinv', 'poslin', ...
     'purelin', 'radbas', 'radbasn', 'satlin', 'satlins', 'softmax', ...
-    'tansig', 'tribas'];
-trainFn = ['train', 'trainb', 'trainbfg', 'trainbfdc', 'trainbr', 'trainbu', ...
-    'trainc', 'traincgb', 'traincgf', 'traincgp', 'traingd', 'traingda', ...
+    'tribas', 'compet', };
+transFun_done = {'tansig', 'hardlim', 'hardlims',};
+
+trainFun = { 'trainlm', 'trainbfg', 'trainbr', 'trainc', 'traincgb', 'traincgf', 'traincgp', 'traingd', 'traingda', ...
     'traingdm', 'traingdx', 'trainlm', 'trainoss', 'trainr', 'trainrp', ...
-    'trainru', 'trains', 'trainscg'];
+     'trains', 'trainscg'};
+% not working functions
+% 'trainbfdc', 'train', 'trainb', 'trainbu', 'trainru',
 
 load cleandata_students;
 
 [x2, y2] = ANNdata(x, y);
 
-for p = 1:length(perfFn)
-    for r = 1:length(lr)
-        for tf = 1:length(transFun)
-            for tn = 1:length(trainFn)
-                for i=1:20
-                    net = buildNetwork(i, 50, [0.667, 0.33, 0], x2, y2, p, ...
-                    r, tf, tn);
-                    pred = testANN(net, x2);
-                    [cm, rc, pr, f, cr] = confusion(pred, y2);
-                end
+nepocs = 20;
+minneurons = 1;
+nneurons = 15;
+
+FID = fopen('perf_results2.txt', 'w');
+matlabpool(4);
+parfor r = 1:length(lr)
+    FID_test = fopen(sprintf('perf_results_%f.txt', lr(r)), 'w');
+    for tf = 1:length(transFun)
+        for tn = 1:length(trainFun)
+            sprintf('**********************************************************************')
+            sprintf('prefFun=%s, lr=%d, tranFun=%s, trainFun=%s', perfFun, lr(r), transFun{tf}, trainFun{tn})
+            for i=minneurons:2:nneurons
+                
+                net = buildNetwork(i, nepocs, [0.667, 0.33, 0], x2, y2, perfFun, lr(r), transFun{tf}, trainFun{tn});
+                
+                pred = testANN(net, x2);
+%                    pred2 = zeros(length(y), 1);
+                [cm, rc, pr, f, cr] = confusion(pred, y);
+                fprintf(FID_test, '(%s, %f, %s, %s): %f', perfFun, lr(r), transFun{tf}, trainFun{tn});
+                sprintf('nneurons : %d, classification rate : %f', i, cr)
+                
             end
         end
     end
+    fclose(FID_test);
 end
+fclose(FID);
+matlabpool close;
+
