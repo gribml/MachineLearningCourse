@@ -30,7 +30,7 @@ for tn = 1:length(trainFun)
                load(str);
                if( multi.classRate > multiMaxCr)
                    
-                   multiMaxCR = multi.classRate;
+                   multiMaxCr = multi.classRate;
                    multiNew.noNeurons = i;
                    multiNew.classRate = multi.classRate;
                    multiNew.learningRate = multi.learningRate;
@@ -41,7 +41,7 @@ for tn = 1:length(trainFun)
                end
                if( single.classRate > singleMaxCr)
                    
-                   singleMaxCR = single.classRate;
+                   singleMaxCr = single.classRate;
                    singleNew.noNeurons = i;
                    singleNew.classRate = single.classRate;
                    singleNew.learningRate = single.learningRate;
