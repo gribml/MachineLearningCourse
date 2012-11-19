@@ -7,7 +7,7 @@ function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,
 %    y (nx1) - n target values
 %    perf (string) - representing performance measure used to calculate error
 %    lr (string) - learning rate for stochastic gradient descent
-%    transFn (string) - transfer function, a.k.a activation function for all layers
+%    tf (string) - transfer function, a.k.a activation function for all layers
 %    trainFn (string) - training function 
 
     [ network ] = feedforwardnet( HiddenLayer, trainFn );
@@ -22,7 +22,7 @@ function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,
     network.divideParam.testRatio = dataSplit(3);
     
     for i=1:length(HiddenLayer)
-        network.layers{i}.transferFcn = transFn;
+        network.layers{i}.transferFcn = tf;
     end
 
     [ network ] = train( network, x, y);
