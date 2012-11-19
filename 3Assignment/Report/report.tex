@@ -165,13 +165,12 @@
 
 
 \author{
-    Sedef Ozlen (so512, s5), \\ 
-    Paul Gribelyuk (pg1312, a5), \\
-    Jean Kossaifi (jk712, a5), \\ 
-    Romain Brault (rb812, a5)
-}
+    Sedef Ozlen (so512, s5) \\ 
+    Paul Gribelyuk (pg1312, a5)\\
+    Jean Kossaifi (jk712, a5)\\ 
+    Romain Brault (rb812, a5)}
 \makeatother
-\title{\Huge Machine Learning \\ Artificial Neural Network \\ Coursework 3}
+\title{\Huge Machine Learning: \\ Artificial Neural Network \\ Coursework 3}
 \date{\today}
 
 
@@ -187,36 +186,41 @@ The goal of this coursework is to understand how to use the MATLAB Neural Networ
 \paragraph{}
 The MATLAB Neural Network Toolbox provides a great deal of flexibility in specifying the exact network topology, performance measurement function, learning rate (when computing weights via stochastic gradient descent, transfer/activation function, and training function, and we learned the relative merits of these tools throughout the course of the assignment.  The most important lesson we learned is that this machine learning technique is extremely powerful, but the search for an optimal network is extremely computationally intensive.  The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  In this report, we will show our results for the classification rate of the sample data for different network topologies, activation and transfer functions, as well as the effects of a variable learning rate. 
 
-\chapter{Naïve networks}
-\paragraph{}
-First, we built two neural networks classifier to find a predictive model for emotions from AU.
-\section{Creating two types of neural network}
-\paragraph{} The function:
-\begin{changemargin}{-5mm}{-5mm}
-\begin{lstlisting}[language=Matlab, frame=single]
-function [ totalnet, binaryNets ] = partFour(x, y)
-\end{lstlisting}
-\end{changemargin}
-located in \textit{partFour.m} takes the database as imput argument and return the single six-output neural network (\textit{totalnet}), and a six single-output neural networks (\textit{binaryNets}). It uses an internal function:
-\begin{changemargin}{-5mm}{-5mm}
-\begin{lstlisting}[language=Matlab, frame=single]
-function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,  lr, tf, trainFn)
-\end{lstlisting}
-\end{changemargin}
-Which build a single network according to argument parameters. 
-\begin{itemize}
-\item {\bf \textit{HiddentLayer} } is a vector controling the number of hidden layers of the neural network, as specified by the function \textit{feedforwardnet}. 
-\item {\bf \textit{Datasplit} } is a vector expressing the fraction of the database which must be used as training set, validation set and testing set. The sum of the elements of the vector must be equal to $1$.
-\item {\bf \textit{epoch} } controls the number of iterations used by the training algorithm ( )
-\end{itemize}
-\paragraph{}
-\section{Testing the networks}
+\chapter{Na\"\i ve networks}
 
-\chapter{Optimised Networks}
-\section{Optimizing the topology and parameters of the networks}
-\section{Train a network}
-\section{Performing 10 fold cross-validation}
-\section{Plotting performance measure}
+\paragraph{Creating Two Types of Neural Network} \hfill \\
+After exploring the NNTOOLBOX in MATLAB, we proceeded to implement part IV of the assignment by manually specifying the network characteristics in the file titled \textit{partFour.m}.  Its application is demonstrated below:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+[totalnet, binaryNets] = partFour(x, y)
+\end{lstlisting}
+\end{changemargin}
+which returns  (\textit{totalnet}), and an array of single-output neural networks (\textit{binaryNets}). We wrote an internal function to facilitate the building of these networks:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+[network] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,  lr, transFn, trainFn)
+\end{lstlisting}
+\end{changemargin}
+which builds a \textit{feedforwardnet} with the following parameters passed in:
+%with specifications for the topology (encapsulated in the \textit{HiddenLayer} array, the number of epochs, the way the data should be apportioned to training, validation, and testing, \textit{dataSplit}, the performance measure, \textit{perf}, the learning rate, \textit{lr}, the transfer/activation function \textit{transFn}, and the training function \textit{trainFn}.  
+\begin{itemize}
+\item {\bf \textit{HiddentLayer} } specifies the number of hidden layers and the number of neurons in each layer of the neural network, in the form of a one-dimensional array.
+\item {\bf \textit{dataSplit} } is a vector expressing the fraction of the database which must be used as training set, validation set and testing set. The sum of the elements of the vector must be equal to $1$.
+\item {\bf \textit{epochs} } is the number of iterations to train the algorithm.
+\item {\bf \textit{perf} } is the performance measurement function; the three available in MATLAB are 'mae' (mean absolute error), 'mse' (mean square error), 'sse' (sum squared errors), and 'sae' (sum absolute errors).
+\item {\bf \textit{lr} } floating value of learning rate to be used for stochastic gradient descent.
+\item {\bf \textit{transFn}} activation function to be assigned at each node of network.
+\item {\bf \textit{trainFn}} training function to be used to adapt the specified network when learning.
+\end{itemize}
+We use this set-up throughout the assignment to externalize the creation of the network and to allow us to experiment with various parameter inputs when looking for an optimised network.
+
+\chapter{Testing the Networks}
+
+\section{Optimizing the topology and parameters of the networks} \hfill \\
+To find the optimal network we 
+\section{Train a network} \hfill \\
+\section{Performing 10 fold cross-validation} \hfill \\
+\section{Plotting performance measure} \hfill \\
 
 \chapter{Conclusion}
 
