@@ -22,8 +22,8 @@ nepocs = 20;
 minneurons = 1;
 nneurons = 15;
 
-FID = fopen('perf_results2.txt', 'w');
-matlabpool(4);
+%FID = fopen('perf_results2.txt', 'w');
+matlabpool(2);
 parfor r = 1:length(lr)
     FID_test = fopen(sprintf('perf_results_%f.txt', lr(r)), 'w');
     for tf = 1:length(transFun)
@@ -45,6 +45,6 @@ parfor r = 1:length(lr)
     end
     fclose(FID_test);
 end
-fclose(FID);
+%fclose(FID);
 matlabpool close;
 

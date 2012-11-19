@@ -22,7 +22,7 @@ function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,
     network.divideParam.testRatio = dataSplit(3);
     
     for i=1:length(HiddenLayer)
-        network.layer{i} = tf;
+        network.layers{i}.transferFcn = tf;
     end
 
     [ network ] = train( network, x, y);

@@ -183,9 +183,9 @@
 
 \chapter{Introduction}
 \paragraph{}
-The goal of this coursework is to understand how the MATLAB Neural Network toolbox by using it on the emotion database to classify them. Through this coursework have implemented, thanks to the toolbox, two way of classifying emotions with neural networks. Also, we discuss the results and the choice of optimal parameters set for both neural neural networks.
+The goal of this coursework is to understand how to use the MATLAB Neural Network Toolbox and the variety of methods which can be used to classify the same dataset used when implementing decision trees.  We implemented both a single 6-way classifier as well as 6 different binary classifiers, where the binary classifiers were later combined to produce a single classification of the data.
 \paragraph{}
-We start by implementing the two classifiers: a single six-output neural network, and a six single-output neural networks; and test them. Then we optimise them by chosing the optimal parameter set, and eventually test their performances.
+The MATLAB Neural Network Toolbox provides a great deal of flexibility in specifying the exact network topology, performance measurement function, learning rate (when computing weights via stochastic gradient descent, transfer/activation function, and training function, and we learned the relative merits of these tools throughout the course of the assignment.  The most important lesson we learned is that this machine learning technique is extremely powerful, but the search for an optimal network is extremely computationally intensive.  The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  In this report, we will show our results for the classification rate of the sample data for different network topologies, activation and transfer functions, as well as the effects of a variable learning rate. 
 
 \chapter{Naïve networks}
 \paragraph{}
