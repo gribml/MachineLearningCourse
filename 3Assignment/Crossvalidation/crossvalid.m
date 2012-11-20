@@ -22,8 +22,10 @@ function [ err ] = crossvalid( ...
             false( d - i * fold_size, 1 ) ...
         ];
         
-        net = buildNetwork(HiddenLayer, nepochs, [0.8, 0.2, 0], x2(:,trainMask), y2(:,trainMask), perfFun, lr, transFun, trainFun);
-        pred = testANN(net, x2(:,testMask));
+        for k=1:6
+            binNet{k} = buildNetwork(HiddenLayer, nepochs, [0.8, 0.2, 0], x2(:,trainMask), y2(k,trainMask), perfFun, lr, transFun, trainFun);
+        end
+        pred = testANN(binNet, x2(:,testMask));
         [~, ~, ~, ~, cr] = confusion(pred, trainOut(testMask));
         err = err + cr;
     end

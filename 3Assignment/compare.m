@@ -1,16 +1,17 @@
+function compare
+
 perfFun = 'mse';
 
-lr = [0.1, 0.2, 0.3];
+lr = 0.1;
 
-transFun = {'tansig', 'hardlim', 'logsig','purelin', 'radbasn', 'softmax' };
+transFun = {'tansig', 'logsig','purelin', 'radbasn', 'softmax' };
 
-trainFun = { 'trainlm', 'trainbfg', 'trainbr', 'traincgb', 'traincgf', 'traincgp', ...
-    'traingdm', 'traingdx', 'trainscg'}; 
+trainFun = { 'trainlm', 'trainbfg', 'trainbr', 'traincgb', 'traingdm', 'traingdx', 'trainscg'}; 
 
 nepocs = 15;
 minneurons = 3;
 neurIncr = 3;
-nneurons = 15;
+maxneurons = 12;
 for tn = 1:length(trainFun)
     
     multiNew.classRate = 0;
@@ -20,14 +21,15 @@ for tn = 1:length(trainFun)
     multiMaxCr = 0;
     singleMaxCr = 0;
     
-    for r = 1:length(lr)
-        for tf = 1:length(transFun)  
-            for i=minneurons:neurIncr:nneurons 
-                
-               str = sprintf('forLoad/perf_%s_%s_%f_%d.mat', transFun{tf}, trainFun{tn}, lr(r), i);
-               load(str);
-               if( multi.classRate > multiMaxCr)
-                   
+    for tf = 1:length(transFun)  
+        for i=minneurons:neurIncr:maxneurons 
+            for j = minneurons:neurIncr:maxneurons
+                str = sprintf('results/perf_%s_%s_%d-%d.mat', transFun{tf}, trainFun{tn}, i, j);
+                load(str);
+                strTemp = ['single1' '= single;'];
+                eval(strTemp);
+                if ( multi.classRate > multiMaxCr )
+
                    multiMaxCr = multi.classRate;
                    multiNew.noNeurons = i;
                    multiNew.classRate = multi.classRate;
@@ -36,24 +38,26 @@ for tn = 1:length(trainFun)
                    multiNew.recall = multi.recall;
                    multiNew.precision = multi.precision;
                    multiNew.transferFun = multi.transferFun;
-               end
-               if( single.classRate > singleMaxCr)
-                   
-                   singleMaxCr = single.classRate;
+                end
+
+               
+               if ( single1.classRate > singleMaxCr )
+
+                   singleMaxCr = single1.classRate;
                    singleNew.noNeurons = i;
-                   singleNew.classRate = single.classRate;
-                   singleNew.learningRate = single.learningRate;
-                   singleNew.confMtrx = single.confMtrx;
-                   singleNew.recall = single.recall;
-                   singleNew.precision = single.precision;
-                   singleNew.transferFun = single.transferFun;
+                   singleNew.classRate = single1.classRate;
+                   singleNew.learningRate = single1.learningRate;
+                   singleNew.confMtrx = single1.confMtrx;
+                   singleNew.recall = single1.recall;
+                   singleNew.precision = single1.precision;
+                   singleNew.transferFun = single1.transferFun;
                end
-            end
-            clear multi;
-            clear single;
+           end
         end
+        clear multi;
+        clear single;
     end
-    save(sprintf('bestResults/%s.mat', trainFun{tn}), 'singleNew', 'multiNew');
+    save(sprintf('%s.mat', trainFun{tn}), 'singleNew', 'multiNew');
     clear multiNew;
     clear singleNew;
 end

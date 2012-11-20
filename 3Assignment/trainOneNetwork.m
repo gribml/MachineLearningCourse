@@ -10,8 +10,8 @@ shuffledArray = x2(:,shuffledIndex);
 shuffledArrayResults = y2(:,shuffledIndex);
 shuffledActualResults = y(shuffledIndex);
 
-testSetNo = 300;
-trainDataNo = 500;
+testSetNo = 200;
+trainDataNo = 300;
 
 crPrevious2 = 0;
 crPrevious = 0;
@@ -39,7 +39,7 @@ while (iteration < 3 || crCurrent >= crPrevious || crPrevious >=crPrevious2)
         break;
     end
 
-    net = buildNetwork(15, 15, [0.667, 0.33, 0], trainData, trainDataResults, 'mse', 0.3, 'softmax', 'trainbr');
+    net = buildNetwork(6, 15, [0.75, 0.25, 0], trainData, trainDataResults, 'mse', 0.3, 'logsig', 'trainbr');
     pred = testANN(net, testData); 
     [~, ~, ~, ~, cr] = confusion(pred, testDataResults);
     
@@ -56,7 +56,7 @@ while (iteration < 3 || crCurrent >= crPrevious || crPrevious >=crPrevious2)
     netCurrent =net; 
     
     crCurrent = cr;
-    trainDataNo = trainDataNo + 50;
+    trainDataNo = trainDataNo + 50
     iteration = iteration + 1;
 end
 

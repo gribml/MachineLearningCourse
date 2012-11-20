@@ -1,10 +1,16 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
-\BOOKMARK [0][-]{chapter.2}{Na\357ve networks}{}% 2
-\BOOKMARK [1][-]{section.2.1}{Creating two types of neural network}{chapter.2}% 3
-\BOOKMARK [1][-]{section.2.2}{Testing the networks}{chapter.2}% 4
-\BOOKMARK [0][-]{chapter.3}{Optimised Networks}{}% 5
-\BOOKMARK [1][-]{section.3.1}{Optimizing the topology and parameters of the networks}{chapter.3}% 6
-\BOOKMARK [1][-]{section.3.2}{Train a network}{chapter.3}% 7
-\BOOKMARK [1][-]{section.3.3}{Performing 10 fold cross-validation}{chapter.3}% 8
-\BOOKMARK [1][-]{section.3.4}{Plotting performance measure}{chapter.3}% 9
-\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 10
+\BOOKMARK [0][-]{chapter.2}{Creating two types of neural networks}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Using the MATLAB Neural Networks Toolbox}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Part IV of the Coursework Assignment}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{Testing the networks}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{Optimised Networks}{}% 6
+\BOOKMARK [1][-]{section.3.1}{Optimizing the topology and parameters of the networks}{chapter.3}% 7
+\BOOKMARK [2][-]{subsection.3.1.1}{Error measure}{section.3.1}% 8
+\BOOKMARK [2][-]{subsection.3.1.2}{Optimal topology}{section.3.1}% 9
+\BOOKMARK [2][-]{subsection.3.1.3}{Optimal Parameters}{section.3.1}% 10
+\BOOKMARK [1][-]{section.3.2}{Train a network}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.3}{Performing 10 fold cross-validation}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.4}{Performance Measure \(F1\) plot}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.5}{Flowchart}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.6}{Single six-outputs VS. six single-output neural network}{chapter.3}% 15
+\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 16

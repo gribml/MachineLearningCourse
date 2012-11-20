@@ -183,72 +183,95 @@
 
 \chapter{Introduction}
 \paragraph{}
-More than only understanding how to use the MATLAB Neural Network Toolbox, the goal of this coursework is both to gain a global understanding of the inner functioning of a neural networks, and to be well aware of the variety of methods that can be used to classify the very dataset which was used while implementing decision trees.
-During this coursework, we implemented both a single 6-way classifier and 6 different binary classifiers. The former directly yields a multi-class result whereas with the latter, we got 6 different results, corresponding to a "one-against all", which we combined to produce a single classification of the data.
+
+
+%More than only understanding how to use the MATLAB Neural Network Toolbox, the goal of this coursework is both to gain a global understanding of the inner functioning of a neural networks, and to be well aware of the variety of methods that can be used to classify the very dataset which was used while implementing decision trees.
+
+%During this coursework, we implemented both a single 6-way classifier and 6 different binary classifiers. The former directly yields a multi-class result whereas with the latter, we got 6 different results, corresponding to a "one-against all", which we combined to produce a single classification of the data.
+In this report, we will show our results for the classification rate of the sample data for different network topologies, activation and transfer functions, as well as the effects of a variable learning rate.   The purpose of this coursework is to gain an understanding of neural network machine learning algorithms through the use of the MATLAB Neural Networks Toolbox and apply them in finding a classifier for emotions expressed through activation units (AU).   The answers to the questions posed in the CBC for this assignment are answered throughout this report as well.
+
+The two approaches for building this classifier are a single 6-way output neural network, or 6 binary classifiers, which then have to be combined to produce a final result.  Our combination algorithm uses a "one-against-all" approach to make this classification.
 \paragraph{}
-All along the project, we used the MATLAB Neural Network Toolbox which provides a great deal of flexibility in specifying the exact network topology, in other words, the different parameters of the neural network, namely the performance measurement function, the learning rate (when computing weights via stochastic gradient descent), the transfer (or activation) function and the training function.
+The MATLAB Neural Network Toolbox provides a great deal of flexibility in specifying the network topology, the parameters of the neural network, such as the performance measurement function, the learning rate (when computing weights via stochastic gradient descent), the transfer (or activation) function, and the training function.
 
 \chapter{Creating two types of neural networks}
 \paragraph{}
-First, we built two neural networks classifier to find a predictive model for emotions from Action Units (AU).
-\section{Implementation of neural networks with the Matlab Toolbox}
-\paragraph{} The function:
-To be able to create easily both kind of network we have created a core function:
+This section describes how we built the two neural networks classifiers.
+\section{Using the MATLAB Neural Networks Toolbox}
+\paragraph{} 
+We first created a universal function which generates neural networks to encapsulate the variety of functionally provided by the MATLAB Neural Network Toolbox:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]
-function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,  lr, tf, trainFn)
+[ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,  lr, transFn, trainFn)
 \end{lstlisting}
 \end{changemargin}
-Which build a single network according to argument parameters. 
+which returns single network with the following arguments:
 \label{ch:build}
 \begin{itemize}
-\item {\bf \textit{HiddentLayer} } is a vector controlling the number of hidden layers of the neural network, as specified by the function \textit{feedforwardnet}.
-\item {\bf \textit{epoch} } controls the number of iterations used by the training algorithm (set with the parameter trainFn) 
+\item {\bf \textit{HiddentLayer} } is a vector controlling the number of hidden layers of the neural network
+\item {\bf \textit{epoch} } controls the number of iterations used by the training algorithm (set with the parameter trainFn)
 \item {\bf \textit{datasplit} } is a vector expressing the fraction of the database which must be used as training set, validation set and testing set. The sum of the elements of the vector must be equal to $1$.
-\item {\bf \textit{$\bf x$, $\bf y$} } is the database ($x\in M_{n,m}([0,1])$ is the feature matrix, and $y\in M_{m,6}([0,1])$ the response vector where $n$ denotes the number of features and $m$ the number of elements in the database).
-\item {\bf \textit{perf} } represents the performance measure to calculate the error.
-\item {\bf \textit{lr} } is the learning rate for the training algorithm.
-\item {\bf \textit{tf} } is the training function (also call activation function) for all neurones.
-\item {\bf \textit{trainFun} } is the training algorithm.
+\item {\bf \textit{$\bf x$, $\bf y$} } are the example and target data. respectively.
+\item {\bf \textit{perf} } is the performance measure used to calculate the error.
+\item {\bf \textit{lr} } is the learning rate for the training algorithm (for those algorithms which depend on gradient descent).
+\item {\bf \textit{transFn} } is the transfer function used at each neuron.
+\item {\bf \textit{trainFn} } is the training algorithm responsible for finding optimal transfer weights.
 \end{itemize}
 We use this set-up throughout the assignment to externalize the creation of the network and to allow us to experiment with various parameter inputs when looking for an optimised network.
 \paragraph{}
-The response vector $y$ given in the matrix \textit{cleandata\_students.mat} belong to the set $[1,\hdots,6]^m$ and the feature array $x$ to $x\in M_{m,m}([0,1])$ which does not match the specification of teh function \textit{buildNetwork}. To convert these data in the appropriate form we use:
+%The response vector $y$ given in the matrix \textit{cleandata\_students.mat} belong to the set $[1,\hdots,6]^m$ and the feature array $x$ to $x\in M_{m,m}([0,1])$ which does not match the specification of the function \textit{buildNetwork}. To convert these data in the appropriate form we use:
+The data provided from the \textit{cleandata\_students.mat} dataset first needs to be converted to a format which the Neural Networks Toolbox can work with:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]
 [x2, y2] = ANNdata(x, y);
 \end{lstlisting}
 \end{changemargin}
-Henceforth, when they are not parameter of a function $x2$ and $y2$ denote the converted data whereas $x$ and $y$ denote the original data.
+Henceforth, we will take $x2$ and $y2$ to denote the converted data, whereas $x$ and $y$ denote the original data.
 \paragraph{}
-Then a single six-output neural network can be constructed by choosing the appropriate set of parameters and call this function on the whole database $(x2,y2)$. On the other hand to construct a single output neural network we only need to select the emotion we want to predict. This can be done easily by calling the function \textit{buildNetwork} on the database $(x2,y2(:,k))$ where $k\in[1,\hdots,6]$ is the emotion we want to predict.
+A single multi-output neural network can use \textit{buildNetwork} directly on a properly formatted dataset $(x2,y2)$ .  On the other hand, to construct a single-output neural network we pass a subset of the data, namely $(x2,y2(:,k))$ for $k\in\{1,2,3,4,5,6\}$,  for each emotion we want to predict and then re-combine them with the \textit{testANN} function, which will be explained in the next section.
+
+\section{Part IV of the Coursework Assignment}
+We were asked to build the two types of neural networks and we have done so in the code \textit{partFour.m}, which returns a single six-output network and a cell array of binary networks:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+[ totalnet, binaryNets ] = partFour(x, y)
+\end{lstlisting}
+\end{changemargin}
 
 \section{Testing the networks}
 \paragraph{}
-The prediction of the six-outputs neural network are obtained by calling \textit{sim} and can be converted from $M_{m,6}([0,1])$ back to $[1,\hdots,6]^m$ with the provided function \textit{NNout2labels}. The six single-output neural networks returns each, after calling \textit{sim} a prediction vector $pv\in \mathbb{R}^m$. As a result after calling \textit{sim} on each network we have a prediction array $pa\in M_{m,6}([0,1])$. As a result if the transfer function is an increasing function we can infer that each value on a line gives the strength of the element characterises an emotion. If the output space of the transfer function is $[0,1]$ we can interpret it as a probability (but it does not mean that the sum on each line is one). Hence a simple way to combine all networks is to choose the maximum value on each line and return the number of the neural network (its column number) who has done this prediction. After observing the source code of \textit{NNout2labels} we noticed that it was exactly what this function was doing. Consequently to combine the results of the six single-output neural networks, we concatenates all prediction columns in a big array and called \textit{NNout2labels} on the array, exactly like we do for the single six-outputs neural network. The function:
+The bult-in \textit{sim} method, tests new example inputs on the specified network and returns a real-valued matrix of outputs with values in $[0,1]$.  The function \textit{NNout2labels} converts these to the discrete set $\{1,2,3,4,5,6\}$, which uniquely classifies these inputs.  In the case of the six single-output neural networks, we have six arrays of outputs from the \textit{sim} function.  A transfer function that gradually increases from $0$, to $1$ in the output layer can be interpreted as a measure of probability that given input is positively classified.  Thus, by layering the prediction from the binary nets as follows:
+\begin{lstlisting}[language=Matlab, frame=single]
+t_predictions = zeros( 6, length( examples ) );
+for i=1:6
+	t_predictions(i, :) = sim( binaryNet{ i }, examples );
+end
+\end{lstlisting}
+we can pass the result directly to \textit{NNout2labels} to obtain the desired classification of the data.  The function call to classify new examples with either a set of binary networks or a single multi-ouput network is as follows:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]
-function predictions = testANN( net, examples )
+[ predictions ] = testANN( net, examples )
 \end{lstlisting}
 \end{changemargin}
-determines whether net is a six single-output or a single six-outputs neural network and compute the predictions of the vector \textit{examples}.
+
+%we need an extra step to combine the six vectors of predictions prediction vector $pv\in \mathbb{R}^m$. As a result after calling \textit{sim} on each network we have a prediction array $pa\in M_{m,6}([0,1])$. As a result if the transfer function is an increasing function we can infer that each value on a line gives the strength of the element characterises an emotion. If the output space of the transfer function is $[0,1]$ we can interpret it as a probability (but it does not mean that the sum on each line is one). Hence a simple way to combine all networks is to choose the maximum value on each line and return the number of the neural network (its column number) who has done this prediction. After observing the source code of \textit{NNout2labels} we noticed that it was exactly what this function was doing. Consequently to combine the results of the six single-output neural networks, we concatenates all prediction columns in a big array and called \textit{NNout2labels} on the array, exactly like we do for the single six-outputs neural network. The function:
 
 
 \chapter{Optimised Networks}
 \paragraph{}
-As we have seen section \ref{ch:build} building neural networks require to choose a lot of parameters which need to be tuned to obtain valid results. After explaining how we have found the optimal parameters we discuss the results and performances obtained.
+As we have seen in section \ref{ch:build}, building neural networks require choosing from a variety of parameters which need to be tuned to obtain valid results. Here, we explain how we have found these parameters and discuss the results obtained.
 \section{Optimizing the topology and parameters of the networks}
 \subsection{Error measure}
-Among four error measures possible, we have selected the Mean Square Error (MSE). The possible functions where:
+MATLAB provides four built-in error measures:
 \begin{itemize}
-\item { \bf Sum Absolute Error (SAE) and Sum Square Error (SSE):} these functions both sum the error (absolute value or square of the difference between predicted and actual value) committed over all test points. Since they are not normalized their value can increase artificially with the number of examples, therefore they are not suitable to compare performances over testing set of different size; and we prefer use their normalised version.
-\item { \bf Mean Absolute Error (MAE):} The optimal solution to the MAE is the median. In other words, this error measure penalises important misses in the same proportion than small misses. With this function we favor general accuracy with possible misses.
-\item { \bf Mean Square Error (MSE):} The optimal solution to the MSE is the mean. In other words, this error measure penalises in a bigger proportion important misses than small misses. This functions favors a less overall accuracy for a fewer number of misses.
+\item { \bf Sum Absolute Error (SAE) and Sum Square Error (SSE):} these functions both sum the error (absolute value or square of the differences between predicted and actual values) committed over all test points. %Since they are not normalized their value can increase artificially with the number of examples, therefore they are not suitable to compare performances over testing set of different size; and we prefer use their normalised version.
+\item { \bf Mean Absolute Error (MAE):} Equivalent to minimizing the variance of the Laplacian distribution
+\item { \bf Mean Square Error (MSE):} Equivalent to minimizing the variance of the Gaussian distribution
 \end{itemize}
-Since we are predicting emotions, there is no false predictions that are worst than an other. Hence MSE seems more appropriate than MAE because the proportions of mis predictions is likely to be less important.
+For our problem we chose MSE although the others would also be appropriate.  We prefer MSE or MAE over SAE or SSE because the normalization allows us to compare error rate for different sample sizes.  Furthermore, MSE is preferred over MAE because it allows for greater differentiation of sets weights which are close to the minimum.
 \subsection{Optimal topology}
 \paragraph{}
-The theory of neural tells us that with a two layers neural network, we are able to approximate any function with any wanted precision, whereas one layer neural networks doesn't allow us to deal with non-linearly separable problems. For this reason we decided to focus only on two layers neural networks.
+The theory of neural tells us that with a two layer neural network, we are able to approximate any function with any desired precision, whereas one layer neural networks doesn't allow us to deal with non-linearly separable problems. For this reason we decided to focus only on two layers neural networks.
 \subsection{Optimal Parameters}
 \label{ch:opset}
 \paragraph{}
@@ -270,27 +293,71 @@ For example we have discarded the \textit{compet} transfer function because it o
 \item \textit{trainbfg} : Broyden-Fletcher-Goldfarb-Shanno method which is similar to Newton's method
 \item \textit{trainbr} : Bayesian Regularization method is an extension to \textit{trainlm} with expected better out-of-sample performance due to regularization or weights
 \item\textit{traincgb} : Conjugate backpropagation technique
-\item \textit{traincgf} : Another conjugate backpropagation with a different update method  
-\item \textit{traincgp} : Yet another conjugate backpropagation with a different update method   
-\item \textit{traingdm} : Gradient descent with momentum changing according to the convergence path taken
-\item \textit{traingdx} : Gradient descent with momentum and an adaptive learning rate
-\item \textit{trainscg} : Scaled conjugate gradient backpropagation
+\item \textit{traincgf} : Another conjugate backpropagation with Fletcher-Reeves updates. 
+\item \textit{traincgp} : Yet another conjugate backpropagation with Polak-Ribiere updates.
+\item \textit{traingdm} : Gradient descent with momentum changing according to the convergence path taken.
+\item \textit{traingdx} : Gradient descent with momentum and an adaptive learning rate.
+\item \textit{trainscg} : Scaled conjugate gradient backpropagation.
 \end{itemize}
 \paragraph{}
-The parameter $epoch$ which represent the number of iteration of the training algorithm is not really a parameter to tune, since the higher its value is, the better will be the performances of the neural network. However setting a high value to $epoch$ leads to important computation time. In our case $epoch=20$ is a good trade-off between computation time and performances.
-
-{\color{red} Add optimal parameter set found}
+We do not tune the $epoch$ parameter since it represents a tradeoff between computational time and performance, which we have observed to decrease rapidly after the 10th epoch.  We have chosen $epoch=20$ as good trade-off between computation time and performances.
+\paragraph{}
+We created a script to iterate over various combinations of training and testing functions, network topologies, and learning rates.  Because of the vast amount of possibilities, our script, \textit{ANNScriptLite.m} iterates over a subset of these possibilities with the following settings:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+lr = 0.05:0.5:0.25;
+transFun = {'tansig', 'logsig','purelin', 'radbasn', 'softmax' };
+trainFun = { 'trainlm', 'trainbfg', 'trainbr', 'traincgb', 'traingdm', 'traingdx', 'trainscg'};
+minneurons = 3;
+neurIncr = 3;
+maxneurons = 12;
+\end{lstlisting}
+\end{changemargin}
+We did not test 3-layer networks since the theory of neural networks states that most target functions can, in theory, be approximated arbitrarily well with 1-layer or 2-layer neural networks.  With this process, we found that the optimal topology for this problem contains a single layer of 6 nodes, with the \emph{tansig} activation function and the \emph{trainbr} training algorithm with a classification rate of $87.46\%$.  Here is the result of the confusion matrix:
+\[
+cm = \left[\begin{array}{cccccc}
+32   &  6   &  1   &  2    & 4 &    0 \\
+     2&    65  &   0  &   2   &  2  &   0 \\
+     1   &  1    &28    & 0    & 1  &   3 \\
+     0   &  2     &0    &78    & 0   &  0 \\
+     2    & 5     &2   &  1   & 29   &  1 \\
+     0     &0     &3   &  0   &  1  &  61
+\end{array}
+\right]
+\]
+We also obtained a precision rate of $86.21\%$ and a recall rate of $84.81\%$.
+The full code is available in the \textit{ANNScriptLite.m} file.  We also used a script to parse through the large amount of results data generated in ".mat" files and determine the best results for each activation function (\textit{compare.m}).  The parameters for the transfer function were left at the default values:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]		
+     mu  = 0.005  Marquardt adjustment parameter
+     mu_dec = 0.1  %Factor to decrease mu
+     mu_inc  = 10   %Factor to increase mu
+     mu_max = 1e10   %Maximum mu value
+\end{lstlisting}
+\end{changemargin}
+These values will determine how quickly the algorithm converges to an optimal set of weights and should not affect the results significantly.
 
 \section{Train a network}
-{ While training one network with 6-outputs in part 7, we first tried to train the network with a fixed number of training data(500), and a fixed number of test data(300) which are picked randomly, to see how well the training data generalizes. Then we gradually increased the training data, and checked the error rate with the test data which was again picked randomly for each iteration from the remaning examples, and stopped increasing the size of training data, when the error started to get higher. Therefore, we avoided overfitting. However, the performance we got using the optimal parameters were slightly lower than the performance we got when deciding for the optimal parameters, since we tested with newly seen data for this part of the question. }
+Part VII asks to build a single six-output neural network to submit with the assignment.  To properly build this network, it is important to account for the training we have done to select the network parameters in the previous optimization stage.  We devised an algorithm to determine the optimal number of data points to use when training this dataset by training with successively increasing amounts of (shuffled) data and testing with a fixed 200-datapoint subset until the out-of-sample error begins to rise (i.e. our training step began to over fit the data).  We also reduce the data contamination due to the optimization step with the shuffling procedure.  However, we would prefer to use a larger dataset, to first select a network, then use a different set to train and test it.  We determined that 800 randomized data points perform best.  The code which performs this procedure is stored in the file \textit{trainOneNetwork.m}.
+
+%While training one network with 6-outputs in part 7, we first tried to train the network with a fixed number of training data(500), and a fixed number of test data(300) which are picked randomly, to see how well the training data generalizes. Then we gradually increased the training data, and checked the error rate with the test data which was again picked randomly for each iteration from the remaning examples, and stopped increasing the size of training data, when the error started to get higher. Therefore, we avoided overfitting. However, the performance we got using the optimal parameters were slightly lower than the performance we got when deciding for the optimal parameters, since we tested with newly seen data for this part of the question.
 
 \section{Performing 10 fold cross-validation}
-{}
+We performed 10-fold cross-validation on this trained network using the script in \textit{crossvalid.m} obtaining a classification rate of $82.1\%$ with the following MATLAB call:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]		
+[e1, ~] = crossvalid(x, y, 10, 15, 'mse', 0.1, 'tansig', 'trainbr', 6);
+\end{lstlisting}
+\end{changemargin}
+From the single-output binary networks, we obtained an error of $84.70\%$.  The function call is very similar and uses the same function:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]		
+[~, e2] = crossvalid(x, y, 10, 15, 'mse', 0.1, 'logsig', 'traingcb', 6);
+\end{lstlisting}
+\end{changemargin}
 
 \paragraph{}
-Since we have determined an optimal parameter set on a validation set, problems can arise if this validation set is used as testing set. Indeed, while selecting the optimal parameter set, the neural network could have overfit to minimise the error on the validation set; and the result of the cross-validation might be biased.
-\paragraph{}
-To avoid the introduction of bias, we should find the optimal parameters inside the cross-validation with a cross validation. This process is called double cross validation and works the following way:
+Ideally, to avoid introducing bias, we should find the optimal parameters inside the cross-validation with another cross validation. This process is called double cross validation and works as follows:
 \begin{algorithm}[H]
 \caption{Double cross-validation}
 \label{al:dcv}
@@ -305,17 +372,22 @@ To avoid the introduction of bias, we should find the optimal parameters inside 
 \end{algorithmic}
 \end{algorithm}
 \paragraph{}
-Notice that step 2) we select the optimal parameter set with a cross validation. To save computation time we could simply divide the training set $(x2,y2)$ into a sub-training set $(x2,y2)_{st}$ with $67\%$ of $(x2,y2)$, a validation set $(x2,y2)_{sv}$ with the $33\%$ remaining and select the optimal parameter set exactly the same way than in section \ref{ch:opset}.
+Notice that in step 2) we select the optimal parameter set with a cross validation. To save computation time we could simply divide the training set $(x2,y2)$ into a sub-training sets $(x2,y2)_{st}$ with $67\%$ of $(x2,y2)$, a validation set $(x2,y2)_{sv}$ with the $33\%$ remaining and select the optimal parameter set exactly the same way as in section \ref{ch:opset}.
 
-\section{Plotting performance measure}
-{\color{red} Performances}
+\section{Performance Measure ($F_1$) plot}
+Our code for cross-validation, \textit{crossvalid.m} automatically generates the plot of the performance measure, $F_1$ displayed below:
+
+
+\section{Flowchart}
+Our flowchart for the Neural Networks coursework:
+
 
 \section{Single six-outputs VS. six single-output neural network}
 \paragraph{}
-The six single-output neural network performs better than the single six-outputs neural network. The single six-outputs has the advantage to work in one block so it can infer a way to classify an emotion with information from the other emotions. On the other hand each network of six single-output only have the information for one emotion. Consequently this network has better results on small databases but its results highly depends on the way of combining the six outputs.
+The six single-output neural network performs better marginally than the single six-outputs neural network. The single six-output network has the advantage to work in one block so it can infer a way to classify an emotion with information from the other emotions. On the other hand each network of six single-output only have the information for one emotion. Consequently this network will have better results on small datasets but its results are highly dependent on the method used to combine the six outputs.
 \chapter{Conclusion}
 \paragraph{}
-Eventually, an important lesson we learned is that although Neural Networks is powerful, the search for an optimal network is extremely computationally intensive.  Different parameters yield different results which have to be tuned differently according to the context. Parameters also have to be chosen together because choosing parameters one after another could lead to a local minimum and not to the global minimum. The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  In this report, we will show our results for the classification rate of the sample data for different network topologies, activation and transfer functions, as well as the effects of a variable learning rate. 
+In conclusion, we learned that although Neural Networks are a powerful tool which can be used the search for an optimal network although it is extremely computationally intensive.  Different parameters yield different results which have to be tuned differently according to the context. Parameters also have to be chosen together because choosing parameters in succession could lead the training algorithm to converge at a local minimum and not to the global minimum. The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  Furthermore, it is extremely important to take into account the effects of overfitting when selecting from the large number of possible network parameters, and, would potentially need a larger dataset to properly train these networks.
 
 \bibliographystyle{alpha}
 \bibliography{biblio.bib}
