@@ -9,7 +9,8 @@ function [ totalnet, binaryNets ] = partFour(x, y)
     l = size(y2,1);
     binaryNets = cell( l, 1 );
     for i=1:l
-        binaryNets{i} = buildNetwork( 10, 30, [0.7,0.15,0.15], x2,y2(i,:) );        
+        binaryNets{i} = buildNetwork( 10, 30, [0.7,0.15,0.15], x2,y2(i,:), 'mse', ...
+        0.01, 'tansig', 'trainlm' );        
     end
     
 end
