@@ -12,37 +12,67 @@ shuffledActualResults = y(shuffledIndex);
 
 testSetNo = 300;
 trainDataNo = 500;
-crOld = 0;
+
+crPrevious2 = 0;
+crPrevious = 0;
 crCurrent = 0;
-count = 0;
-while count < 3
+iteration = 0;
+
+while (iteration < 3 || crCurrent >= crPrevious || crPrevious >=crPrevious2)
     %get training data
     trainData = shuffledArray(:,1:trainDataNo);
     trainDataResults = shuffledArrayResults(:,1:trainDataNo);
-
-    %get test data(200 records)
+    
     %shuffle the remainders of the shuffled array to get test data
-
     testShuffledIndex = 0;
 
     remainder = count-trainDataNo;
     if(remainder > testSetNo)
-        rem = shuffledArray(:,remainder:testSetNo);
+        rem = shuffledArray(:,trainDataNo+1:count);
         testShuffledIndex = randperm(size(rem,2));
         newShuffledArray = rem(:,testShuffledIndex);
-        testData =newShuffledArray(:,1:testSetNo); 
-        testDataResultsTemp =  shuffledActualResults(:,testShuffledIndex);
-        testDataResults =  testDataResultsTemp(:,1:testSetNo);
+        testData=newShuffledArray(:,1:testSetNo);
+        testDataResultsTemp =  shuffledActualResults(trainDataNo+1  :count);
+        testDataResultsTempShuffle = testDataResultsTemp(testShuffledIndex);
+        testDataResults =  testDataResultsTempShuffle(1:testSetNo);
+    else
+        break;
     end
-
-    testDataResults =  shuffledActualResults((count-testSetNo):count);
 
     net = buildNetwork(15, 15, [0.667, 0.33, 0], trainData, trainDataResults, 'mse', 0.3, 'softmax', 'trainbr');
     pred = testANN(net, testData); 
     [~, ~, ~, ~, cr] = confusion(pred, testDataResults);
-    crCurrent = cr;
-    if crOld == 0
-        crOld = cr;
+    
+    if(iteration > 1)
+        crPrevious2 = crPrevious;
+        netPrev2 = netPrev; 
     end
-    if(crOld = )
+    
+    if(iteration > 0)
+        crPrevious = crCurrent;
+        netPrev = netCurrent;
+    end
+ 
+    netCurrent =net; 
+    
+    crCurrent = cr;
+    trainDataNo = trainDataNo + 50;
+    iteration = iteration + 1;
 end
+
+if(crCurrent > crPrevious && crCurrent > crPrevious2)
+    cr = crCurrent;
+    trainDataNoFinal = trainDataNo-50;
+    net = netCurrent;
+   
+elseif(crPrevious>crCurrent && crPrevious>crPrevious2)
+    cr = crPrevious;
+    trainDataNoFinal = trainDataNo - 100;
+    net = netPrev;
+else
+    cr = crPrevious2;
+      net = netPrev2;
+    trainDataNoFinal = trainDataNo - 150;
+end
+
+ save('trainOneFunc.mat', 'net','trainDataNoFinal');
