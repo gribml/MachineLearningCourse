@@ -1,15 +1,16 @@
 function [ err ] = crossvalid( ...
-    trainFunc, testFunc, error, trainIn, trainOut, folds ...
+    trainIn, trainOut, Nfolds, nepochs, perfFun, lr, transFun, trainFun, HiddenLayer ...
 )
-
+    
     shuffle_mask = randperm( length( trainIn ) );
     trainIn = trainIn( shuffle_mask, : );
     trainOut = trainOut( shuffle_mask );
+    [x2,y2]=ANNdata(trainIn,trainOut);
 
     d = length( trainIn );
-    fold_size = floor( d / folds );
+    fold_size = floor( d / Nfolds );
     err = 0;
-    for i=1:folds
+    for i=1:Nfolds
         trainMask = [ ...
             true( ( i - 1 ) * fold_size, 1 ); ...
             false( fold_size, 1 ); ...
@@ -21,12 +22,11 @@ function [ err ] = crossvalid( ...
             false( d - i * fold_size, 1 ) ...
         ];
         
-        params = trainFunc( ...
-            trainIn( trainMask, : ), trainOut( trainMask ) ...
-        );
-        res = testFunc( trainIn( testMask, : ), params );
-        err = err + error( trainOut( testMask ), res );
+        net = buildNetwork(HiddenLayer, nepochs, [0.8, 0.2, 0], x2(:,trainMask), y2(:,trainMask), perfFun, lr, transFun, trainFun);
+        pred = testANN(net, x2(:,testMask));
+        [~, ~, ~, ~, cr] = confusion(pred, trainOut(testMask));
+        err = err + cr;
     end
-    err = err / folds;
+    err = err / Nfolds;
 end
 
