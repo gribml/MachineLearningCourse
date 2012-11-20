@@ -282,13 +282,13 @@ The parameter $epoch$ which represent the number of iteration of the training al
 {\color{red} Add optimal parameter set found}
 
 \section{Train a network}
-{\color{red} entire dataset to train the network ?}
+{ While training one network with 6-outputs in part 7, we first tried to train the network with a fixed number of training data(500), and a fixed number of test data(300) which are picked randomly, to see how well the training data generalizes. Then we gradually increased the training data, and checked the error rate with the test data which was again picked randomly for each iteration from the remaning examples, and stopped increasing the size of training data, when the error started to get higher. Therefore, we avoided overfitting. However, the performance we got using the optimal parameters were slightly lower than the performance we got when deciding for the optimal parameters, since we tested with newly seen data for this part of the question. }
 
 \section{Performing 10 fold cross-validation}
-{\color{red} confusions matrix ?}
+{}
 
 \paragraph{}
-Since we have determined an optimal parameter set on a validation set, problems can arise if this validation set is used as testing set. Indeed, while selecting the optimal parameter set, the neural network could have over fit to minimise the error on the validation set; and the result of the cross-validation might be biased.
+Since we have determined an optimal parameter set on a validation set, problems can arise if this validation set is used as testing set. Indeed, while selecting the optimal parameter set, the neural network could have overfit to minimise the error on the validation set; and the result of the cross-validation might be biased.
 \paragraph{}
 To avoid the introduction of bias, we should find the optimal parameters inside the cross-validation with a cross validation. This process is called double cross validation and works the following way:
 \begin{algorithm}[H]
