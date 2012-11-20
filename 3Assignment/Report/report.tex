@@ -211,6 +211,7 @@ Which build a single network according to argument parameters.
 \item {\bf \textit{tf} } is the training function (also call activation function) for all neurones.
 \item {\bf \textit{trainFun} } is the training algorithm.
 \end{itemize}
+We use this set-up throughout the assignment to externalize the creation of the network and to allow us to experiment with various parameter inputs when looking for an optimised network.
 \paragraph{}
 The response vector $y$ given in the matrix \textit{cleandata\_students.mat} belong to the set $[1,\hdots,6]^m$ and the feature array $x$ to $x\in M_{m,m}([0,1])$ which does not match the specification of teh function \textit{buildNetwork}. To convert these data in the appropriate form we use:
 \begin{changemargin}{-5mm}{-5mm}
@@ -251,20 +252,43 @@ The theory of neural tells us that with a two layers neural network, we are able
 \subsection{Optimal Parameters}
 \label{ch:opset}
 \paragraph{}
-To tune the parameters: $HiddenLayer$ (number of neurons, depends on the topology), $lr$ (learning rate), $tf$ (transfer function), $trainFn$ (training algorithm) we used a search grid. It is an 4 dimensions array where each cell correspond to a possible combination of $HiddenLayer$, $lr$, $tf$, $trainFn$. We train a neural network for each cell of the array with 67\% of the original database and test it on a validation set with the 37\% remaining elements of the database. Hence the optimal parameter set correspond to the cell which has minimise the error on the validation set.
+To tune the parameters: \textit{HiddenLayer} (number of neurons, depends on the topology), \textit{lr} (learning rate), \textit{tf} (transfer function), \textit{trainFn} (training algorithm) we used a search grid. It is an 4 dimensions array where each cell correspond to a possible combination of \textit{HiddenLayer}, \textit{lr}, \textit{tf}, \textit{trainFn}. We train a neural network for each cell of the array with 67\% of the original database and test it on a validation set with the 37\% remaining elements of the database. Hence the optimal parameter set correspond to the cell which has minimise the error on the validation set.
+\paragraph{}
+We have tested a variety of potential inputs for the \textit{activation function}, \textit{number of neurons}, \textit{training function}, and learning rate.  After some research, the following activation functions remained the most directly applicable ones to test:
+\begin{itemize}
+\item \textit{tansig} : $\text{tansig}(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$
+\item \textit{tansig} : $\text{hardlim}(x) = 1$ for $x>0$ and $\text{hardlim}(x) = 0$ for $x \leq 0$.
+\item \textit{logsig} : $\text{logsig}(x) = (1 + e^{-x})^{-1}$
+\item\textit{purelin} : $\text{purelin}(x) = x$
+\item \textit{radbasn} : $\text{radbasn}(x) = e^{-(x)^2}$
+\item \textit{softmax} : $\text{softmax}_i(q) = \frac{e^{q_i}}{\sum_1^n e^{q_j}}$
+\end{itemize}
+\paragraph{}
+For example we have discarded the \textit{compet} transfer function because it only select one attribute. Furthermore, we have narrowed down the training functions used to approach the solution to the following:
+\begin{itemize}
+\item \textit{trainlm} : Levenberg-Marquardt method which interpolates between Gauss-Neuton and gradient descent methods.
+\item \textit{trainbfg} : Broyden-Fletcher-Goldfarb-Shanno method which is similar to Newton's method
+\item \textit{trainbr} : Bayesian Regularization method is an extension to \textit{trainlm} with expected better out-of-sample performance due to regularization or weights
+\item\textit{traincgb} : Conjugate backpropagation technique
+\item \textit{traincgf} : Another conjugate backpropagation with a different update method  
+\item \textit{traincgp} : Yet another conjugate backpropagation with a different update method   
+\item \textit{traingdm} : Gradient descent with momentum changing according to the convergence path taken
+\item \textit{traingdx} : Gradient descent with momentum and an adaptive learning rate
+\item \textit{trainscg} : Scaled conjugate gradient backpropagation
+\end{itemize}
 \paragraph{}
 The parameter $epoch$ which represent the number of iteration of the training algorithm is not really a parameter to tune, since the higher its value is, the better will be the performances of the neural network. However setting a high value to $epoch$ leads to important computation time. In our case $epoch=20$ is a good trade-off between computation time and performances.
 
 {\color{red} Add optimal parameter set found}
 
 \section{Train a network}
-{\color{red} entire dataset to train the network ?}
+{ While training one network with 6-outputs in part 7, we first tried to train the network with a fixed number of training data(500), and a fixed number of test data(300) which are picked randomly, to see how well the training data generalizes. Then we gradually increased the training data, and checked the error rate with the test data which was again picked randomly for each iteration from the remaning examples, and stopped increasing the size of training data, when the error started to get higher. Therefore, we avoided overfitting. However, the performance we got using the optimal parameters were slightly lower than the performance we got when deciding for the optimal parameters, since we tested with newly seen data for this part of the question. }
 
 \section{Performing 10 fold cross-validation}
-{\color{red} confusions matrix ?}
+{}
 
 \paragraph{}
-Since we have determined an optimal parameter set on a validation set, problems can arise if this validation set is used as testing set. Indeed, while selecting the optimal parameter set, the neural network could have over fit to minimise the error on the validation set; and the result of the cross-validation might be biased.
+Since we have determined an optimal parameter set on a validation set, problems can arise if this validation set is used as testing set. Indeed, while selecting the optimal parameter set, the neural network could have overfit to minimise the error on the validation set; and the result of the cross-validation might be biased.
 \paragraph{}
 To avoid the introduction of bias, we should find the optimal parameters inside the cross-validation with a cross validation. This process is called double cross validation and works the following way:
 \begin{algorithm}[H]
