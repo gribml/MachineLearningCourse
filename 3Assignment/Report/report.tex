@@ -253,6 +253,8 @@ To tune the parameters: $HiddenLayer$ (number of neurons, depends on the topolog
 \paragraph{}
 The parameter $epoch$ which represent the number of iteration of the training algorithm is not really a parameter to tune, since the higher its value is, the better will be the performances of the neural network. However setting a high value to $epoch$ leads to important computation time. In our case $epoch=20$ is a good tradeoff between computation time and performances.
 
+{\color{red} Add optimal parameter set found}
+
 \section{Train a network}
 {\color{red} entire dataset to train the network ?}
 
@@ -282,10 +284,11 @@ Notice that step 2) we select the optimal parameter set with a cross validation.
 \section{Plotting performance measure}
 {\color{red} Performances}
 
-\section{Single six-outputs VS. Six single-output neural network}
+\section{Single six-outputs VS. six single-output neural network}
 \paragraph{}
-the six single-output neural network is more performant than
-
+The six single-output neural network is more performant than the single six-outputs neural network. The single six-outputs has the advantage to work in one block so it can infer a way to classify an emotion with information from the other emotions. On the other hand each network of six single-output only have the information for one emotion. Consequently this network has better results on small databases but its results highly depends on the way of combining the six outputs.
+Explain what strategy you employed to ensure good generalisation ability of the networks
+and overcome the problem of overfitting
 \chapter{Conclusion}
 \paragraph{}
 Eventually, the most important lesson we learned is that although Neural Networks is powerful, zhe search for an optimal network is extremely computationally intensive.  The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  In this report, we will show our results for the classification rate of the sample data for different network topologies, activation and transfer functions, as well as the effects of a variable learning rate. 
