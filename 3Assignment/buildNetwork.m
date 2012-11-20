@@ -11,6 +11,7 @@ function [ network ] = buildNetwork( HiddenLayer, epochs, dataSplit, x, y, perf,
 %    trainFn (string) - training function 
 
     [ network ] = feedforwardnet( HiddenLayer, trainFn );
+    network.trainParam.showWindow = 0;
     [ network ] = configure( network, x, y );
 
     network.trainParam.epochs = epochs;
