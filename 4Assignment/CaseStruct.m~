@@ -1,0 +1,14 @@
+classdef CASE < thandle
+   properties
+       x_indices;
+       y_indices;
+       timesRetrieved;
+       
+   methods
+       function CASE(x, y)
+           obj.x = x_indices;
+           obj.y = y_indices;
+           obj.timesRetrieved = 0;
+       end
+
+end
