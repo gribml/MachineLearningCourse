@@ -27,8 +27,8 @@
 \contentsline {paragraph}{}{10}{paragraph*.17}
 \contentsline {paragraph}{}{11}{paragraph*.18}
 \contentsline {section}{\numberline {3.4}Performance Measure ($F_1$) plot}{11}{section.3.4}
-\contentsline {section}{\numberline {3.5}Flowchart}{11}{section.3.5}
-\contentsline {section}{\numberline {3.6}Single six-outputs VS. six single-output neural network}{11}{section.3.6}
-\contentsline {paragraph}{}{11}{paragraph*.19}
-\contentsline {chapter}{\numberline {4}Conclusion}{12}{chapter.4}
-\contentsline {paragraph}{}{12}{paragraph*.20}
+\contentsline {section}{\numberline {3.5}Flowchart}{13}{section.3.5}
+\contentsline {section}{\numberline {3.6}Single six-outputs VS. six single-output neural network}{14}{section.3.6}
+\contentsline {paragraph}{}{14}{paragraph*.19}
+\contentsline {chapter}{\numberline {4}Conclusion}{15}{chapter.4}
+\contentsline {paragraph}{}{15}{paragraph*.20}

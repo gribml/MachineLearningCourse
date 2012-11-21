@@ -39,8 +39,8 @@ while (iteration < 3 || crCurrent >= crPrevious || crPrevious >=crPrevious2)
         break;
     end
 
-    finalNetwork = buildNetwork(6, 15, [0.75, 0.25, 0], trainData, trainDataResults, 'mse', 0.1, 'logsig', 'trainbr');
-    pred = testANN(finalNetwork, testData); 
+    net = buildNetwork(6, 15, [0.75, 0.25, 0], trainData, trainDataResults, 'mse', 0.1, 'logsig', 'trainbr');
+    pred = testANN(net, testData); 
     [~, ~, ~, ~, cr] = confusion(pred, testDataResults);
     
     if(iteration > 1)
@@ -53,26 +53,26 @@ while (iteration < 3 || crCurrent >= crPrevious || crPrevious >=crPrevious2)
         netPrev = netCurrent;
     end
  
-    netCurrent =finalNetwork; 
+    netCurrent =net; 
     
     crCurrent = cr;
-    trainDataNo = trainDataNo + 50;
+    trainDataNo = trainDataNo + 50
     iteration = iteration + 1;
 end
 
 if(crCurrent > crPrevious && crCurrent > crPrevious2)
     cr = crCurrent;
     trainDataNoFinal = trainDataNo-50;
-    finalNetwork = netCurrent;
+    net = netCurrent;
    
 elseif(crPrevious>crCurrent && crPrevious>crPrevious2)
     cr = crPrevious;
     trainDataNoFinal = trainDataNo - 100;
-    finalNetwork = netPrev;
+    net = netPrev;
 else
     cr = crPrevious2;
-      finalNetwork = netPrev2;
+      net = netPrev2;
     trainDataNoFinal = trainDataNo - 150;
 end
 
- save('finalNetwork.mat', 'finalNetwork','trainDataNoFinal');
+ save('trainOneFunc.mat', 'net','trainDataNoFinal');

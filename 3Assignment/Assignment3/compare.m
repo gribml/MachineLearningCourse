@@ -26,6 +26,8 @@ for tn = 1:length(trainFun)
             for j = minneurons:neurIncr:maxneurons
                 str = sprintf('results/perf_%s_%s_%d-%d.mat', transFun{tf}, trainFun{tn}, i, j);
                 load(str);
+                strTemp = ['single1' '= single;'];
+                eval(strTemp);
                 if ( multi.classRate > multiMaxCr )
 
                    multiMaxCr = multi.classRate;
@@ -37,7 +39,8 @@ for tn = 1:length(trainFun)
                    multiNew.precision = multi.precision;
                    multiNew.transferFun = multi.transferFun;
                 end
-               cdflib.renameVar(single,varNum,newName)
+
+               
                if ( single1.classRate > singleMaxCr )
 
                    singleMaxCr = single1.classRate;

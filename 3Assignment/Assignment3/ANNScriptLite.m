@@ -11,7 +11,7 @@ function ANNScriptLite
 perfFun = 'mse';
 
 
-lr = 0.05:0.05:0.25;
+lr = 0.1;
 
 transFun = {'tansig', 'logsig','purelin', 'radbasn', 'softmax' };
 

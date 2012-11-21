@@ -343,16 +343,10 @@ Part VII asks to build a single six-output neural network to submit with the ass
 %While training one network with 6-outputs in part 7, we first tried to train the network with a fixed number of training data(500), and a fixed number of test data(300) which are picked randomly, to see how well the training data generalizes. Then we gradually increased the training data, and checked the error rate with the test data which was again picked randomly for each iteration from the remaning examples, and stopped increasing the size of training data, when the error started to get higher. Therefore, we avoided overfitting. However, the performance we got using the optimal parameters were slightly lower than the performance we got when deciding for the optimal parameters, since we tested with newly seen data for this part of the question.
 
 \section{Performing 10 fold cross-validation}
-We performed 10-fold cross-validation on this trained network using the script in \textit{crossvalid.m} obtaining a classification rate of $82.1\%$ with the following MATLAB call:
+We performed 10-fold cross-validation on this trained network using the script in \textit{crossvalid.m} obtaining a classification rate of $82.1\%$ and from the single-output binary networks, we obtained an error of $84.70\%$ with the following MATLAB call:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]		
-[e1, ~] = crossvalid(x, y, 10, 15, 'mse', 0.1, 'tansig', 'trainbr', 6);
-\end{lstlisting}
-\end{changemargin}
-From the single-output binary networks, we obtained an error of $84.70\%$.  The function call is very similar and uses the same function:
-\begin{changemargin}{-5mm}{-5mm}
-\begin{lstlisting}[language=Matlab, frame=single]		
-[~, e2] = crossvalid(x, y, 10, 15, 'mse', 0.1, 'logsig', 'traingcb', 6);
+[ f1_s, f1_m, cr_s, cr_m ] = crossvalid(x, y, 10, 15, 'mse', 0.1, 'logsig', 'traincgb', 'tansig', 'trainbr', 6 ,6);
 \end{lstlisting}
 \end{changemargin}
 
@@ -375,19 +369,53 @@ Ideally, to avoid introducing bias, we should find the optimal parameters inside
 Notice that in step 2) we select the optimal parameter set with a cross validation. To save computation time we could simply divide the training set $(x2,y2)$ into a sub-training sets $(x2,y2)_{st}$ with $67\%$ of $(x2,y2)$, a validation set $(x2,y2)_{sv}$ with the $33\%$ remaining and select the optimal parameter set exactly the same way as in section \ref{ch:opset}.
 
 \section{Performance Measure ($F_1$) plot}
-Our code for cross-validation, \textit{crossvalid.m} automatically generates the plot of the performance measure, $F_1$ displayed below:
+Our code for cross-validation, \textit{crossvalid.m} returns a vector of the $F_1$ measure as well as the average classification rate for each of the two types of networks.  A few commands produce the below plots:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]		
+plot(1:10, e1, '-b', 'LineWidth', 2);
+xlabel('fold'); ylabel('F1 performance measure');
+title('Performance of Single 6-Way Classifier Over 10 Folds');
+grid on
+plot(1:10, e2, '-b', 'LineWidth', 2);
+xlabel('fold'); ylabel('F1 performance measure');
+title('Performance of Combination of Multiple Binary Classifiers Over 10 Folds');
+grid on
+\end{lstlisting}
+\end{changemargin}
 
+
+\begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
+\center
+\includegraphics[scale=0.5]{single_perf.jpg}
+\caption{Performance Measure of the 6-way output Neural Net}
+\end{changemargin}
+\end{figure}
+
+\begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
+\center
+\includegraphics[scale=0.5]{multi_perf.jpg}
+\caption{Performance Measure of the Combined Binary Neural Nets}
+\end{changemargin}
+\end{figure}
 
 \section{Flowchart}
 Our flowchart for the Neural Networks coursework:
-
+\begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
+\center
+\includegraphics[scale=0.5]{overall.jpg}
+\caption{Data Flow in ANN Code}
+\end{changemargin}
+\end{figure}
 
 \section{Single six-outputs VS. six single-output neural network}
 \paragraph{}
 The six single-output neural network performs better marginally than the single six-outputs neural network. The single six-output network has the advantage to work in one block so it can infer a way to classify an emotion with information from the other emotions. On the other hand each network of six single-output only have the information for one emotion. Consequently this network will have better results on small datasets but its results are highly dependent on the method used to combine the six outputs.
 \chapter{Conclusion}
 \paragraph{}
-In conclusion, we learned that although Neural Networks are a powerful tool which can be used the search for an optimal network although it is extremely computationally intensive.  Different parameters yield different results which have to be tuned differently according to the context. Parameters also have to be chosen together because choosing parameters in succession could lead the training algorithm to converge at a local minimum and not to the global minimum. The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  Furthermore, it is extremely important to take into account the effects of overfitting when selecting from the large number of possible network parameters, and, would potentially need a larger dataset to properly train these networks.
+In conclusion, we learned that Neural Networks are powerful tools which can be used in a variety of machine learning problems, the search for an optimal network is extremely computationally intensive.  Different parameters yield significantly different results which have to be tuned differently according to the context. Parameters also have to be chosen together because choosing parameters in succession could lead the training algorithm to converge at a local minimum and not to the global minimum. The advent of back propagation in conjunction with stochastic gradient descent in the 1970s, when optimizing node weights, accelerated the study of neural networks for real-world applications, spawning the use of a variety of \emph{performance measures}, \emph{activation functions} (a.k.a. transfer functions), and \emph{training functions}.  Lastly, we learned that it is extremely important to take into account the effects of overfitting when selecting from the large number of possible network parameters, and, would potentially need a larger dataset to properly train these networks.
 
 \bibliographystyle{alpha}
 \bibliography{biblio.bib}
