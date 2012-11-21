@@ -2,7 +2,7 @@ function compare
 
 perfFun = 'mse';
 
-lr = 0.1;
+lr = 0.2;
 
 transFun = {'tansig', 'logsig','purelin', 'radbasn', 'softmax' };
 
@@ -23,15 +23,15 @@ for tn = 1:length(trainFun)
     
     for tf = 1:length(transFun)  
         for i=minneurons:neurIncr:maxneurons 
-            for j = minneurons:neurIncr:maxneurons
-                str = sprintf('results/perf_%s_%s_%d-%d.mat', transFun{tf}, trainFun{tn}, i, j);
+            for j = 0:neurIncr:maxneurons
+                str = sprintf('results/perf_%s_%s_%f_%d-%d.mat', transFun{tf}, trainFun{tn}, lr, i, j);
                 load(str);
                 strTemp = ['single1' '= single;'];
                 eval(strTemp);
                 if ( multi.classRate > multiMaxCr )
 
                    multiMaxCr = multi.classRate;
-                   multiNew.noNeurons = i;
+                   multiNew.noNeurons = [i, j];
                    multiNew.classRate = multi.classRate;
                    multiNew.learningRate = multi.learningRate;
                    multiNew.confMtrx = multi.confMtrx;
@@ -44,7 +44,7 @@ for tn = 1:length(trainFun)
                if ( single1.classRate > singleMaxCr )
 
                    singleMaxCr = single1.classRate;
-                   singleNew.noNeurons = i;
+                   singleNew.noNeurons = [i, j];
                    singleNew.classRate = single1.classRate;
                    singleNew.learningRate = single1.learningRate;
                    singleNew.confMtrx = single1.confMtrx;

@@ -32,13 +32,14 @@ for tf = 1:length(transFun)
 %    FID_multi = fopen(sprintf('results/perf_results_multi_%s.txt', transFun{tf}), 'w');
     single.transferFun = transFun{tf};
     multi.transferFun = transFun{tf};
-    single.learningRate = lr;
-    multi.learningRate = lr;
+    for r = 1:length(lr)
+    single.learningRate = lr(r);
+    multi.learningRate = lr(r);
 	for tn = 1:length(trainFun)
         single.trainFun = trainFun{tn};
         multi.trainFun = trainFun{tn};
         sprintf('**********************************************************************')
-        sprintf('prefFun=%s, lr=%d, tranFun=%s, trainFun=%s', perfFun, lr, transFun{tf}, trainFun{tn})
+        sprintf('prefFun=%s, lr=%d, tranFun=%s, trainFun=%s', perfFun, lr(r), transFun{tf}, trainFun{tn})
         for i=minneurons:neurIncr:maxneurons
             for j = 0:neurIncr:maxneurons
                 % split data 67% training 33% testing
@@ -48,7 +49,7 @@ for tf = 1:length(transFun)
                 
                 % train and test the single output neural network
                 single.numNeurons = [i,j];
-                net = buildNetwork(i, nepocs, [0.75, 0.25, 0], x2(:,trainmask), y2(:,trainmask), perfFun, lr, transFun{tf}, trainFun{tn});
+                net = buildNetwork(i, nepocs, [0.75, 0.25, 0], x2(:,trainmask), y2(:,trainmask), perfFun, lr(r), transFun{tf}, trainFun{tn});
                 pred = testANN(net, x2(:,valmask));
                 [cm, rc, pr, f, cr] = confusion(pred, y(valmask));
 %                fprintf(FID_single, 'for one 6-outputted NN: /n(%s, %f, %s, %s): %f', perfFun, lr(r), transFun{tf}, trainFun{tn});
@@ -63,7 +64,7 @@ for tf = 1:length(transFun)
                 l = size(y2,1);
                 binaryNets = cell( l, 1 );
                 for k=1:l
-                    binaryNets{k} = buildNetwork( i, nepocs, [0.75, 0.25, 0], x2(:,trainmask), y2(k,trainmask), perfFun, lr, transFun{tf}, trainFun{tn} );
+                    binaryNets{k} = buildNetwork( i, nepocs, [0.75, 0.25, 0], x2(:,trainmask), y2(k,trainmask), perfFun, lr(r), transFun{tf}, trainFun{tn} );
                 end
                 pred2 = testANN(binaryNets, x2(:,valmask));
                 [cm, rc, pr, f, cr] = confusion(pred2, y(valmask));
@@ -75,10 +76,11 @@ for tf = 1:length(transFun)
                 multi.F = f;
                 multi.precision = pr;
                 multi.classRate = cr;
-                save(sprintf('results/perf_%s_%s_%d-%d.mat', transFun{tf}, trainFun{tn}, i, j), 'single', 'multi');
+                save(sprintf('results/perf_%s_%s_%f_%d-%d.mat', transFun{tf}, trainFun{tn}, lr(r), i, j), 'single', 'multi');
             end
         end
-	end
+    end
+    end
 %    fclose(FID_single);
 %    fclose(FID_multi);
 end

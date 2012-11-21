@@ -352,20 +352,54 @@ We performed 10-fold cross-validation on this trained network using the script i
 
 \paragraph{}
 Ideally, to avoid introducing bias, we should find the optimal parameters inside the cross-validation with another cross validation. This process is called double cross validation and works as follows:
+%\begin{algorithm}[H]
+%\caption{Double cross-validation}
+%\label{al:dcv}
+%\begin{algorithmic}[1]
+%\STATE Randomly split respectively $(x, y)$ into $n$ subsamples $(x^{(1)}, y^{(1)}),\hdots,(x^{(n)}, y^{(n)})$
+%\FOR{$k=1\hdots n$} 
+%    \STATE 1) Create the training base $(x2,y2)=(x, y)\setminus(x^{(k)}, y^{(k)})$.
+%    \STATE 2) On the training base $(x2,y2)$ find the optimal parameter set with a grid search by measuring the error with a cross validation.
+%    \STATE 3) Evaluate the error $E_k$ on the testing set $x^{(k)}, y^{(k)}$
+%\ENDFOR
+%\STATE {\bf return } the average error of $E_k$.
+%\end{algorithmic}
+%\end{algorithm}
+%\paragraph{}
+
 \begin{algorithm}[H]
-\caption{Double cross-validation}
-\label{al:dcv}
-\begin{algorithmic}[1]
-\STATE Randomly split respectively $(x, y)$ into $n$ subsamples $(x^{(1)}, y^{(1)}),\hdots,(x^{(n)}, y^{(n)})$
-\FOR{$k=1\hdots n$} 
-    \STATE 1) Create the training base $(x2,y2)=(x, y)\setminus(x^{(k)}, y^{(k)})$.
-    \STATE 2) On the training base $(x2,y2)$ find the optimal parameter set with a grid search by measuring the error with a cross validation.
-    \STATE 3) Evaluate the error $E_k$ on the testing set $x^{(k)}, y^{(k)}$
-\ENDFOR
-\STATE {\bf return } the average error of $E_k$.
-\end{algorithmic}
-\end{algorithm}
-\paragraph{}
+     \caption{\small Double cross validation}
+     \label{alg:double_cross_val} 
+     \begin{algorithmic}
+       \STATE \begin{tabular}{@{\hspace{0cm}}p{1.4cm}l}
+       \textbf{Parameters}  & $(x, y)$ : observation matrix and the vector of associated labels.\\
+           & $C$ : hyper-parameters vector\\
+           & $K_{ext}$ : number of folds for the outer loop\\
+           & $K_{int}$ : number of folds for the inner loop\\
+       \end{tabular}
+       \STATE $KFold_{ext} \leftarrow \text{ divide x into } K_{ext} \text{ folds}$\\
+     \FOR{i \textbf{from} 1 \TO $K_{ext}$}
+         \STATE $\text{valid}_{ext}[i] \leftarrow 1 \text{ bloc of } KFold_{ext}$
+         \STATE $\text{train}_{ext}[i] \leftarrow \text{ the other blocks of } KFold_{ext}$
+         \STATE $KFold_{int} \leftarrow \text{ divide train}_{ext}[i] \text{ into } K_{int} \text{ folds}$\\
+         \FOR{j \textbf{from} 1 \TO $K_{int}$}
+            \STATE $\text{valid}_{int}[j] \leftarrow 1 \text{ bloc of } KFold_{int}$
+            \STATE $\text{train}_{int}[j] \leftarrow \text{ the other blocks of } KFold_{int}$
+            \FOR{k \textbf{from} 1 \TO size(C)}
+               \STATE $\text{model}_{int}$[j, k] $\leftarrow$ fit-algorithm($\text{train}_{int}[j]$)
+               \STATE $\text{error}_{int}$[j, k] $\leftarrow$ compute-error($\text{model}_{int}[j]$, $\text{valid}_{int}[j]$))
+            \ENDFOR
+         \ENDFOR
+         \STATE $\text{error}_{int}$[i]$ \leftarrow  \text{mean}_j( \text{error}_{int}$[j,k])
+         \STATE $\text{C}_{opt}$[i]$     \leftarrow  \text{min}( \text{error}_{int}$[i])
+         \STATE $\text{model}_{ext}$[i]$ \leftarrow  \text{fit-algorithm}( \text{train}_{ext}$[i], $\text{C}_{opt}$[i])
+         \STATE $\text{error}_{ext}$[i]$ \leftarrow  \text{compute-error}( \text{model}_{ext}$[i], $\text{valid}_{ext}$[i])
+     \ENDFOR 
+     \STATE $\text{error}_{test} \leftarrow  \text{mean}_i( \text{error}_{ext}$[i])
+     \RETURN $\text{error}_{test}$ 
+     \end{algorithmic}
+   \end{algorithm}
+
 Notice that in step 2) we select the optimal parameter set with a cross validation. To save computation time we could simply divide the training set $(x2,y2)$ into a sub-training sets $(x2,y2)_{st}$ with $67\%$ of $(x2,y2)$, a validation set $(x2,y2)_{sv}$ with the $33\%$ remaining and select the optimal parameter set exactly the same way as in section \ref{ch:opset}.
 
 \section{Performance Measure ($F_1$) plot}

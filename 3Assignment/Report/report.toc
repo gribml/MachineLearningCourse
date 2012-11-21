@@ -25,10 +25,9 @@
 \contentsline {section}{\numberline {3.2}Train a network}{10}{section.3.2}
 \contentsline {section}{\numberline {3.3}Performing 10 fold cross-validation}{10}{section.3.3}
 \contentsline {paragraph}{}{10}{paragraph*.17}
-\contentsline {paragraph}{}{11}{paragraph*.18}
 \contentsline {section}{\numberline {3.4}Performance Measure ($F_1$) plot}{11}{section.3.4}
 \contentsline {section}{\numberline {3.5}Flowchart}{13}{section.3.5}
 \contentsline {section}{\numberline {3.6}Single six-outputs VS. six single-output neural network}{14}{section.3.6}
-\contentsline {paragraph}{}{14}{paragraph*.19}
-\contentsline {chapter}{\numberline {4}Conclusion}{15}{chapter.4}
-\contentsline {paragraph}{}{15}{paragraph*.20}
+\contentsline {paragraph}{}{14}{paragraph*.18}
+\contentsline {chapter}{\numberline {4}Conclusion}{16}{chapter.4}
+\contentsline {paragraph}{}{16}{paragraph*.19}
