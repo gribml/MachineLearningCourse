@@ -1,22 +1,13 @@
 classdef CaseStr < handle
     properties
-       x_indices;
+       activeActionUnits;
        solution;
        timesRetrieved = 0;
-       N;
     end
-   
-   methods
-       function  obj = get(self)
-           obj.xindices = self.x_indices;
-           obj.y = self.solution;
-           obj.timesRetrieved = 0;
-           obj.N = self.N;
-       end
-       
+     methods
        function au = AURepresentation(self)
-           au = zeros(self.N);
-           au(self.x_indices) = 1;
+           au = zeros(1,45);
+           au(1,self.activeActionUnits) = 1;
        end
        
    end
