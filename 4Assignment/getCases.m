@@ -1,8 +1,9 @@
 function cases = getCases(x, y)
     N = length(y);
-    cases = cell(N);
+    cases = cell(1,N);
     for i=1:N
-        cases{i}.x = find(x(i,:));
-        cases{i}.y = y(i);
+        cases{i} = CaseStr;
+        cases{i}.activeActionUnits = find(x(i,:));
+        cases{i}.solution = y(i);
     end
 end
