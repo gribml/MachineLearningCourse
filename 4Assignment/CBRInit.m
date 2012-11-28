@@ -6,7 +6,7 @@ function [ CBR ] = CBRInit( x,y )
     %initialize each class
     for i=1:length(CBR.base)
         
-        CBR.base{i}.vector = cell(1,1);
+        CBR.base{i}.vector = CaseStr.empty;
         CBR.base{i}.count = 0;
         CBR.base{i}.meanVec = zeros(1,45);
         
@@ -33,13 +33,18 @@ function [ CBR ] = CBRInit( x,y )
         if(flag == 0 )
             CBR.base{c}.vector(end+1) = cases{i};
             CBR.base{c}.count = CBR.base{c}.count +1;
+            %Add for each encounteered active action unit
+            for k=1:length(cases{i}.activeActionUnits)
+                ind = cases{i}.activeActionUnits(k);
+                CBR.base{c}.meanVec(ind) = CBR.base{c}.meanVec(ind) + 1;
+            end
         end
     end
     
-    %Get the mean of them all
-    %for i=1:length(CBR.base)
-       % for(j=1:length(CBR.base.vector))
-   % end
+    % Get the mean of them all
+    for i=1:length(CBR.base)
+            CBR.base{i}.meanVec = CBR.base{i}.meanVec/CBR.base{i}.count;
+    end
     
 end
 
