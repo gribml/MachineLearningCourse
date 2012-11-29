@@ -23,7 +23,7 @@ function [ CBR ] = CBRInit( x,y )
         %Check if it was encountered before in that cluster
         for j=1:length(CBR.base{c}.vector)
             
-             if (isequal(CBR.base{c}.vector(j).activeActionUnits, cases{i}.activeActionUnits))                 
+             if (isequal(CBR.base{c}.vector(j).activeAU, cases{i}.activeAU))                 
                 flag = 1;
                 break;
             end
@@ -34,8 +34,8 @@ function [ CBR ] = CBRInit( x,y )
             CBR.base{c}.vector(end+1) = cases{i};
             CBR.base{c}.count = CBR.base{c}.count +1;
             %Add for each encounteered active action unit
-            for k=1:length(cases{i}.activeActionUnits)
-                ind = cases{i}.activeActionUnits(k);
+            for k=1:length(cases{i}.activeAU)
+                ind = cases{i}.activeAU(k);
                 CBR.base{c}.meanVec(ind) = CBR.base{c}.meanVec(ind) + 1;
             end
         end
