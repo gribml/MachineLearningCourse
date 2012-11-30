@@ -1,6 +1,6 @@
 function [ c ] = createCase( x, varargin)
-%CREATECASE Summary of this function goes here
-%   Detailed explanation goes here
+%CREATECASE returns a new CaseStr with activeAU variable instantiated
+
     c = CaseStr;
     c.activeAU = find(x);
     if(nargin > 1 )

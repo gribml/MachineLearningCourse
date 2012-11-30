@@ -1,7 +1,7 @@
 \contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
 \contentsline {chapter}{\numberline {2}Implementation of CBR}{5}{chapter.2}
 \contentsline {paragraph}{}{5}{paragraph*.3}
-\contentsline {paragraph}{}{5}{paragraph*.4}
+\contentsline {paragraph}{}{6}{paragraph*.4}
 \contentsline {paragraph}{}{6}{paragraph*.5}
 \contentsline {paragraph}{}{6}{paragraph*.6}
 \contentsline {paragraph}{}{6}{paragraph*.7}

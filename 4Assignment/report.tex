@@ -213,13 +213,7 @@ end
 \end{lstlisting}
 \end{changemargin}
 storing the indices of the active AUs, the class associated with that case, and the typicality of the case.
-
-
-\paragraph{}
-We examined a variety of similarity measures to determine the most appropriate for our classification problem.  Here are the ones we implemented:
 \begin{itemize}
-\item {\bf\textit{Minkowski:}} $d_M(a, b) = \sqrt[n]{\sum_i(a_i -b_i)^2}$
-\item {\bf\textit{Manhattan:}} (a special case of Minkowski) $d_{NYC}(a, b) = \sum_i|a_i -b_i|$
 \item {\bf\textit{commonality:}} number of same active AUs $d_C(a, b) = \|\{(a_i, b_i) \quad such\; that \quad a_i = b_i\}\|$
 \item {\bf\textit{activity:}} absolute difference in number of active AUs $d_A(a,b) = |d_{NYC}(0, a) - d_{NYC}(0, b)|$
 \item {\bf\textit{Clark:}} $d(a, b) = \sqrt{\sum_i \left( \frac{|a_i - b_i|}{a_i + b_i} \right)^2}$
