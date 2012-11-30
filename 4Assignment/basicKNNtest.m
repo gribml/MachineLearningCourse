@@ -3,15 +3,23 @@ function results = basicKNNtest(cbr, X)
 
     n_examples = size(X, 1);
     results = zeros(n_examples, 1);
+    distance = cbr.distance;
     
     for i = 1:n_examples
         
         % We compute the distances between the current example and the
         % training data
         % This is the euclidian distance, we can change it
-        distances = bsxfun(@minus, cbr.X, X(i, :));
-        distances = bsxfun(@power, distances, 2);
-        distances = sqrt(sum(distances, 2));
+        if strcmp(distance, 'euclidian')
+            distances = bsxfun(@minus, cbr.X, X(i, :));
+            distances = bsxfun(@power, distances, 2);
+            distances = sqrt(sum(distances, 2));
+        elseif strcmp(distance, 'manhattan')
+            distances = bsxfun(@minus, cbr.X, X(i, :));
+            distances = sum(abs(distances), 2);
+        elseif strcmp(distance, 'n_AU')
+            distances = abs(sum(cbr.X, 2) - sum(X(i, :)));
+        end
         
         % we take only the K first neighbours
         [sorted, indices] = sort(distances, 'ascend');
@@ -33,5 +41,9 @@ function results = basicKNNtest(cbr, X)
         end
         
         results(i) = class;
+        
+        % retain
+        cbr.X = [cbr.X; X(i, :)];
+        cbr.y = [cbr.y; class];
     end
 end

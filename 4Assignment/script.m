@@ -4,7 +4,7 @@
 load('cleandata_students.mat');
 
 % Result with Sedef's code
-error1 = cross_val(@CBRInit, @predict, x, y, 2);
+% error1 = cross_val(@CBRInit, @predict, x, y, 10)
 
 % Result with a very basic KNN algorithm
-%error2 = cross_val(@basicKNNtrain, @basicKNNtest, x, y, 20)
+error2 = cross_val(@basicKNNtrain, @basicKNNtest, x, y, 20)

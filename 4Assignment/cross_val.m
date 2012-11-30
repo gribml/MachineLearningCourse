@@ -13,7 +13,7 @@ function [ error, errors ] = cross_val( train, predict, X, y, K )
         train_indices = (mask ~= i);
         cbr = train(X(train_indices, :), y(train_indices));
         ypred = predict( cbr, X(test_indices, :));
-        errors(i) = sum(ypred ~= y(test_indices)) / length(ypred);
+        errors(i) = mean(ypred ~= y(test_indices));
     end
     error = mean(errors)
 end
