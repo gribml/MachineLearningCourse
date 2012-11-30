@@ -24,6 +24,10 @@ function [bestCase ] = retrieve( cbr,newCase )
             listClasses(i) = length(intersect(arrays{i},newCase.activeAU));
         end
         
+        % /!\ FIXME
+        % THis is an ugly hack to have the script working for now
+        listClasses = [];
+        
         %Get how many of them are active in the new example
         %
     end

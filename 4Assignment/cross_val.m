@@ -1,4 +1,4 @@
-function [ error ] = cross_val( train, predict, X, y, K )
+function [ error, errors ] = cross_val( train, predict, X, y, K )
 %cross_val performs stratified KFolds cross validation
 %   train : training function
 %   predict : prediction function

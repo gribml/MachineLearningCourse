@@ -3,14 +3,14 @@ function [ y ] = predict( cbr, X )
 
     n = size(X, 1);
     y = zeros(n, 1);
-    
     % For every example (ie every row of X)
     % Retrive the nearest neighbour
     % Reuse it
     % Retain the row
     for i = 1:n
-        bestCase = retrieve(cbr, X(i, :));
-        y = reuse(bestCase, X(i, :));
+        c = createCase(X(i, :));
+        bestCase = retrieve(cbr, c);
+        y = reuse(bestCase, c);
         % cbr = retain(cbr, X(i, :));
     end
 end
