@@ -1,7 +1,7 @@
 function [mask] = stratifiedKFold( y, K )
 %stratifiedKFold returns a mask indices, each of which represents a testing
 %fold
-% y = response vector
+% y = target vector (vector of labels)
 % K = number of folds
 
     values = unique(y);
