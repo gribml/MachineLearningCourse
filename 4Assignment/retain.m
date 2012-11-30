@@ -1,14 +1,12 @@
 function [ cbr ] = retain( cbr,solvedCase )
-%RETAIN Summary of this function goes here
-%   Detailed explanation goes here
-
+%RETAIN CBR step to add solvedCase to base case (must have solution associated with it)
 
     flag = 0;
     %Check if the case is already known
     %Check if it was encountered before in that cluster
         for j=1:length(cbr.base{solvedCase.solution}.vector)
             
-             if (isequal(cbr.base{solvedCase.solution}.vector(j).activeAU, solvedCase.activeAU))                 
+             if (isequal(cbr.base{solvedCase.solution}.vector(j).activeAU, solvedCase.activeAU))
                 flag = 1;
                 break;
             end
@@ -28,7 +26,5 @@ function [ cbr ] = retain( cbr,solvedCase )
         % Get the mean of them all
         intermediateVector = intermediateVector/cbr.base{solvedCase.solution}.count;
            cbr.base{solvedCase.solution}.meanVec = intermediateVector;
-     
-    
 end
 

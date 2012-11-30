@@ -1,6 +1,6 @@
-function [ CBR ] = CBRInit( x,y )
-%CBRINIT Summary of this function goes here
-%   Detailed explanation goes here
+function [ CBR ] = CBRInit( x, y )
+%CBRINIT creates a case base with initial values for examples and target values
+
     CBR.base = cell(1,6);
     
     %initialize each class

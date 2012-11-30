@@ -1,26 +1,31 @@
 function [bestCase ] = retrieve( cbr,newCase )
-%RETRIEVE Summary of this function goes here
-%   Detailed explanation goes here
-    %get the maximum 5 AU out of the case base
+%RETRIEVE CBR step of extracting the case most similar to newCase
+
     
     noOfBestAUs = 5;
     noOfClasses = size(cbr.base,2);
     arrays = cell(1, noOfClasses);
     %listClasses = zeros(1,noOfClasses);
     listClasses= [];
+    %checking each cluster in the CBR
     for i=1:size(cbr.base,2)
-        
+        nextFlag = 1;
         %[sortedValues,sortIndex] = sort(cbr.base{i}.meanVec,'descend'); 
         %arrays{i} = sortIndex(1,1:noOfBestAUs);
+        % looking through all active AUs to determine which cases should be considered
+        % we do this so we don't have to consider all cases in the case base
         for j=1:size(newCase.activeAU)
-            if(cbr.base{i}.meanVec(newCase.activeAU) ~= 0)
-                continue;
+            if(cbr.base{j}.meanVec(newCase.activeAU) == 0)
+                nextFlag = 0;
+                break;
             end
-          
         end
-          listClasses = [listClasses,i];
+        if nextFlag
+            listClasses(i) = length(intersect(arrays{i},newCase.activeAU));
+        end
+        
         %Get how many of them are active in the new example
-        %listClasses(i) = length(intersect(arrays{i},newCase.activeAU));
+        %
     end
     
     %find the maximum common AUs to check that index

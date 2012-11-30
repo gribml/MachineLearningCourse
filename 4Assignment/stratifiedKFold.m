@@ -1,6 +1,6 @@
 function [mask] = stratifiedKFold( y, K )
 %stratifiedKFold returns a mask indices, each of which represents a testing
-%fold
+%fold; guaranteeds that each fold contains examples from each class
 % y = response vector
 % K = number of folds
 
