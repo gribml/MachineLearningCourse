@@ -212,21 +212,31 @@ properties
 end
 \end{lstlisting}
 \end{changemargin}
-storing the indices of the active AUs, the class associated with that case, and the typicality of the case.
+storing the indices of the active AUs, the class associated with that case, and the typicality of the case.  We instantiate a \verb+caseStr+ from an example row in the following manner:
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+z = CaseStr;
+z.activeAU = find(example==1);
+\end{lstlisting}
+\end{changemargin}
+
 \begin{itemize}
+\item {\bf\textit{Minkowski:}} $d(a,b) = \sqrt[r]{\sum_i (a_i - b_i)^r}$
+\item {\bf\textit{Manhattan:}} $d(a,b) = \sum_i (a_i - b_i)$
 \item {\bf\textit{commonality:}} number of same active AUs $d_C(a, b) = \|\{(a_i, b_i) \quad such\; that \quad a_i = b_i\}\|$
 \item {\bf\textit{activity:}} absolute difference in number of active AUs $d_A(a,b) = |d_{NYC}(0, a) - d_{NYC}(0, b)|$
 \item {\bf\textit{Clark:}} $d(a, b) = \sqrt{\sum_i \left( \frac{|a_i - b_i|}{a_i + b_i} \right)^2}$
 \item {\bf\textit{Canberra:}} $d(a, b) = \sum_i \frac{|a_i - b_i|}{a_i + b_i}$
-\item {\bf\textit{Earth Mover Distance:}} Answers the question "how much work should be done to convert from one example to another?"  We found this distance measure to be very applicable to this problem, unfortunately, no readily available solution was available and we did not have time to implement the entire minimization function.  However, we believe this bears further consideration.
+\item {\bf\textit{Earth Mover Distance:}} Answers the question: "how much work should be done to convert from one example to another?"  We found this distance measure to be very applicable to this problem, unfortunately, no readily available solution was available and we did not have time to implement the entire minimization function.  However, we believe this bears further consideration.
 \end{itemize}
 Since some of these are measures of distance, we could either choose to minimize it when searching for a best case or maximize the similarity as defined by $1 - {d(a,b)}/M$, where $M$ is the maximum value the distance can possibly take.
 
 \paragraph{}
 Our \verb+retrieve+ algorithm iterates over the clusters previously instantiated in the \verb+CBRinit+ function call and finds the cluster for which, the similarity between a new example and the \verb+meanVec+  
 \paragraph{}
-Our \verb+retain+ algorithm, 
+Our implementation of the \verb+retain+ step in CBR checks if the case being added has already been encountered.  If so, we simply increment the count and update our \verb+meanVec+ variable to reflect the added weight due to that combination of AUs.  However, we do not add it as a unique case to our case base, as it would be redundant.  If the case is unique to our case base, then the \verb+CBR.base{class}.vector+ list is updated with this new case (as well as updating the other variables).
 
+We implemented the \verb+retrieve+ step by 
 \paragraph{}
 What to do when adding an example which already exists in the case base?  We chose to take into account examples which already exist in the case base by modifying the mean but not adding the case to the database.  This give that AU array greater weight without unnecessarily complicating the implementation.
 

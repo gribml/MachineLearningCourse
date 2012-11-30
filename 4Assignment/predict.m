@@ -1,17 +1,17 @@
-function [ y ] = predict( cbr, X )
-%predict returns a prediction vector associated to data matrix X
+function [ y ] = predict( cbr, testData )
+%predict returns a prediction vector associated to data matrix testData
 
-    n = size(X, 1);
+    n = size(testData, 1);
     y = zeros(n, 1);
-    % For every example (ie every row of X)
+    % For every example (ie every row of testData)
     % Retrive the nearest neighbour
     % Reuse it
     % Retain the row
     for i = 1:n
-        c = createCase(X(i, :));
+        c = createCase(testData(i, :));
         bestCase = retrieve(cbr, c);
-        y = reuse(bestCase, c);
-        % cbr = retain(cbr, X(i, :));
+        caseToRetain = reuse(bestCase, c);
+        cbr = retain(cbr, caseToRetain);
     end
 end
 
