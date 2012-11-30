@@ -10,6 +10,7 @@ function [ y ] = predict( cbr, testData )
     for i = 1:n
         c = createCase(testData(i, :));
         bestCase = retrieve(cbr, c);
+        y(i) = bestCase.solution;
         caseToRetain = reuse(bestCase, c);
         cbr = retain(cbr, caseToRetain);
     end

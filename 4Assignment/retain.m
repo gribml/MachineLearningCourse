@@ -1,4 +1,4 @@
-function [ cbr ] = retain( cbr,solvedCase )
+function [ cbr ] = retain( cbr,solvedCase,bestCase )
 %RETAIN CBR step to add solvedCase to base case (must have solution associated with it)
 
     flag = 0;
