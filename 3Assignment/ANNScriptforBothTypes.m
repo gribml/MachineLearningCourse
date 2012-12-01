@@ -1,7 +1,7 @@
 %perfFun = {'mae', 'mse', 'sse'};
 perfFun = 'mse';
 
-lr = 0.01:0.05:0.2;
+lr = 0.04:0.04:0.2;
 
 transFun = {'tansig', 'hardlim', 'hardlims', 'logisg', 'netinv', 'poslin', ...
     'purelin', 'radbas', 'radbasn', 'satlin', 'satlins', 'softmax', ...
