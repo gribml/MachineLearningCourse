@@ -1,12 +1,7 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
 \BOOKMARK [0][-]{chapter.2}{Implementation of CBR}{}% 2
-\BOOKMARK [0][-]{chapter.3}{}{}% 3
-\BOOKMARK [1][-]{section.3.1}{}{chapter.3}% 4
-\BOOKMARK [1][-]{section.3.2}{Some section}{chapter.3}% 5
-\BOOKMARK [1][-]{section.3.3}{Some section heading}{chapter.3}% 6
-\BOOKMARK [0][-]{chapter.4}{Sampel Chapter}{}% 7
-\BOOKMARK [1][-]{section.4.1}{Sample Section}{chapter.4}% 8
-\BOOKMARK [2][-]{subsection.4.1.1}{Sample Subsection}{section.4.1}% 9
-\BOOKMARK [1][-]{section.4.2}{Another section}{chapter.4}% 10
-\BOOKMARK [1][-]{section.4.3}{Yet another section}{chapter.4}% 11
-\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 12
+\BOOKMARK [0][-]{chapter.3}{Cross-Validation}{}% 3
+\BOOKMARK [0][-]{chapter.4}{Questions}{}% 4
+\BOOKMARK [0][-]{chapter.5}{An Alternative CBR model - KNN}{}% 5
+\BOOKMARK [1][-]{section.5.1}{}{chapter.5}% 6
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 7

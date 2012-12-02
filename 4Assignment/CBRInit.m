@@ -10,7 +10,10 @@ function [ CBR ] = CBRInit( x, y )
         CBR.base{i}.count = 0;
         CBR.base{i}.meanVec = zeros(1,45);
     end
-    CBR.similarityMeasure = @manhattan;
+    CBR.similarityMeasure = @(a,b)(manhattan(a,b,45,0));
+    CBR.similarityMeasure = @(a,b)(minkowski(a,b,2,10,1));
+    CBR.similarityMeasure = @clark;
+    CBR.similarityMeasure = @similarity1;
     
     
     %get the cases from given input

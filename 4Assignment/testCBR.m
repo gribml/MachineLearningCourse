@@ -4,10 +4,7 @@ function [ y ] = testCBR( cbr, testData )
     n = size(testData, 1);
     y = zeros(n, 1);
     % For every example (ie every row of testData)
-    % Retrive the nearest neighbour
-    % Reuse it
-    % Retain the row
-    
+    % Retrive the nearest neighbour, Reuse it, Retain the row    
     for i = 1:n
         c = createCase(testData(i, :));
         bestCase = retrieve(cbr, c);
