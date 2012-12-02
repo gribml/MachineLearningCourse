@@ -2,7 +2,7 @@ function [bestCase ] = retrieve( cbr,newCase )
 %%RETRIEVE CBR step of extracting the case most similar to newCase
 % we look at the noOfBestAUs most frequently occuring active AUs in the meanVec
 % for each cluster and take the distance between newCase and that 
-    retrieveAllBestCases = 0;
+    
     similarity = cbr.similarityMeasure;
 %     arrays = cell(1, noOfClasses);
 %     listClasses= [];
@@ -47,13 +47,12 @@ function [bestCase ] = retrieve( cbr,newCase )
     
     
     % updating the retrieved count for the best cases and one more for best case
-    if retrieveAllBestCases
-        for p=1:length(bestCases)
-            slnIdx = bestCases(p).solution;
-            % cbr.base{slnIdx}.vector(bestCases(p).cbrIndex)
-            cbr.base{slnIdx}.vector(bestCases(p).cbrIndex).retrieved();
-        end
-    end
+    if retrie
+%     for p=1:length(bestCases)
+%         slnIdx = bestCases(p).solution;
+%         % cbr.base{slnIdx}.vector(bestCases(p).cbrIndex)
+%         cbr.base{slnIdx}.vector(bestCases(p).cbrIndex).retrieved();
+%     end
     cbr.base{bestCase.solution}.vector(idxOfBest).retrieved();
     
     % looking through all active AUs to determine which cases should be considered

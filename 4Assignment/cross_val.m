@@ -1,4 +1,4 @@
-function [ error, errors ] = cross_val( train, predict, X, y, K )
+function [ error, errors ] = cross_val( trainFunc, testFunc, X, y, K )
 %cross_val performs stratified KFolds cross validation
 %   train : training function
 %   predict : prediction function
@@ -11,8 +11,9 @@ function [ error, errors ] = cross_val( train, predict, X, y, K )
     for i = 1:K
         test_indices = (mask == i);
         train_indices = (mask ~= i);
-        cbr = train(X(train_indices, :), y(train_indices));
-        ypred = predict( cbr, X(test_indices, :));
+        cbr = trainFunc(X(train_indices, :), y(train_indices));
+        cbr.similarityMeasure = @(a, b)( minkowski(a, b, 2, 5, 1) );
+        ypred = testFunc( cbr, X(test_indices, :));
         errors(i) = mean(ypred ~= y(test_indices));
     end
     error = mean(errors)

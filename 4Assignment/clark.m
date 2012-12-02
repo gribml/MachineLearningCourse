@@ -1,10 +1,10 @@
 function dist = clark( existingCase, newCase )
-    existing = existingCase.AURepresentation + 1;
-    new = newCase.AURepresentation + 1;
-    dist = 0;
-    for i=1:length(existing)
-        dist = dist + ( abs(existing(i) - new(i)) ...
-            /(existing(i) + new(i)) )^2;
-	end
-    dist = sqrt(dist);
+    if ( isa(existingCase, 'CaseStr') )
+        existingCase = existingCase.AURepresentation + 1;
+    end
+    if ( isa(newCase, 'CaseStr') )
+        newCase = newCase.AURepresentation + 1;
+    end
+
+    dist = sqrt(sum( abs(existingCase - newCase)./(existingCase + newCase).^2));
 end
