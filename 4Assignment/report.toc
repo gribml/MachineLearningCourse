@@ -9,8 +9,3 @@
 \contentsline {paragraph}{}{7}{paragraph*.8}
 \contentsline {chapter}{\numberline {4}Questions}{10}{chapter.4}
 \contentsline {chapter}{\numberline {5}An Alternative CBR model - KNN}{12}{chapter.5}
-\contentsline {section}{\numberline {5.1}}{12}{section.5.1}
-\contentsline {paragraph}{}{12}{paragraph*.9}
-\contentsline {paragraph}{}{12}{paragraph*.10}
-\contentsline {chapter}{\numberline {6}Conclusion}{13}{chapter.6}
-\contentsline {paragraph}{}{13}{paragraph*.11}
