@@ -179,7 +179,7 @@
 \begin{document}
 \maketitle
 \tableofcontents
-\listoffigures
+% \listoffigures
 
 \chapter{Introduction}
 The purpose of the Case-Based Reasoning was to gain familiarity with the classification algorithm based on a similarity measure and a database of examples to compare new data with.  The critical component was to implement an intelligent structure to store and access the data when performing classification.  We found that the algorithm forces a tradeoff between performance and accuracy since clustering, the solution we chose, allows us to narrow down the set of cases to search through at the cost of misclassifying a small percentage of data.  
@@ -213,13 +213,13 @@ properties
 end
 \end{lstlisting}
 \end{changemargin}
-storing the indices of the active AUs, the class associated with that case, and the typicality of the case.  We instantiate a \verb+caseStr+ from an example row in the following manner:
+storing the indices of the active AUs, the class associated with that case, and the typicality of the case.  The \verb+cbrIndex+ is a helper field to keep track of where in the cluster the case is located.  We instantiate a \verb+caseStr+ from an example row in the following manner:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]
 z = CaseStr(example, solution);
 \end{lstlisting}
 \end{changemargin}
-where the \verb+solution+ argument is optional for the situations when we create case instances without available solutions.
+where the \verb+solution+ argument is optional for case instances without available solutions.
 
 \begin{itemize}
 \item {\bf\textit{Minkowski:}} $d(a,b) = \sqrt[r]{\sum_i (a_i - b_i)^r}$
@@ -232,8 +232,6 @@ where the \verb+solution+ argument is optional for the situations when we create
 \end{itemize}
 Since some of these are measures of distance, we could either choose to minimize it when searching for a best case or maximize the similarity as defined by $1 - {d(a,b)}/M$, where $M$ is the maximum value the distance can possibly take.
 
-\paragraph{}
-Our \verb+retrieve+ algorithm iterates over the clusters previously instantiated in the \verb+CBRinit+ function call and finds the cluster for which, the similarity between a new example and the \verb+meanVec+  
 \paragraph{}
 Our implementation of the \verb+retain+ step in CBR checks if the case being added has already been encountered.  If so, we simply increment the count and update our \verb+meanVec+ variable to reflect the added weight due to that combination of AUs.  However, we do not add it as a unique case to our case base, as it would be redundant.  If the case is unique to our case base, then the \verb+CBR.base{class}.vector+ list is updated with this new case (as well as updating the other variables).  In the situation that a case already existed in the case base when retaining it, we treated it as a separate case.  This produce no problems, since our implementation of \verb+retrieve+ will uniquely identify a best case, and if two are tied (e.g. if they are the same case), then it will return a random one.  We also update the \verb+meanVec+ field for the corresponding cluster, thus giving more weight to those attributes.
 
@@ -262,15 +260,15 @@ for i = 1:n
 end
 \end{lstlisting}
 \end{changemargin}
-Clearly, we chose to use lazy learning to enhance the results of this method over time, since we "retain" examples that have already been classified.  However, this is not always optimal since misclassifications can lead to further misclassifications with little to prevent the model from gradually becoming less accurate with data.  One approach to ameliorate this would be to retain only those points which we can classify with a high degree of confience (as measure by our similarity measure).  Alternatively, we could add these new cases, but reflect the uncertainty of their class by creating a weights system and assigning them lower weights (for example in the \verb+meanVec+ field).
+Clearly, we chose to use lazy learning to enhance the results of this method over time, since we "retain" examples that have already been classified.  However, this is not always optimal since misclassifications can lead to further misclassifications with little to prevent the model from gradually becoming less accurate with data.  One approach to ameliorate this would be to retain only those points which we can classify with a high degree of confidence (as measure by our similarity measure).  Alternatively, we could add these new cases, but reflect the uncertainty of their class by creating a weights system and assigning them lower weights (for example in the \verb+meanVec+ field).
 
 \paragraph{}
 Next, we considered four different similarity measures and obtained the following error rates using 10-fold cross-validation:
 \begin{verbatim}
-modifiedManhattan = 21.62%
-modifiedMinkowski (r=2) = 18.30%
-Commonality = 20.98%
-Canberra = 15.58%
+modifiedManhattan = 82.38%
+modifiedMinkowski (r=2) = 81.70%
+Commonality = 81.02%
+Canberra = 84.42%
 \end{verbatim}
 We alse obtained the following precision:
 \begin{verbatim}
@@ -342,22 +340,33 @@ Canberra = \left[\begin{array}{cccccc}
 \right]
 \]
 
-\chapter{Questions}
+\chapter{Outcomes}
+\section{Questions}
 \begin{itemize}
 \item[1] We solved the problem of finding multiple "best matches" by adding a field to our implementation of a case object which counts how many times this item has been retrieved to help classify an example.  Those which have been best cases in the past will tend to be in the future as well.  If more than one case remained, we chose randomly.  However, since we used clustering, the initial step of comparing with an average vector for each class ensures that there is a very low probability of having more than one best match.  Alternatively, applying another similarity measure to determine a best case would also be an interesting approach.
-\item[2]  When adding an example which is aready in the CBR, we added it to our database and updated the \verb+meanVec+ and \verb+count+ fields for that cluster accordingly.  We believe this is not a problem to do since the algorithm for selecting a best case can handle situations of more than one "best case".
+\item[2]  When adding an example which is already in the CBR, we added it to our database and updated the \verb+meanVec+ and \verb+count+ fields for that cluster accordingly.  We believe this is not a problem to do since the algorithm for selecting a best case can handle situations of more than one "best case".  If we have more than one "best case", there is a high probability that the cases still belong to the same class, thus the chance of misclassifying the example is minimal.
+
 \item[3]  We have outlined the similarity measures above.  We used:
 \begin{itemize}
 \item the modified manhattan - only using top ten active activation unite in comparing the example with \verb+meanVec+; This has the advantage of working well on discrete data, and being able to provide a good variety of "best cases" for further filtering.
 \item the modified Minkowski with $r = 2$ (Euclidean) - again taking the top $K$ active units in the attribute data; This is the standard metric and has the added quality that it is tractable and easy to optimize
-\item Commonality - this measure also works well on discrete (rather than continous) data.  However, since we are averaging the examples in each cluster to get a representative example, this has limited use.  If we chose a representative sample (or a collection of representatives) differently, this measure would like fare best.
+\item Commonality - this measure also works well on discrete (rather than continous) data.  However, since we are averaging the examples in each cluster to get a representative example, this has limited use.  If we chose a representative sample (or a collection of representatives) differently, this measure would probably fare better.
 \item Canberra - provides a pointwise difference as a percentage of the total spread of the data;  this only works when attributes are greater than zero, so we had to increase the AU vectors by $1$ to allow this to work.
 \end{itemize}
 \item[4]  We initialized the CBR system by adding initial data to clusters based on the target class for that data and updating a few characteristic values per cluster.  
-\item[5] CBR belongs to the class of \emph{lazy learning} algorithms.  This approach also crosses over to unsupervised learning, since having a solution is not always required (i.e. we can simply group by similarity, without knowing what that grouping means).  Unlike Neural Networks or Decision Trees, CBR does not have to rely on models with a large number of assumptions.  Furthermore, CBR algorithms can perpetually train on new data, thus making them more viable temporally.
+\item[5] CBR belongs to the class of \emph{lazy learning} algorithms.  This approach also crosses over to unsupervised learning, since having a solution is not always required (i.e. we can simply group by similarity, without knowing what that grouping means).  Unlike Neural Networks or Decision Trees, CBR does not have to rely on models with a large number of assumptions.  Furthermore, CBR algorithms can perpetually train on new data, thus making them more viable temporally.  If we are doing \emph{eager learning}, as in the case of decision trees or neural networks, training will converge to an optimal model, and predictions will be made based on this static model.  In contrast, \emph{lazy learning} finds a solution for each new case based on a model that is only optimal at that time and may produce a different solution for that same result later on.  With an implementation of \verb+adapt+ in the context of CBR, we may also be able to classify an example as a totally new class, which other models do not allow.
 \end{itemize}
 
-\chapter{An Alternative CBR model - KNN}
+\section{Code Flowchart}
+\begin{figure}[!h]
+\begin{changemargin}{-20mm}{-20mm}
+\center
+\includegraphics[scale=0.3]{Flowchart.jpg}
+\caption{FLowchart of our Code for Cross-Validation of CBR}
+\end{changemargin}
+\end{figure}
+
+\chapter{Another CBR model - KNN}
 We wanted to see if a simple KNN (K-nearest neighbors) model would produce better results than our more sophisticated clustering and retrieval algorithms above.  Our implementation contains two files, one for training:
 \begin{changemargin}{-5mm}{-5mm}
 \begin{lstlisting}[language=Matlab, frame=single]
@@ -370,7 +379,7 @@ function params = basicKNNtrain(X, y)
 end
 \end{lstlisting}
 \end{changemargin}
-essentially storing the input values, and the other for retrieval and classification, which is significantly more involved.  This approach was not only more accurate, generating a classification error of $12.63\%$.  For small datasets, small number of classes, and with a relatively inefficient language like MATLAB, KNN is preferable to our clustering algorithm.  However, we believe that it scales better with more data.  Furthermore, if retrieval was equally computationally intesnive (currently objects and cells are the limiting reagent), there would be a computational advantage to using these clustering techniques since we could confidently narrow down our search space.
+essentially storing the input values, and the other (\verb+basicKNNtest+) for retrieval and classification, which is significantly more involved.  This approach was not only more accurate, generating a classification rate of $87.37\%$.  For small datasets, small number of classes, and with a relatively inefficient language like MATLAB, KNN is preferable to our clustering algorithm.  However, we believe that it scales better with more data.  Furthermore, if retrieval was equally computationally intensive (currently objects and cells are the limiting reagent), there would be a computational advantage to using these clustering techniques since we could confidently narrow down our search space.
 
 
 % \section{}

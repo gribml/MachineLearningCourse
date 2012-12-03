@@ -1,5 +1,7 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
 \BOOKMARK [0][-]{chapter.2}{Implementation of CBR}{}% 2
 \BOOKMARK [0][-]{chapter.3}{Cross-Validation}{}% 3
-\BOOKMARK [0][-]{chapter.4}{Questions}{}% 4
-\BOOKMARK [0][-]{chapter.5}{An Alternative CBR model - KNN}{}% 5
+\BOOKMARK [0][-]{chapter.4}{Outcomes}{}% 4
+\BOOKMARK [1][-]{section.4.1}{Questions}{chapter.4}% 5
+\BOOKMARK [1][-]{section.4.2}{Code Flowchart}{chapter.4}% 6
+\BOOKMARK [0][-]{chapter.5}{Another CBR model - KNN}{}% 7
