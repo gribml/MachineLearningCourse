@@ -228,7 +228,7 @@ where the \verb+solution+ argument is optional for case instances without availa
 \item {\bf\textit{activity:}} absolute difference in number of active AUs $d_A(a,b) = |d_{NYC}(0, a) - d_{NYC}(0, b)|$
 \item {\bf\textit{Clark:}} $d(a, b) = \sqrt{\sum_i \left( \frac{|a_i - b_i|}{a_i + b_i} \right)^2}$
 \item {\bf\textit{Canberra:}} $d(a, b) = \sum_i \frac{|a_i - b_i|}{a_i + b_i}$
-\item {\bf\textit{Earth Mover Distance:}} Answers the question: "how much work should be done to convert from one example to another?" We found this distance measure to be very appropriate for the problem, unfortunately, no quickly available solution was available and we did not have time to implement the entire minimization function.  However, we believe this bears further consideration.
+\item {\bf\textit{Earth Mover Distance:}} Answers the question: "how much work should be done to convert from one example to another?" We found this distance measure to be very appropriate for the problem, unfortunately, no quickly available solution was available and we did not have time to implement the entire minimization function.
 \end{itemize}
 Since some of these are measures of distance, we could either choose to minimize it when searching for a best case or maximize the similarity as defined by $1 - {d(a,b)}/M$, where $M$ is the maximum value the distance can possibly take.
 
@@ -241,7 +241,39 @@ The implementation of the \verb+reuse+ method is extremely straightforward and i
 
 \chapter{Cross-Validation}
 \paragraph{}
-To properly cross-validate the performance of our CBR it was first necessary to write a special cross-validation method to make sure that the data passed into \verb+CBRInit+ contains at least one example from each class.  To do this, we implemented a startification technique in the \verb+stratifiedKFold+ method.  
+As in previous courseworks, we used a KFold cross-validation method to verify the performance of our model. Due to the inner nature of the algorithms used, and as we are performing a classification task, the more rigorous way of computing this performance is to use a stratified K-fold method, which consists of creating \emph{equilibrated} folds, such that each fold contains roughly the same amount of examples from each class.
+The \verb+stratifiedKFold.m+ method, does this in the following way:
+function [mask] = stratifiedKFold( y, K )
+\begin{changemargin}{-5mm}{-5mm}
+\begin{lstlisting}[language=Matlab, frame=single]
+function [mask] = stratifiedKFold( y, K )
+%stratifiedKFold returns a mask indices, each of which represents a testing
+%fold; guaranteeds that each fold contains examples from each class
+% y = response vector
+% K = number of folds
+
+    values = unique(y);
+    mask = 1:length(y);
+
+    for i = 1:length(values)
+        % We retrieve the values with the same label values(i)
+        indices = find( y == values(i));
+        n_elements = length(indices);
+        % We shuffle the resulting vector of indices
+        indices = indices(randperm(n_elements));
+        n_elements_by_fold = floor(n_elements/K);
+        % We update the global mask for each of the KFold
+        for j = 1:(K-1)
+            mask( indices((j-1)*n_elements_by_fold+1:j*n_elements_by_fold) ) = j;
+        end
+        % We do the last fold separately so that it contains the remaining
+        % elements
+        mask( indices(j*n_elements_by_fold+1:end) ) = j+1;
+    end
+
+end
+\end{lstlisting}
+\end{changemargin}
 
 \paragraph{}
 Obtaining results from the CBR is a three-fold process for us, and is implemented as follows:
@@ -263,7 +295,7 @@ end
 Clearly, we chose to use lazy learning to enhance the results of this method over time, since we "retain" examples that have already been classified.  However, this is not always optimal since misclassifications can lead to further misclassifications with little to prevent the model from gradually becoming less accurate with data.  One approach to ameliorate this would be to retain only those points which we can classify with a high degree of confidence (as measure by our similarity measure).  Alternatively, we could add these new cases, but reflect the uncertainty of their class by creating a weights system and assigning them lower weights (for example in the \verb+meanVec+ field).
 
 \paragraph{}
-Next, we considered four different similarity measures and obtained the following error rates using 10-fold cross-validation:
+Next, we considered four different similarity measures and obtained the following classification rates using 10-fold cross-validation:
 \begin{verbatim}
 modifiedManhattan = 82.38%
 modifiedMinkowski (r=2) = 81.70%
@@ -361,7 +393,7 @@ Canberra = \left[\begin{array}{cccccc}
 \begin{figure}[!h]
 \begin{changemargin}{-20mm}{-20mm}
 \center
-\includegraphics[scale=0.3]{Flowchart.jpg}
+\includegraphics[scale=0.5]{Flowchart.jpg}
 \caption{FLowchart of our Code for Cross-Validation of CBR}
 \end{changemargin}
 \end{figure}
