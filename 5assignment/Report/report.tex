@@ -1,0 +1,193 @@
+\documentclass[a4paper,12pt,oneside,final]{report}
+\usepackage[pdftex]{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage[titletoc]{appendix}
+\titleformat{\chapter}[hang]{\bf\Huge}{\thechapter}{1cm}{}
+
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
+\bibliographystyle{plain}
+
+\pagestyle{plain}
+% -------------------- this stuff for code --------------------
+
+\usepackage{anysize}
+\marginsize{30mm}{30mm}{20mm}{20mm}
+
+\newenvironment{formal}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    {\color{blue}\vrule width 2pt}%
+    {\color{formalshade}\vrule width 4pt}%
+    \colorbox{formalshade}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+\usepackage{color}
+\usepackage{dsfont}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[scaled]{helvet}
+\usepackage{inconsolata}
+
+
+\definecolor{colKeys}{rgb}{0,0,0.9} 
+\definecolor{colIdentifier}{rgb}{0,0,0} 
+\definecolor{colString}{rgb}{0.7,0,0} 
+\definecolor{colComments}{rgb}{0,0.6,0} 
+\usepackage{listings}
+\lstset{
+  stringstyle=\color{colString},
+  keywordstyle=\color{colKeys},
+  identifierstyle=\color{colIdentifier},
+  commentstyle=\color{colComments},
+  numbers=left,
+  tabsize=4,
+  frame=single,
+  breaklines=true,
+  basicstyle=\small\ttfamily,
+  numberstyle=\tiny\ttfamily,
+  framexleftmargin=0mm,
+  xleftmargin=7mm,
+  xrightmargin=7mm,
+  frameround={tttt},
+  captionpos=b
+}
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\DeclareMathOperator*{\argmin}{ArgMin\ }
+\DeclareMathOperator*{\argmax}{ArgMax\ }
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\makeatletter
+\DeclareRobustCommand{\em}{%
+  \@nomath\em \if b\expandafter\@car\f@series\@nil
+  \normalfont \else \bfseries \fi}
+\makeatother
+
+%% Headers and footers
+\usepackage{fancyhdr}
+\usepackage[section]{placeins}
+\pagestyle{fancy}
+\fancyhf{}
+\addtolength{\headwidth}{30pt}
+\addtolength{\headwidth}{30pt}
+\renewcommand{\headrulewidth}{0.4pt} % thickness of the header line
+\renewcommand{\footrulewidth}{0.4pt} % thickness of the footer line
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}} % chapter name
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}  % section name
+\lhead[\fancyplain{}{\bf\thepage}]{\fancyplain{}{\bf\rightmark}} % display header
+\rhead[\fancyplain{}{\bf\leftmark}]{\fancyplain{}{}} % display header
+\fancyfoot[C]{\bf\thepage} % display footer (page number)
+\fancyfoot[R]{\bf\today} % display footer (date)
+\fancypagestyle{plain}{ 
+	\fancyhead{} \renewcommand{\headrulewidth}{0pt}
+}
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{plain}\cleardoublepage}}
+
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{afterpage,lastpage,fancyhdr}
+\usepackage[includeheadfoot,margin=2.5cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\makeatletter \def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill
+\kern \z@} \renewcommand{\maketitle}{
+    \begin{titlepage}
+    \let\footnotesize\small \let\footnoterule\relax \parindent \z@ \reset@font
+    \null\vfil
+    \vspace{-20mm}
+    \begin{center}
+    {\small \scshape Imperial College London \\ Department of Computing}
+    \end{center}
+    \vspace{0.5cm}
+	\begin{minipage}{\textwidth}
+		\vspace{1cm}
+		\noindent\rule[0ex]{\textwidth}{4pt} \\
+		\flushright
+		\center
+		\@title
+		\\ \vspace{4mm}
+		\noindent\rule[0ex]{\textwidth}{4pt} \\
+	\end{minipage}
+	\vspace{1.5cm}
+	\begin{minipage}{\textwidth}
+		\flushright
+		{\bfseries}
+		\vspace{7mm}
+		\flushleft
+		\@author.\\
+	\end{minipage}
+	\vspace{0.5cm}
+	\begin{center}
+		\includegraphics[width=70mm,]{pictures/logo_imperial_college_london.png}
+	\end{center}
+	\vspace{\stretch{1}}
+	\vspace{50mm}
+		\flushleft
+		{\bfseries}
+		Module leader \& Lecturer: Dr Maja \textsc{Pantic}. \\
+		{\small \scshape \@date }.
+		\vspace{0.1cm}
+		\rule{\linewidth}{.5pt}
+  \end{titlepage}
+  \setcounter{footnote}{1}
+  \setcounter{page}{2}
+}
+
+
+\author{
+    Sedef Ozlen (so512, s5), \\ 
+    Paul Gribelyuk (pg1312, a5), \\
+    Jean Kossaifi (jk712, a5), \\ 
+    Romain Brault (rb812, a5)
+}
+\makeatother
+\title{\Huge Machine Learning \\ Artificial Neural Network \\ Coursework 3}
+\date{\today}
+
+
+\usepackage{amsmath}
+\begin{document}
+\maketitle
+\tableofcontents
+\listoffigures
+
+\chapter{Introduction}
+
+\bibliographystyle{alpha}
+\bibliography{biblio.bib}
+
+\begin{appendices}
+
+\end{appendices}
+
+\end{document}  
