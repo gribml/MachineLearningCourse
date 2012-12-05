@@ -32,7 +32,7 @@ function [ cm, r, p, F, cr, classifier ] = ...
         pred1 = basicKNNtest( cbr, X( testMask, : ) );
         classifier( i ) = cbr;
         [ cm( :, :, i ), r( i, : ), p( i, : ), F( i, : ), cr_temp ] = ...
-            confusion_CBR(pred1, y( testMask ) );
+            confusion(pred1, y( testMask ) );
         cr( i, : ) = 1 - cr_temp;
 
     end
