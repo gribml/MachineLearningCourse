@@ -181,14 +181,57 @@
 \tableofcontents
 \listoffigures
 
+
 \chapter{Results and Questions}
 We loaded our three algorithms, the Decision Trees, the Neural Networks, and the CBR to determine whether any there is any statistically significan difference between their performance.  Our script which runs all the t-tests is saved in $Tests.m$ and is attached with this submission.
-\begin{itemize}
+\begin{enumerate}
 \item The CBR algorithm (K Nearest Neighbors) had the best $F_1$ measure.  When we ran the t-test script we created
+Here are the detailed F1 scores for each classifier for each of the folds.
+
+***** Fold 1 ******
+F1 mesure for decision trees : 84.615385
+F1 mesure for neural networks : 75.000000
+F1 mesure for case-base reasoning : 76.923077
+***** Fold 2 ******
+F1 mesure for decision trees : 64.516129
+F1 mesure for neural networks : 73.333333
+F1 mesure for case-base reasoning : 88.000000
+***** Fold 3 ******
+F1 mesure for decision trees : 81.481481
+F1 mesure for neural networks : 74.074074
+F1 mesure for case-base reasoning : 96.000000
+***** Fold 4 ******
+F1 mesure for decision trees : 71.428571
+F1 mesure for neural networks : 78.571429
+F1 mesure for case-base reasoning : 92.857143
+***** Fold 5 ******
+F1 mesure for decision trees : 69.565217
+F1 mesure for neural networks : 76.923077
+F1 mesure for case-base reasoning : 72.000000
+***** Fold 6 ******
+F1 mesure for decision trees : 52.631579
+F1 mesure for neural networks : 63.636364
+F1 mesure for case-base reasoning : 69.230769
+***** Fold 7 ******
+F1 mesure for decision trees : 81.481481
+F1 mesure for neural networks : 76.923077
+F1 mesure for case-base reasoning : 81.481481
+***** Fold 8 ******
+F1 mesure for decision trees : 78.571429
+F1 mesure for neural networks : 76.923077
+F1 mesure for case-base reasoning : 82.758621
+***** Fold 9 ******
+F1 mesure for decision trees : 88.888889
+F1 mesure for neural networks : 76.923077
+F1 mesure for case-base reasoning : 83.333333
+***** Fold 10 ******
+F1 mesure for decision trees : 75.862069
+F1 mesure for neural networks : 52.173913
+F1 mesure for case-base reasoning : 81.481481
 \item To adjust the significance level to take into account the fact that we are doing multiple comparisons, we used $\alpha = 0.05 / k$, where $k = 3$ since we are making 3 comparisons, as we are comparing the 3 models.
 \item We used the paired t-test which considers the possiblity that the two sets of data are not independent.  We believe this to be true because althoough they are different models, which were used, the data on which these models trained was the same, thus, some dependence is likely present.
 \item We performed the t-test on the classification rate rather than the $F_1$ measure because 
-\end{itemize}
+\end{enumerate}
 
 \bibliographystyle{alpha}
 \bibliography{biblio.bib}
