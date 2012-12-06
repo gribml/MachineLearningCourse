@@ -9,7 +9,7 @@ if ~( exist( 'cv10_mask', 'var' ) )
     load( 'Results/cv10_mask.mat' );
     fprintf( 'Done.\n' );
 else
-    fprintf( 'cv10_mask already in memory. Spkipping load.\n' );
+    fprintf( 'cv10_mask already in memory. Skipping load.\n' );
 end
 
 if ~( exist( 'DT_classifier', 'var' ) )
@@ -17,7 +17,7 @@ if ~( exist( 'DT_classifier', 'var' ) )
     load( 'Results/DT_classifier.mat' );
     fprintf( 'Done.\n' );
 else
-    fprintf( 'DT_classifier already in memory. Spkipping load.\n' );
+    fprintf( 'DT_classifier already in memory. Skipping load.\n' );
 end
 
 if ~( exist( 'NN_classifier', 'var' ) )
@@ -25,7 +25,7 @@ if ~( exist( 'NN_classifier', 'var' ) )
     load( 'Results/NN_classifier.mat' );
     fprintf( 'Done.\n' );
 else
-    fprintf( 'NN_classifier already in memory. Spkipping load.\n' );
+    fprintf( 'NN_classifier already in memory. Skipping load.\n' );
 end
 
 if ~( exist( 'CBR_classifier', 'var' ) )
@@ -33,7 +33,7 @@ if ~( exist( 'CBR_classifier', 'var' ) )
     load( 'Results/CBR_classifier.mat' );
     fprintf( 'Done.\n' );
 else
-    fprintf( 'CBR_classifier already in memory. Spkipping load.\n' );
+    fprintf( 'CBR_classifier already in memory. Skipping load.\n' );
 end
 
 [ DT_cm, DT_r, DT_p, DT_F, DT_cr ] = crossval( clean_db.x, clean_db.y, DT_classifier, @classify, cv10_mask );
