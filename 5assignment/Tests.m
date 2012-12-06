@@ -3,7 +3,7 @@ Valid;
 
 %% Parameters
 alpha = 0.05; % ttest at 5%.
-clear_all = true;
+clear_all = false;
 
 fprintf( '\nttest: alpha = %f\n\n', alpha );
 for i=1:6
