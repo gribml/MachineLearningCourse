@@ -11,7 +11,7 @@
     If we add an adapt function for the solution of the nearest neighbour, then, easily we will be able to add
     a new emotion without requiring much change to the existing CBR system.
     
-    However, Neural Networks and Decision Trees are eager learning algorithms and make a global approximation on the training data anad
+    However, Neural Networks and Decision Trees are eager learning algorithms and make global approximations on the training data and
     use that approximation for the new examples. Therefore, since the global approximation is made on the training data set, 
     and the same approximation is used for each new example, to add a new emotion we have to make a new global approximation.
     For both decision trees and neural networks, adding a new emotion would mean to change the structure of the decision tree or the
