@@ -2,6 +2,7 @@ LoadData;
 
 %% Parameters:
 db = clean_db;
+clear_all = false;
 
 if ~( exist( 'cv10_mask', 'var' ) )
     fprintf( 'loading cv10_mask.mat...\n' );
@@ -40,3 +41,7 @@ end
 [ CBR_cm, CBR_r, CBR_p, CBR_F, CBR_cr ] = crossval( clean_db.x, clean_db.y, CBR_classifier, @basicKNNtest, cv10_mask );
 
 clear db;
+if clear_all
+    clear all;
+end
+clear clear_all;
