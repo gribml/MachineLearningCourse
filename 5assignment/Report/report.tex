@@ -181,7 +181,14 @@
 \tableofcontents
 \listoffigures
 
-\chapter{Introduction}
+\chapter{Results and Questions}
+We loaded our three algorithms, the Decision Trees, the Neural Networks, and the CBR to determine whether any there is any statistically significan difference between their performance.  Our script which runs all the t-tests is saved in $Tests.m$ and is attached with this submission.
+\begin{itemize}
+\item The CBR algorithm (K Nearest Neighbors) had the best $F_1$ measure.  When we ran the t-test script we created
+\item To adjust the significance level to take into account the fact that we are doing multiple comparisons, we used $\alpha = 0.05 / k$, where $k = 2$ since for each model, we are making 2 comparisons each time.
+\item We used the paired t-test which considers the possiblity that the two sets of data are not independent.  We believe this to be true because althoough they are different models, which were used, the data on which these models trained was the same, thus, some dependence is likely present.
+\item We performed the t-test on the classification rate rather than the $F_1$ measure because 
+\end{itemize}
 
 \bibliographystyle{alpha}
 \bibliography{biblio.bib}
