@@ -1,9 +1,9 @@
 LoadData;
 
 %% Parameters:
-db = clean_db;
+db = noisy_db;
 clear_all = false;
-save_classifier = true;
+save_classifier = false;
 
 if ~( exist( 'cv10_mask', 'var' ) )
     fprintf( 'Creating stratified cross-validation mask...\n' );
