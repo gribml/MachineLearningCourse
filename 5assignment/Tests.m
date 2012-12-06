@@ -8,8 +8,8 @@ clear_all = false;
 fprintf( '\nttest: alpha = %f\n\n', alpha );
 for i=1:6
     fprintf( '\nemotion %ld\n', i );
-    [ h1, p1, c1 ] = ttest( NN_F( :, i ), DT_F( :, i ), alpha );
-    fprintf( '  ttest NN_F, DT_F: p=%f, c=[%f %f]\n', p1, c1( 1 ), c1( 2 ) );
+    [ h1, p1, c1 ] = ttest( NN_cr( :, i ), DT_cr( :, i ), alpha );
+    fprintf( '  ttest NN_cr, DT_cr: p=%f, c=[%f %f]\n', p1, c1( 1 ), c1( 2 ) );
     if ~h1
         fprintf( '    Null Hypothesis cannot be rejected, NN and DT have the same performance on emotion %ld\n', i );
     else
@@ -20,8 +20,8 @@ for i=1:6
         end
     end
     
-    [ h2, p2, c2 ] = ttest( DT_F( :, i ), CBR_F( :, i ), alpha );
-    fprintf( '  ttest DT_F, CBR_F: p=%f, c=[%f %f]\n', p2, c2( 1 ), c2( 2 ) );
+    [ h2, p2, c2 ] = ttest( DT_cr( :, i ), CBR_cr( :, i ), alpha );
+    fprintf( '  ttest DT_cr, CBR_cr: p=%f, c=[%f %f]\n', p2, c2( 1 ), c2( 2 ) );
     if ~h2
         fprintf( '    Null Hypothesis cannot be rejected, DT and CBR have the same performance on emotion %ld\n', i );
     else
@@ -32,8 +32,8 @@ for i=1:6
         end
     end
 
-    [ h3, p3, c3 ] = ttest( CBR_F( :, i ), NN_F( :, i ), alpha );
-    fprintf( '  ttest CBR_F, NN_F: p=%f, c=[%f %f]\n', p3, c3( 1 ), c3( 2 ) );
+    [ h3, p3, c3 ] = ttest( CBR_cr( :, i ), NN_cr( :, i ), alpha );
+    fprintf( '  ttest CBR_cr, NN_cr: p=%f, c=[%f %f]\n', p3, c3( 1 ), c3( 2 ) );
     if ~h3
         fprintf( '    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion %ld\n', i );
     else
