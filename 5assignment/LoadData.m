@@ -7,7 +7,7 @@ if  ~exist( 'clean_db', 'var' )
     clean_db = load('Dataset/cleandata_students.mat');
     fprintf( 'Done.\n' );
 else
-    fprintf( 'Dataset cleandata_students.mat already loaded. Loading step skipped.\n' );
+    fprintf( 'Dataset cleandata_students.mat already loaded. Skipping load.\n' );
 end
 
 if ~exist( 'noisy_db', 'var' )
@@ -15,5 +15,5 @@ if ~exist( 'noisy_db', 'var' )
     noisy_db = load('Dataset/noisydata_students.mat');
     fprintf( 'Done.\n' );
 else
-    fprintf( 'Dataset noisydata_students.mat already loaded. Loading step skipped.\n' );
+    fprintf( 'Dataset noisydata_students.mat already loaded. Skipping load.\n' );
 end

@@ -1,5 +1,6 @@
 function predictions = testANN( net, examples )
     l = length( net );
+    examples = transpose( examples );
     if ( l == 1 )
         predictions = sim( net, examples );
         predictions = NNout2labels( predictions );

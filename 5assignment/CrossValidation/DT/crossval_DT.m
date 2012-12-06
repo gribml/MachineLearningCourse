@@ -15,7 +15,7 @@ function [ cm, r, p, F, cr, classifier ] = crossval_DT( X, y, mask )
         testMask = logical( mask == i );
        
         cbr = trainer( X( trainMask, : ), 1:45, y( trainMask ), 0.98 );
-        pred1 = classify( X( testMask, : ), cbr, @depthClassify );
+        pred1 = classify( cbr, X( testMask, : ) );
 
         classifier( i, : ) = cbr;
         [ cm( :, :, i ), r( i, : ), p( i, : ), F( i, : ), cr_temp ] = ...
