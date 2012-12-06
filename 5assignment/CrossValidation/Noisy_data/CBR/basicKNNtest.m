@@ -22,7 +22,7 @@ function results = basicKNNtest(cbr, X)
         end
         
         % we take only the K first neighbours
-        [sorted, indices] = sort(distances, 'ascend');
+        [ ~, indices ] = sort(distances, 'ascend');
         KNN = indices(1:cbr.K)';
         
         % current class

@@ -1,4 +1,4 @@
-function [ confMtrx, recall, precision, F, classRate ] = confusion_NN( predictedResults, actualResults )
+function [ confMtrx, recall, precision, F, classRate ] = confusion( predictedResults, actualResults )
 %%  CONFUSIONMATRIX Summary of this function goes here
 %   Detailed explanation goes here
     alpha = 1;

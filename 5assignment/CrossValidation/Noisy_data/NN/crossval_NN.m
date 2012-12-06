@@ -33,9 +33,9 @@ function [ cm, r, p, F, cr, classifier ] = ...
             );
         end
         pred1 = testANN( binNet, x2( :,testMask ) );
-        classifier{i} = binNet;
+        classifier( i ) = binNet;
         [ cm( :, :, i ), r( i, : ), p( i, : ), F( i, : ), cr_temp ] = ...
-            confusion(pred1, y( testMask ) );
+            confusion( pred1, y( testMask ) );
         cr( i, : ) = 1 - cr_temp;
     end
 end
