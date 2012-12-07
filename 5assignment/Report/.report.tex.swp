@@ -171,17 +171,135 @@
     Romain Brault (rb812, a5)
 }
 \makeatother
-\title{\Huge Machine Learning \\ Artificial Neural Network \\ Coursework 3}
+\title{\Huge Machine Learning \\ T-test \\ Coursework 5}
 \date{\today}
 
 
 \usepackage{amsmath}
 \begin{document}
 \maketitle
-\tableofcontents
-\listoffigures
+%\tableofcontents
+%\listoffigures
 
-\chapter{Introduction}
+
+\chapter{Results and Questions}
+We loaded our three algorithms, the Decision Trees, the Neural Networks, and the CBR to determine whether any there is any statistically significan difference between their performance.  Our script which runs all the t-tests is saved in $Tests.m$ and is attached with this submission.
+\begin{enumerate}
+\item The CBR algorithm (K Nearest Neighbors) had the best $F_1$ measure.  When we ran the t-test script we created
+Here are the detailed F1 scores for each classifier for each of the folds.
+
+\begin{itemize}
+\item On clean data:
+\begin{table} [H]
+\begin{center}
+\begin{tabular}{l|llllll}
+       &  EM 1 & EM 2 & EM 3 & EM 4 & EM 5 & EM 6    \\ \hline
+Fold 1 &  84.62 & 80.00 & 77.78 & 87.80 & 75.00 & 80.00    \\ 
+Fold 2 &  64.52 & 71.43 & 40.00 & 87.80 & 28.57 & 86.36    \\ 
+Fold 3 &  81.48 & 87.80 & 72.73 & 90.48 & 66.67 & 85.71   \\ 
+Fold 4 &  71.43 & 78.95 & 78.26 & 92.68 & 71.43 & 77.78   \\ 
+Fold 5 &  69.57 & 80.95 & 70.00 & 95.24 & 66.67 & 90.00   \\ 
+Fold 6 &  52.63 & 79.07 & 70.00 & 95.45 & 69.23 & 76.19   \\ 
+Fold 7 &  81.48 & 82.35 & 81.82 & 93.02 & 66.67 & 92.68   \\ 
+Fold 8 &  78.57 & 80.00 & 78.26 & 80.95 & 60.00 & 83.33  \\ 
+Fold 9 &  88.89 & 69.77 & 85.71 & 95.00 & 56.00 & 84.21   \\ 
+Fold 10 &  75.86 & 72.00 & 78.95 & 84.62 & 58.82 & 77.97   \\ 
+\end{tabular}
+\caption{ Decision Tree  }
+\end{center}
+\end{table}
+
+\begin{table} [H]
+\begin{center}
+\begin{tabular}{l|llllll}
+       &  EM 1 & EM 2 & EM 3 & EM 4 & EM 5 & EM 6    \\ \hline
+Fold 1 &  75.00 & 81.82 & 90.91 & 92.31 & 75.00 & 92.68    \\ 
+Fold 2 &  73.33 & 86.49 & 77.78 & 95.24 & 72.00 & 95.24    \\ 
+Fold 3 &  74.07 & 85.00 & 86.96 & 90.48 & 66.67 & 94.74   \\ 
+Fold 4 &  78.57 & 76.47 & 85.71 & 92.68 & 73.33 & 85.00   \\ 
+Fold 5 &  76.92 & 78.05 & 80.00 & 92.68 & 72.73 & 97.44   \\ 
+Fold 6 &  63.64 & 81.08 & 73.68 & 93.33 & 85.71 & 93.02   \\ 
+Fold 7 &  76.92 & 82.05 & 85.71 & 92.68 & 80.00 & 90.48   \\ 
+Fold 8 &  76.92 & 66.67 & 69.57 & 85.00 & 61.54 & 81.08  \\ 
+Fold 9 &  76.92 & 84.21 & 85.71 & 95.24 & 72.00 & 95.24   \\ 
+Fold 10 &  52.17 & 74.51 & 90.00 & 92.86 & 62.86 & 91.23   \\ 
+\end{tabular}
+\caption{ Neural Network}
+\end{center}
+\end{table}
+
+
+\begin{table} [H]
+\begin{center}
+\begin{tabular}{l|llllll}
+       &  EM 1 & EM 2 & EM 3 & EM 4 & EM 5 & EM 6    \\ \hline
+Fold 1 &  76.92 & 80.00 & 100.00 & 95.24 & 83.33 & 95.00   \\ 
+Fold 2 &  88.00 & 92.68 & 73.68 & 100.00 & 69.23 & 97.56   \\ 
+Fold 3 &  96.00 & 92.68 & 86.96 & 93.33 & 69.57 & 91.89   \\ 
+Fold 4 &  92.86 & 89.47 & 81.82 & 97.67 & 86.96 & 90.00   \\ 
+Fold 5 &  72.00 & 80.95 & 90.00 & 95.24 & 84.62 & 97.44   \\ 
+Fold 6 &  69.23 & 86.49 & 84.21 & 95.45 & 84.62 & 95.24   \\ 
+Fold 7 &  81.48 & 77.27 & 95.65 & 90.48 & 63.16 & 97.44   \\ 
+Fold 8 & 82.76 & 75.56 & 75.00 & 92.68 & 55.56 & 91.89   \\ 
+Fold 9 &  83.33 & 81.82 & 86.96 & 95.24 & 76.19 & 95.00   \\ 
+Fold 10 &  81.48 & 83.64 & 85.71 & 89.29 & 64.29 & 92.59   \\ 
+\end{tabular}
+\caption{ Case Base Reasoning}
+\end{center}
+\end{table}
+
+\item On noisy data:
+
+\begin{table} [H]
+\begin{center}
+\begin{tabular}{l|llllll}
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+80.87 63.11 80.81 78.42 78.74 73.76 83.00 76.85 79.93 74.70 
+\end{tabular}
+\caption{ Decision Tree  }
+\end{center}
+\end{table}
+
+
+Neural Network
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+84.62 83.35 82.99 81.96 82.97 81.75 84.64 73.46 84.89 77.27 
+
+Case-base reasoning
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+88.42  86.86  88.40  89.80  86.71  85.87  84.25  78.91  86.42  82.83 
+\end{itemize}
+
+\item To adjust the significance level to take into account the fact that we are doing multiple comparisons, we used $\alpha = 0.05 / k$, where $k = 3$ since we are making 3 comparisons, as we are comparing the 3 models.
+
+\item We used the paired t-test which considers the possiblity that the two sets of data are not independent.  We believe this to be true because althoough they are different models, which were used, the data on which these models trained was the same, thus, some dependence is likely present.
+
+\item We performed the t-test on the classification rate rather than the $F_1$ measure because the t-test assumes a normal distribution for the value for which we are testing the hypothesis (e.g. that $Z_{F_1} = |\mu_{NN}(F_1) - \mu_{CBR}(F_1))|$ or $Z_{CR} = |\mu_{NN}(classRate) - \mu_{CBR}(classRate))|$).  If the noise component of the model's predictions are normal, then the nonlinear combination of these errors is not normally distributed (unless the number of true positives is the same as the number of true positives).  Furthermore, the $F_1$ measure does not take true negatives into account as seen below:
+$$
+F_1 = 2\frac{tp + tn}{2\cdot tp + fn + fp}
+$$
+whereas the classification rate can be considered to be:
+$$
+classRate = \frac{tp + tn}{tp + tn + fp + fn}
+$$
+\item The higher the number of folds is, the more training data and consequently, the less test data we get per fold. If we use fewer folds, we end up with a higher amount of test data per fold, which would make our error rate more reliable, however, we will also have fewer training data. Fewer training data is especially more dangerous for eager learning algorithms, because it may lead to a deficient global approximation. Since lazy learning algorithms are able to adapt themselves for each new example they encounter, fewer training data would cause less trouble.
+
+\item If we wanted to add new emotions, CBR is more suitable because it is a lazy learning algorithm.  If we add an adapt function for the solution of the nearest neighbour, then, easily we would be able to add a new emotion without requiring much change to the existing CBR system.
+    
+However, Neural Networks and Decision Trees are eager learning algorithms and make global approximations on the training data and use that approximation for the new examples. Therefore, since the global approximation is made on the training data set, and the same approximation is used for each new example, to add a new emotion we have to make a new global approximation.  For both decision trees and neural networks, adding a new emotion would mean to change the structure of the decision tree or the neural network.
+\end{enumerate}
 
 \bibliographystyle{alpha}
 \bibliography{biblio.bib}
@@ -191,3 +309,4 @@
 \end{appendices}
 
 \end{document}  
+
