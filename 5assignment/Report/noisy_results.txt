@@ -1,0 +1,50 @@
+ttest: alpha = 0.016667
+
+
+emotion 1
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, DT is more performant than NN on emotion 1
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 1
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 1
+
+emotion 2
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, NN is more performant than DT on emotion 2
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 2
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 2
+
+emotion 3
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, NN is more performant than DT on emotion 3
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 3
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 3
+
+emotion 4
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, NN is more performant than DT on emotion 4
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 4
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 4
+
+emotion 5
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, NN is more performant than DT on emotion 5
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 5
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 5
+
+emotion 6
+  ttest NN_cr, DT_cr: p=0.001412, c=[-0.116464 -0.024999]
+    Null Hypothesis rejected, NN is more performant than DT on emotion 6
+  ttest DT_cr, CBR_cr: p=0.000634, c=[0.038742 0.143023]
+    Null Hypothesis rejected, CBR is more performant than DT on emotion 6
+  ttest CBR_cr, NN_cr: p=0.279307, c=[-0.071498 0.031195]
+    Null Hypothesis cannot be rejected, CBR and NN have the same performance on emotion 6

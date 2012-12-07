@@ -1,5 +1,5 @@
-Valid;
-% ValidTrain
+%Valid;
+ValidTrain
 
 %% Parameters
 alpha = 0.05 / 3;

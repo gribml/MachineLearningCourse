@@ -11,11 +11,7 @@ function [ cm, r, p, F, cr, classifier ] = ...
     r  = zeros( K, M );
     cr  = zeros( K, M );
     cm = zeros( M, M, K );
-    
-    
-%% Don't know how to pre-allocate memory for this two structures.
-%    (That's this kind of stuff that makes me hate matlab....)
-%
+
 %    classifier = zeros( 1, 6 );
 %    binNet = cell( 1, 6 );
    

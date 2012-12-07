@@ -3,7 +3,7 @@ LoadData;
 
 %% Parameters:
 db = noisy_db;
-clear_all = true;
+clear_all = false;
 save_classifier = false;
 
 if ~( exist( 'cv10_mask', 'var' ) )
