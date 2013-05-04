@@ -1,0 +1,183 @@
+\documentclass[a4paper,10pt]{article}
+%\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amsmath}
+% \usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage[titletoc]{appendix}
+\titleformat{\chapter}[hang]{\bf\Huge}{\thechapter}{1cm}{}
+
+\pagestyle{plain}
+% -------------------- this stuff for code --------------------
+
+\usepackage{anysize}
+\marginsize{30mm}{30mm}{20mm}{20mm}
+
+\newenvironment{formal}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    {\color{blue}\vrule width 2pt}%
+    {\color{formalshade}\vrule width 4pt}%
+    \colorbox{formalshade}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+\usepackage{color}
+\usepackage{dsfont}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[scaled]{helvet}
+\usepackage{inconsolata}
+
+
+\definecolor{colKeys}{rgb}{0,0,0.9} 
+\definecolor{colIdentifier}{rgb}{0,0,0} 
+\definecolor{colString}{rgb}{0.7,0,0} 
+\definecolor{colComments}{rgb}{0,0.6,0} 
+\usepackage{listings}
+\lstset{
+  language=python,
+  stringstyle=\color{colString},
+  keywordstyle=\color{colKeys},
+  identifierstyle=\color{colIdentifier},
+  commentstyle=\color{colComments},
+  numbers=left,
+  tabsize=4,
+  frame=single,
+  breaklines=true,
+  basicstyle=\small\ttfamily,
+  numberstyle=\tiny\ttfamily,
+  framexleftmargin=0mm,
+  xleftmargin=7mm,
+  xrightmargin=7mm,
+  frameround={tttt},
+  captionpos=b
+}
+
+%% Headers and footers
+\usepackage[section]{placeins}
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{plain}\cleardoublepage}}
+
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+\usepackage{afterpage,lastpage}
+\usepackage[includeheadfoot,margin=2.5cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+
+% -------------------- end of code stuff --------------------
+
+
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\makeatletter \def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill
+\kern \z@}
+
+
+\author{Paul Gribelyuk (pg1312, a5)}
+\makeatother
+\title{\Large \#DOC395 - Study Notes for Machine Learning}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Concept Learning}
+Idea is to find a function $h$ which takes input data (a tuple of states) and maps to a discrete set of classes, i.e. classifies it.  Concept learning is \emph{supervised}, \emph{eager} learning.  We have a natural ordering on the set of hypotheses based on how specific / general they are.  THe most general is <?, ?, ?, ?, ?, ?> while the most specific is <a, b, c, d, e, f> 
+\begin{itemize}
+\item \emph{Find-S} algorithm starts with the most specific hypothesis, i.e. that no part of the input can predict the output.  It then iterates over the positive-target data, modifying the component of the working hypothesis which would make it satisfy the example.  Solution is not unique.
+\item \emph{Candidate-Elimination} algorithm starts with most general hypotheses.  the version space $VS$ is the set of all $h\in H$ consistent with the data.  There are two boundaries: on the specific side ($S$) and on the general side ($G$).  Initially, $G = (?,?,?,?,\ldots)$ and $S=(0,0,0,\ldots)$.  For each positive data point, take out all inconsistent hypotheses from $G$.  Also, 
+\end{itemize}
+
+\section{Decision Trees}
+Entropy of a set $S$ is defined:
+$$
+E(S) = -\sum_{i\in C} p_i\log_2(p_i)
+$$
+where $C$ is all the classes values in $S$ can take and $p_i$ is probability (occurence) of class $i$.
+Information gain (IG) for an attribute $A$ relative to a set $S$ is defined
+$$
+IG(S, A) = E(S) - \sum_{v\in values(A)}\frac{|S_v|}{|S|}E(S_v)
+$$
+where $S_v$ is the subset of $S$ having value $v$ for attribute A.  There is an alternative measure by which to split the data, defined as the \emph{split information}
+$$
+SI(S, A) = -\sum_{i=1}^c \frac{|S_i|}{|S|}\log_2\left(\frac{|S_i|}{|S|}\right)
+$$
+where $S_i$ is result of partioning $S$ across values of the attribute A.  This is essentially an entropy but with respect to values of A rather than with respect to target values.  Then the \emph{gain ratio} is defined as:
+$$
+GR(S, A) = \frac{IG(S, A)}{SI(S, A)}
+$$
+This discourages attributes with many values (unif distributed).
+\section{Cross-Validation}
+Take dataset of $m = |D|$ items and split into $N$ `folds'.  Then for each fold $F_i$, train on dataset $D - \{F_i\}$ and test the learned model on the dataset $F_i$.  Average over all folds to obtain unbiased error estimate.
+
+\section{Neural Networks}
+\subsection{Perceptron}
+Trying to separate positive and negative examples according to a hyperplane which splits the example space so as to minimize the number of example incorrectly classified by the hyperplane (perceptron).  This is the simplest case of a neural network as $n$ inputs from the $n$-dimensional input vector go into a single neuron, which produces an output according to a rule:
+$$
+h(x_1, x_2, \ldots, x_n) = sgn\left(\sum_{i=0}^N w_i x_i\right) = sgn(\mathbf{w}\cdot\mathbf{x})
+$$
+where $x_0$ is the \emph{bias}, usually $1$.  The rules to learn the weights $w_i$ are \emph{perceptron training} and \emph{gradient descent}.
+\begin{itemize}
+\item Perceptron training rule goes through each example that is misclassified by the previous weights and updates them so the number of misclassified examples decreases... this works when the examples are perfectly linearly separable:
+$$
+w_i \leftarrow w_i + \eta (t - sgn(\mathbf{w}\cdot\mathbf{x})) x_i
+$$
+where $t$ is the known target classification of $x_i$.
+\item Gradient descent considers the unthresholded perceptron:
+$$
+h(\mathbf{x}) = \mathbf{w}\cdot\mathbf{x}
+$$
+and minimizes the error function:
+$$
+E = (\mathbf{w}) \frac{1}{2}\sum_{d\in D} (t_d - \mathbf{w}\cdot\mathbf{x_d})^2
+$$
+The weight update rule is:
+$$
+\mathbf{w} \leftarrow \mathbf{w} - \eta \nabla E(\mathbf{w}) = \eta \sum_{d\in D} (t_d - \mathbf{w}\cdot\mathbf{x_d})x_{i,d}
+$$
+where $x_{i,d}$ is the $i-$th component of the $d-$th input data.
+\item Stochastic gradient descent updates the weights without summing over all data points, but rather after each data point.  This usually needs a smaller learning rate $\eta$.  So:
+$$
+\mathbf{w} \leftarrow \mathbf{w} - \eta \nabla E(\mathbf{w}) = \eta (t_d - \mathbf{w}\cdot\mathbf{x_d})x_{i,d}
+$$
+\end{itemize}
+\subsection{Multilayer Neural Networks}
+Input layer is the set of $\{x_1, x_2, \ldots, x_n\}$.  This goes into neuron $j$ in the $k$-th hidden layer as:
+$$
+s_j^{(k)} = \sum_{i=0}^n w_{ij}^{k} x_i^{(k-1)}
+$$
+and the output from neuron $j$ is:
+$$
+x_j^{(k)} = a\left( s_j^{(k)}\right) = a\left(\sum_{i=0}^n w_{ij}^{k} x_i^{(k-1)}\right)
+$$
+where $a()$ is the activation fuction which can be sigmoid:
+$$
+a(x) = \sigma(x) = \frac{1}{1 + e^{-x}}
+$$
+or the $tanh$:
+$$
+a(x) = \tanh(x) = \frac{\sinh(x)}{\cosh(x)} = \frac{1- e^{-2x}}{1 + e^{-2x}}
+$$
+Derivative properties: $\sigma'(x) = \sigma(x)(1 - \sigma(x))$ and $\tanh'(x) = (1 - \tanh^2(x))$
+\end{document}
