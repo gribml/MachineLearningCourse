@@ -179,5 +179,28 @@ or the $tanh$:
 $$
 a(x) = \tanh(x) = \frac{\sinh(x)}{\cosh(x)} = \frac{1- e^{-2x}}{1 + e^{-2x}}
 $$
-Derivative properties: $\sigma'(x) = \sigma(x)(1 - \sigma(x))$ and $\tanh'(x) = (1 - \tanh^2(x))$
+Derivative properties: $\sigma'(x) = \sigma(x)(1 - \sigma(x))$ and $\tanh'(x) = (1 - \tanh^2(x))$  To learn the weights $w_{ij}^{(l)}$, we can do gradient descent again but computing $\frac{\partial E(\mathbf{w})}{w_{ij}^{(l)}}$ could be expensive.  \emph{Backpropagation} has two steps:
+\begin{itemize}
+\item Propagate input forward using weights $w_{ij}^{(l)}$ already in place and calculating inputs $s_i^{(l)}$ and outputs $x_i^{(l)}$ at each neuron.  
+\item Calculate errors at the output:
+$$
+\delta_k^{(L)} \leftarrow (a(s_k^{(L)}) - y_k) a'(s_k^{(L)})
+$$
+when using the standard square-error function.  Then the previous deltas are:
+$$
+\delta_k^{(l-1)} = a'(s_i^{(l-1)}) \sum_j \delta_j^{(l)} w_{kj}^{(l)}
+$$
+Once these are computed, the weights are updated:
+$$
+w_{ij}^{(l)} \leftarrow w_{ij}^{(l)} + \eta\delta_j^{(l)}x_{i}^{(l-1)}
+$$
+\end{itemize}
+We can add momentum to the weight update by considering the previous weight update as well:
+$$
+\Delta w_ij^{(l)}(n) = \eta \delta_j^{(l)} x_i^{(l-1)} + \alpha\Delta w_{ij}^{(l)}(n-1)
+$$
+where $n$ is the update number and $\alpha$ is the weight given to the prior weight update.  We can add a penalty to high weights by the following error function:
+$$
+E(\mathbf{w}) = \frac{1}{2}\sum_{d\in D}\sum_{k} (t_{k,d} - x_k^{(L)})^2 + \gamma\sum_{i,j,l}w_{i,j}^{l}
+$$
 \end{document}

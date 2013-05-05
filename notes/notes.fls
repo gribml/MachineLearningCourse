@@ -258,6 +258,12 @@ INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/bchb8y.tfm
 INPUT /usr/local/texlive/2012/texmf-dist/fonts/vf/mathdesign/mdbch/mdbchb7t.vf
 INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/md-chb7t.tfm
 INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/bchb8y.tfm
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/vf/mathdesign/mdbch/mdbchr7t.vf
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/md-chr7t.tfm
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/bchr8y.tfm
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/vf/mathdesign/mdbch/mdbchri7m.vf
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/md-chri7m.tfm
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/bchri8y.tfm
 INPUT notes.aux
 INPUT /usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc
 INPUT /usr/local/texlive/2012/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb
