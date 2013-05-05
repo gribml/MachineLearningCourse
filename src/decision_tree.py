@@ -60,9 +60,9 @@ class Node(object):
         return self
 
 def tree_printer(tree_root, eol=True):
-    sys.stdout.write( str(tree_root.label) + ('\n' if eol else ' ') )
     for i, child in enumerate( tree_root.children ):
         tree_printer(child, i==(len(tree_root.children)-1))
+    sys.stdout.write( str(tree_root.label) + ('\n' if eol else ' ') )
 
 def test_id3():
     d =np.array([[1 ,1 ,1 ,-1],
@@ -82,7 +82,7 @@ def test_id3():
     t = np.array([0,0,1,1,1,0,1,0,1,1,1,1,1,0])
     
     tree = id3(t, d, np.arange(4))
-#     tree_printer(tree)
+    tree_printer(tree)
     
 if __name__=='__main__':
     test_id3()
