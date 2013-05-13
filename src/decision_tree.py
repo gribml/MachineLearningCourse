@@ -84,5 +84,17 @@ def test_id3():
     tree = id3(t, d, np.arange(4))
     tree_printer(tree)
     
+    d2 = np.array([[1,1,0,1,1,0],
+                   [1,1,1,1,1,0],
+                   [0,0,1,1,1,1],
+                   [1,1,1,1,0,1],
+                   [1,1,0,0,1,0]])
+    t2 = np.array([1,1,0,1,0])
+    print entropy(t2)
+    for i in range(6):
+        print ig(t2, d2, i)
+    
+    
 if __name__=='__main__':
     test_id3()
+#     print entropy(np.array([1,0]))

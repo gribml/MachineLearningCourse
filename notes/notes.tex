@@ -78,7 +78,7 @@
 %% Headers and footers
 \usepackage[section]{placeins}
 \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{plain}\cleardoublepage}}
-
+\DeclareMathOperator*{\argmax}{arg\,max}
 \usepackage[T1]{fontenc}
 \usepackage{enumerate}
 \usepackage{afterpage,lastpage}
@@ -106,7 +106,11 @@
 Idea is to find a function $h$ which takes input data (a tuple of states) and maps to a discrete set of classes, i.e. classifies it.  Concept learning is \emph{supervised}, \emph{eager} learning.  We have a natural ordering on the set of hypotheses based on how specific / general they are.  THe most general is <?, ?, ?, ?, ?, ?> while the most specific is <a, b, c, d, e, f> 
 \begin{itemize}
 \item \emph{Find-S} algorithm starts with the most specific hypothesis, i.e. that no part of the input can predict the output.  It then iterates over the positive-target data, modifying the component of the working hypothesis which would make it satisfy the example.  Solution is not unique.
-\item \emph{Candidate-Elimination} algorithm starts with most general hypotheses.  the version space $VS$ is the set of all $h\in H$ consistent with the data.  There are two boundaries: on the specific side ($S$) and on the general side ($G$).  Initially, $G = (?,?,?,?,\ldots)$ and $S=(0,0,0,\ldots)$.  For each positive data point, take out all inconsistent hypotheses from $G$.  Also, 
+\item \emph{Candidate-Elimination} algorithm starts with most general hypotheses as well as most specific ones.  The version space $VS$ is the set of all $h\in H$ consistent with the data.  There are two boundaries: on the specific side ($S$) and on the general side ($G$).  Initially, $G = (?,?,?,?,\ldots)$ and $S=(0,0,0,\ldots)$.  The algorithms progresses:
+\begin{itemize}
+\item If an example is a positive example, then we attempt to generalize the specific set $S$ as little as possible to be consistent with it.  However, first it is important to make sure that $G$ is also in agreement with this data point.
+\item If an example is negative, make G more specific by getting rid of inconsistent hypotheses in $G$ and replacing them with those remain more general than $S$ but are consistent with it.  First, make sure that $S$ is consistent with this data point.
+\end{itemize}
 \end{itemize}
 
 \section{Decision Trees}
@@ -203,4 +207,92 @@ where $n$ is the update number and $\alpha$ is the weight given to the prior wei
 $$
 E(\mathbf{w}) = \frac{1}{2}\sum_{d\in D}\sum_{k} (t_{k,d} - x_k^{(L)})^2 + \gamma\sum_{i,j,l}w_{i,j}^{l}
 $$
+
+\section{Case Based Learning}
+Training is \emph{lazy}, so decisions about target function are put off until needed.  Hypothesis is continuously being updated as new data arrives.  Each new datum has real or discrete attributes $x = (a_1(x), a_2(x), \ldots, a_n(x))$.  Then we have a distance function:
+$$
+d(x_i, x_j) = \sqrt{\sum_{p=1}^n (a_p(x) - a_p(y))^2}
+$$
+The algorithm trains by updating the set of examples (cases).  KNN predicts target function value of $x_q$ by retrieving the set of examples $x_1, x_2, \ldots x_k$ closest in distance to $x_q$.  Then the discrete-valued target function evaluation is:
+$$
+\hat{f}(x_q) \leftarrow \argmax_{v}\sum_{i=1}^k \delta(v, f(x_i))
+$$
+is the most frequently occuring target value of the $k$ nearest neigbors.  For a continuous target function:
+$$
+\hat{f}(x_q) \leftarrow \argmax_v \frac{\sum_{i=1}^k f(x_i)}{k}
+$$
+is the average of the target values of the $k$ nearest neighbors.  We can also apply weights to each of the $k$ neighbors:
+\begin{eqnarray}
+\hat{f}(x_q) &\leftarrow& \argmax_v \sum_{i=1}^k w\delta(v, f(x_i)) \\
+w_i &=& \frac{1}{d(x_q, x_i)^2}
+\end{eqnarray}
+We can also do locally-weighted regression to calculate the target value of an input.  This involves defining an error function:
+$$
+E(x_q) = \frac{1}{2}\sum_{x\in k\text{ }neighbors} (f(x) - \hat{f}(x))^2 K(d(x_q, x))
+$$
+and defining the local target function as a linear regression, having the weights $w_i$ which minimize $E(x_q)$
+$$
+\hat{f}(x_q) = w_0 + w_1 a_1(x_q) + \ldots + w_n a_n(x_q)
+$$
+We minimize the error function using gradient descent:
+$$
+w_{s+1} \leftarrow w_s + \eta \sum_{x\in k\text{ }neighbors} a_s(x)(f(x)-\hat{f}(x)) K(d(x_q, x))
+$$
+Case based reasoning is a marginal extension of KNN to different metrics and non-numeric classification of instances.  There are issues with storing/organizing cases:
+\begin{itemize}
+\item Flat: Retrieval on a case-by-case search
+\item Clustered: Store cases into clusters based on similarity.  Retrieval is quicker because just have to look through cluster for similar case
+\item Hierarchical: cases with similar features grouped together and features are linked to categories, which are used to retrive cases.
+\end{itemize}
+
+\section{Genetic Algorithms}
+A method to search set of all hypotheses to maximize a pre-defined \emph{fitness} function.  The algorithm evalutes all hypotheses in a population, moves some of the fittest ones (probabilistically) to the next round and mutates/cross-over some of them.  Probability of selecting a hypothesis to be included in the next round is:
+$$
+p(h_i) = \frac{F(h_i)}{\sum_j F(h_j)}
+$$
+where $F(\cdot)$ is the fitness function and sum is taken over whole population.  Alternatively, it's possible to use \emph{tournament selection} (choose two random hypotheses and the one with higher fitness moves on) or \emph{rank selection} (rank hypotheses by fitness then $p(h_i)\propto i$ where $i$ is the rank of the hypothesis).  For cross-over:
+\begin{itemize}
+\item Single-point: select a single point along the sequence-representation of two hypotheses, and cut them at that point.  Then switch the equal-length parts between them and re-attach to form new hypotheses.
+\item Two-point: same principle as single-point, but with two places to cut the hypothesis and exchange between the two ``parent'' hypotheses.
+\item Uniform: Generate a random crossover mask and apply to both parents to exchange ``genes'' and create new hypotheses.
+\end{itemize}
+For \emph{mutation} pick a random point in a hypothesis to flip the bit.  GA is an example of \emph{beam search} which is an optimization of \emph{best-first search} which explores a tree along the branch showing the highest heuristic measure $h(\cdot)$.  This means it evaluates all branches at each level to determine the best one to take.  Beam search only evaluates $k<n$.
+
+\section{Evaluating Hypotheses}
+Classification error rate:
+$$
+e = \frac{FP + FN}{TP + TN + FP + FN}
+$$
+Recall and Precision:
+$$
+R = \frac{TP}{TP + FN} \qquad P = \frac{TP}{TP + FP}
+$$
+A better measure of how well the classifier does:
+$$
+F_{\alpha} = (1 + \alpha)\frac{P\cdot R}{\alpha \cdot P + R}
+$$
+Estimating error in a confidence interval $N\%$:
+$$
+error_D(h) = error_S(h) \pm z_N\sqrt{\frac{error_S(h)(1-error_S(h))}{n}}
+$$
+\emph{t-test}
+$$
+t = \frac{\bar{x_C} - \bar{x_T}}{SE(\bar{x_C} - \bar{x_T})}
+$$
+where the denominator is defined as:
+$$
+SE(\bar{x_C} - \bar{x_T}) = \sqrt{\frac{var_T}{n_T} + \frac{var_C}{n_C}}
+$$
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
