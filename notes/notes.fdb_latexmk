@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1368402841 "notes.tex" "notes.pdf" "notes" 1368402842
+["pdflatex"] 1368441054 "notes.tex" "notes.pdf" "notes" 1368441056
   "/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2012/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2012/texmf-dist/fonts/tfm/mathdesign/mdbch/bchb8y.tfm" 1153697689 1604 8c653b2625a913440778066f265f780c ""
@@ -121,8 +121,8 @@
   "/usr/local/texlive/2012/texmf-var/web2c/pdftex/pdflatex.fmt" 1361465975 3691572 e2ec2de7bf1903a9068a424133d603b0 ""
   "/usr/local/texlive/2012/texmf.cnf" 1341108668 572 7ea7194897937febeb63145e1c3a1f03 ""
   "/usr/local/texlive/2012/texmf/web2c/texmf.cnf" 1336865692 31299 729e216d9b945005c0d4b079c0500bc9 ""
-  "notes.aux" 1368402842 813 94da3682516b66d32a1ae428524ea7ca ""
-  "notes.tex" 1368402841 13901 4865db749ea24fd335453fdb9bb883f0 ""
+  "notes.aux" 1368441055 813 94da3682516b66d32a1ae428524ea7ca ""
+  "notes.tex" 1368441052 13987 e545b340478f2e3f861085c37609937c ""
   (generated)
   "notes.aux"
   "notes.pdf"

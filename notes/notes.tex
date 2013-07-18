@@ -154,7 +154,7 @@ h(\mathbf{x}) = \mathbf{w}\cdot\mathbf{x}
 $$
 and minimizes the error function:
 $$
-E = (\mathbf{w}) \frac{1}{2}\sum_{d\in D} (t_d - \mathbf{w}\cdot\mathbf{x_d})^2
+E(\mathbf{w}) = \frac{1}{2}\sum_{d\in D} (t_d - \mathbf{w}\cdot\mathbf{x_d})^2
 $$
 The weight update rule is:
 $$
@@ -175,7 +175,7 @@ and the output from neuron $j$ is:
 $$
 x_j^{(k)} = a\left( s_j^{(k)}\right) = a\left(\sum_{i=0}^n w_{ij}^{k} x_i^{(k-1)}\right)
 $$
-where $a()$ is the activation fuction which can be sigmoid:
+where $a()$ is the activation function which can be sigmoid:
 $$
 a(x) = \sigma(x) = \frac{1}{1 + e^{-x}}
 $$
@@ -207,7 +207,10 @@ where $n$ is the update number and $\alpha$ is the weight given to the prior wei
 $$
 E(\mathbf{w}) = \frac{1}{2}\sum_{d\in D}\sum_{k} (t_{k,d} - x_k^{(L)})^2 + \gamma\sum_{i,j,l}w_{i,j}^{l}
 $$
-
+So, for the errors at the output layer with sigmoid activation:
+$$
+\delta_j^{(L)} = 
+$$
 \section{Case Based Learning}
 Training is \emph{lazy}, so decisions about target function are put off until needed.  Hypothesis is continuously being updated as new data arrives.  Each new datum has real or discrete attributes $x = (a_1(x), a_2(x), \ldots, a_n(x))$.  Then we have a distance function:
 $$
